@@ -1,0 +1,67 @@
+"use client";
+
+import { values } from "@/lib/data";
+import React, { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Values = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current) return;
+
+    const items = gsap.utils.toArray<HTMLElement>(
+      containerRef.current.children
+    );
+
+    const ctx = gsap.context(() => {
+      gsap.from(items, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+        },
+        x: 100, // animate from right
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out",
+        stagger: 0.2, //stagger each card by 0.2 seconds
+      });
+    }, containerRef);
+
+    return () => ctx.revert(); // cleanup
+  }, []);
+
+  return (
+    <div className="py-10 px-4 sm:px-6 lg:px-8">
+      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
+        Our Core Values
+      </h3>
+      <div
+        className="grid grid-cols-1 sm:grid-cols-3 gap-5 my-5 "
+        ref={containerRef}
+      >
+        {values.map((value) => {
+          const Icon = value.icon;
+          return (
+            <div key={value.id} className="flex items-center my-4 gap-5">
+              <div className="mr-4">
+                <Icon size={35} className="text-sec" />
+              </div>
+              <div>
+                <h4 className="text-lg font-medium text-white">
+                  {value.title}
+                </h4>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default Values;
