@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/sections/Navbar";
+import Footer from "@/sections/Footer";
 
 export const metadata: Metadata = {
   title: "SmartEdge Consulting & Analytics - Data-driven Business Solutions",
@@ -17,9 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased font-serif bg-pry/95`}>
+      <body className={` antialiased font-serif bg-pry/90`}>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

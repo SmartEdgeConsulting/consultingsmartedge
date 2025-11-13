@@ -12,7 +12,18 @@ import {
   MapPin,
   Clock7,
 } from "lucide-react";
-import { contactInfoProps, processProps, serviceProps, teamsProps } from "../types";
+import {
+  contactInfoProps,
+  processProps,
+  serviceProps,
+  teamsProps,
+} from "../types";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  YouTubeIcon,
+} from "./socialIcons";
 
 export const servicesData: serviceProps[] = [
   {
@@ -36,7 +47,7 @@ export const servicesData: serviceProps[] = [
     icon: Brain,
     title: "Intelligence Automation",
     description:
-      "Automate repetitive analysis, reporting, and decision processes — saving you time while improving accuracy.",
+      "Automate repetitive analysis, reporting, and decision processes saving you time while improving accuracy.",
     button: "See How It Works",
   },
   {
@@ -44,7 +55,7 @@ export const servicesData: serviceProps[] = [
     icon: Gauge,
     title: "Quality Engineering",
     description:
-      "Ensure data accuracy, consistency, and reliability — the foundation of every smart decision.",
+      "Ensure data accuracy, consistency, and reliability the foundation of every smart decision.",
     button: "Explore Solutions",
   },
   {
@@ -161,5 +172,32 @@ export const contactInfo: contactInfoProps[] = [
     label: "Working Hours",
     info: "Mon-Fri: 8:00 AM - 6:00 PM",
     description: "Weekend support available",
+  },
+];
+
+export const socials = [
+  {
+    id: 1,
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/smartedge-analytics",
+    icon: LinkedInIcon,
+  },
+  {
+    id: 2,
+    name: "Facebook",
+    href: "https://www.linkedin.com/company/smartedge-analytics",
+    icon: FacebookIcon,
+  },
+  {
+    id: 3,
+    name: "Instagram",
+    href: "https://www.linkedin.com/company/smartedge-analytics",
+    icon: InstagramIcon,
+  },
+  {
+    id: 4,
+    name: "Youtube",
+    href: "https://www.linkedin.com/company/smartedge-analytics",
+    icon: YouTubeIcon,
   },
 ];

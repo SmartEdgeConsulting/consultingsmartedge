@@ -12,7 +12,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-[#0b1d3a60] text-card-foreground flex flex-col gap-6 rounded-xl border border-[#0b1d3a] py-6 shadow-sm",
+        "bg-pry text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-md",
         className
       )}
       {...props}
@@ -31,9 +31,9 @@ const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
       </CardHeader>
 
       <CardContent className="flex items-center flex-col">
-        <h3 className="text-lg font-medium text-white mb-3.5">{name}</h3>
-        <h5 className="text-sm text-muted-foreground mb-5">{role}</h5>
-        <p className="text-center text-white text-sm mb-5">{bio}</p>
+        <h3 className="text-lg font-bold text-white mb-3.5">{name}</h3>
+        <h5 className="text-base text-slate-300 mb-5">{role}</h5>
+        <p className="text-center text-slate-300 leading-6 text-sm mb-5">{bio}</p>
         <ul className="flex flex-wrap justify-center gap-1.5 mb-4">
           {skills.map((skill, index) => {
             return (
@@ -47,10 +47,10 @@ const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
           })}
         </ul>
         <div className="flex gap-5">
-          <Button variant="outline">
+          <Button variant="icon" size="xs">
             <Mail />
           </Button>
-          <Button variant="outline">
+          <Button variant="icon" size="xs">
             <Linkedin />
           </Button>
         </div>

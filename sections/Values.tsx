@@ -36,31 +36,33 @@ const Values = () => {
   }, []);
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8">
-      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
-        Our Core Values
-      </h3>
-      <div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-5 my-5 "
-        ref={containerRef}
-      >
-        {values.map((value) => {
-          const Icon = value.icon;
-          return (
-            <div key={value.id} className="flex items-center my-4 gap-5">
-              <div className="mr-4">
-                <Icon size={35} className="text-sec" />
+    <section className="py-10 ">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+          Our Core Values
+        </h2>
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-5 my-5 "
+          ref={containerRef}
+        >
+          {values.map((value) => {
+            const Icon = value.icon;
+            return (
+              <div key={value.id} className="flex items-center my-4 gap-5">
+                <div className="mr-4">
+                  <Icon size={35} className="text-sec" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-medium text-white">
+                    {value.title}
+                  </h4>
+                </div>
               </div>
-              <div>
-                <h4 className="text-lg font-medium text-white">
-                  {value.title}
-                </h4>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
