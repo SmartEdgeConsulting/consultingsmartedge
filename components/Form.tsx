@@ -9,7 +9,7 @@ const Form = () => {
   return (
      <form className="my-5">
           <div className="w-full flex flex-col gap-10">
-            <div className="w-full flex flex-col sm:flex-row gap-4">
+            <div className="w-full flex flex-col sm:flex-row gap-10 sm:gap-4">
               <div className="w-full grid gap-2">
                 <Label htmlFor="name">Full Name *</Label>
                 <Input

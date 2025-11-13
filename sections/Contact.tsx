@@ -22,7 +22,7 @@ const Contact = () => {
         <h4 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4">
           Send us a Message
         </h4>
-        <p className="text-sm sm:text-base text-slate-300 max-w-3xl mb-8">
+        <p className="text-sm sm:text-base leading-7 text-slate-300 max-w-3xl mb-8">
           Fill out the form below and we&apos;ll get back to you within 24
           hours.
         </p>

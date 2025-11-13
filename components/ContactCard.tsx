@@ -1,7 +1,6 @@
 import React from "react";
 
 import { cn } from "@/lib/utils";
-import { Mail } from "lucide-react";
 import { contactInfoProps } from "@/types";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
@@ -23,14 +22,15 @@ const ContactCard = ({
   info,
   description,
 }: contactInfoProps) => {
+  console.log(id)
   return (
-    <Card className="w-full flex flex-row gap-5 px-5">
+    <Card className="w-full flex flex-row gap-5 px-4 items-start">
       <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-sec text-white">
         <Icon size={24} />
       </div>
       <div className="flex flex-col gap-1">
         <h3 className="text-lg font-semibold text-white">{label}</h3>
-        <h4 className="text-base text-slate-200">{info}</h4>
+        <h4 className="text-sm sm:text-base text-slate-200">{info}</h4>
         <p className="text-muted-foreground text-sm">{description}</p>
       </div>
     </Card>

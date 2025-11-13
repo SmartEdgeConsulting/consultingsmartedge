@@ -15,14 +15,14 @@ const Navbar = () => {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Services", href: "#services" },
-    { label: "Careers", href: "#careers" },
+    { label: "Services", href: "/" },
+    { label: "Careers", href: "/" },
     { label: "Contact", href: "/contact" },
-    { label: "Blog", href: "#blog" },
+    { label: "Blog", href: "/" },
   ];
 
   return (
-    <nav className="w-full fixed top-0 backdrop-blur-md z-50 px-4 sm:px-6 lg:px-8 border-b">
+    <nav className="w-full fixed top-0 backdrop-blur-md z-50 px-4 sm:px-6 lg:px-8 sm:border-b border-slate-400">
       <div className="flex items-center justify-between h-16 max-w-7xl mx-auto">
         {/* Logo */}
         <div className="cursor-pointer ">
@@ -53,7 +53,11 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <Button className="sm:hidden block cursor-pointer" onClick={toggle}>
+        <Button
+          className="sm:hidden block cursor-pointer"
+          variant="ghost"
+          onClick={toggle}
+        >
           {showMenu ? <X size={20} /> : <Menu size={20} />}
         </Button>
       </div>
@@ -61,10 +65,10 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          showMenu ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          showMenu ? "max-h-max opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="flex flex-col items-start gap-2 pl-10 bg-pry/90 py-4 text-white">
+        <div className="flex flex-col items-start gap-2 pl-5 py-4 text-white">
           {navLinks.map((link, index) => (
             <Link
               key={index}
@@ -76,10 +80,7 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-          <Button
-            className="w-fit bg-white text-purple-600 font-semibold px-6 py-2 rounded-lg hover:bg-purple-50 transition-all duration-300 mt-2"
-            onClick={toggle}
-          >
+          <Button variant="default">
             Get Started
           </Button>
         </div>

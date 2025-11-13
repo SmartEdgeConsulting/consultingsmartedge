@@ -1,7 +1,6 @@
 import TeamsCard from "@/components/TeamsCard";
 import { Button } from "@/components/ui/button";
 import { teams } from "@/lib/data";
-import React from "react";
 
 const Teams = () => {
   return (
@@ -10,7 +9,7 @@ const Teams = () => {
         <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
           Meet Our Team
         </h3>
-        <p className="text-sm sm:text-base text-slate-300 mx-auto max-w-3xl mb-8">
+        <p className="text-base sm:text-xl leading-7 text-slate-300 mx-auto max-w-3xl mb-8">
           Our diverse team of data scientists, engineers, and consultants brings
           together decades of experience in transforming businesses through
           data-driven solutions.
