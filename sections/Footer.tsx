@@ -88,14 +88,14 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t flex flex-col sm:flex-row justify-between items-center pt-10">
+        <div className="border-t flex flex-col sm:flex-row gap-5 justify-between items-center pt-10">
           <div className="flex gap-1.5 sm:gap-2 ">
             {socials.map((social) => {
               const Icon = social.icon;
               return (
                 <div
                   key={social.id}
-                  className="flex items-center justify-center h-12 w-12 rounded-full border"
+                  className="flex items-center justify-center h-10 w-10 rounded-full border"
                 >
                   <a
                     href={social.href}

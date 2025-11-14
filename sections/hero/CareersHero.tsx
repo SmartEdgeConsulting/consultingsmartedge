@@ -1,13 +1,60 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 const CareersHero = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Preload the image
+            const img = new Image();
+            img.onload = () => {
+              setIsLoaded(true);
+            };
+            img.src = "/reason.jpg";
+            
+            // Unobserve after loading starts
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: "50px", // Start loading 50px before component is visible
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section className="relative py-20 flex justify-center items-center min-h-[400px] sm:min-h-[500px]">
-      {/* Background Image */}
+    <section
+      ref={sectionRef}
+      className="relative py-20 flex justify-center items-center min-h-[400px] sm:min-h-[500px]"
+    >
+      {/* Background Image with Lazy Loading */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/reason.jpg')" }}
+        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${
+          isLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          backgroundImage: isLoaded ? "url('/reason.jpg')" : "none",
+          backgroundColor: "#1a1a1a", // Fallback color while loading
+        }}
       />
 
       {/* Black Transparent Overlay */}

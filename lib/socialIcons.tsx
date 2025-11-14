@@ -4,7 +4,7 @@ import React from "react";
 export const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
-    fill="#0A66C2" // LinkedIn blue
+    fill="#FFFFFF"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -15,27 +15,23 @@ export const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
-    fill="url(#instagram-gradient)"
+    fill="none"
+    stroke="#FFFFFF"
+    strokeWidth="2"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <defs>
-      <linearGradient id="instagram-gradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#F58529" />
-        <stop offset="50%" stopColor="#DD2A7B" />
-        <stop offset="100%" stopColor="#515BD4" />
-      </linearGradient>
-    </defs>
-    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.33 3.608 1.304.975.975 1.243 2.242 1.304 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.061 1.366-.33 2.633-1.304 3.608-.975.975-2.242 1.243-3.608 1.304-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.061-2.633-.33-3.608-1.304-.975-.975-1.243-2.242-1.304-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.061-1.366.33-2.633 1.304-3.608.975-.975 2.242-1.243 3.608-1.304C8.416 2.175 8.796 2.163 12 2.163ZM12 0C8.741 0 8.332.013 7.053.072 5.775.131 4.687.41 3.758 1.34 2.828 2.269 2.549 3.357 2.49 4.635.013 8.332 0 8.741 0 12c0 3.259.013 3.668.072 4.947.059 1.278.338 2.366 1.268 3.296.929.93 2.017 1.209 3.295 1.268C8.332 23.987 8.741 24 12 24c3.259 0 3.668-.013 4.947-.072 1.278-.059 2.366-.338 3.296-1.268.93-.93 1.209-2.018 1.268-3.296.059-1.279.072-1.688.072-4.947 0-3.259-.013-3.668-.072-4.947-.059-1.278-.338-2.366-1.268-3.296-.93-.93-2.018-1.209-3.296-1.268C15.668.013 15.259 0 12 0Z" />
-    <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324Zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998Z" />
-    <circle cx="18.406" cy="5.595" r="1.439" />
+    <rect x="2" y="2" width="20" height="20" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17" cy="7" r="1.5" fill="#FFFFFF" />
   </svg>
 );
+
 
 export const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
-    fill="#1877F2" // Facebook blue
+    fill="#FFFFFF"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -46,7 +42,7 @@ export const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export const YouTubeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
-    fill="#FF0000" // YouTube red
+    fill="#FFFFFF"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
