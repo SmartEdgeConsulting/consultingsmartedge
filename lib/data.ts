@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import {
   contactInfoProps,
+  Job,
   processProps,
   serviceProps,
   teamsProps,
@@ -199,5 +200,167 @@ export const socials = [
     name: "Youtube",
     href: "https://www.linkedin.com/company/smartedge-analytics",
     icon: YouTubeIcon,
+  },
+];
+
+export const reasons = [
+  {
+    id: 1,
+    text: "Be part of a forward-thinking team building data-driven solutions that make real impact.",
+  },
+  {
+    id: 2,
+    text: "We invest in your development with continuous learning, mentorship, and leadership opportunities.",
+  },
+  {
+    id: 3,
+    text: "Work with passionate professionals who value teamwork and support each other’s success.",
+  },
+  {
+    id: 4,
+    text: "Access advanced tools and modern tech stacks that enable you to do your best work.",
+  },
+  {
+    id: 5,
+    text: "Your contributions directly help shape smarter decisions for businesses and communities.",
+  },
+];
+
+export const careers: Job[] = [
+  {
+    id: 1,
+    title: "Data Analyst",
+    department: "Data & Analytics",
+    jobType: "Full-time",
+    salaryRange: { min: 45000, max: 70000, currency: "USD" },
+    description:
+      "Help our customers turn raw data into actionable insights. You will own analytics projects from data exploration through reporting and stakeholder delivery — building dashboards, ad-hoc analyses, and data visualizations that drive business decisions.",
+    requirements: [
+      "Bachelor’s degree in Statistics, Mathematics, Economics, Computer Science or related field",
+      "2+ years experience in a data analyst role or similar",
+      "Strong SQL skills; experience with BI tools (Looker, Tableau, or Power BI)",
+      "Proficiency in Python or R for data manipulation and analysis",
+      "Excellent communication skills and experience presenting findings to non-technical stakeholders",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/1",
+  },
+  {
+    id: 2,
+    title: "Frontend Developer",
+    department: "Engineering",
+    jobType: "Hybrid",
+    salaryRange: { min: 70000, max: 110000, currency: "USD" },
+    description:
+      "Build polished, performant user interfaces that make complex data accessible. You will implement designs, optimize load times, and collaborate with product and design to ship delightful UX for our analytics products.",
+    requirements: [
+      "3+ years building web applications with React (or similar)",
+      "Strong TypeScript knowledge and experience with modern CSS/Tailwind",
+      "Familiarity with Next.js, SSR/SSG concepts and accessibility best practices",
+      "Experience integrating with REST/GraphQL APIs and working with design systems",
+      "Attention to detail and a strong sense for UX",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/2",
+  },
+  {
+    id: 3,
+    title: "Backend Engineer",
+    department: "Engineering",
+    jobType: "Full-time",
+    salaryRange: { min: 85000, max: 130000, currency: "USD" },
+    description:
+      "Design and maintain the APIs and data pipelines that power our platform. You'll focus on reliability, scalability, and security while working across the stack with data engineering and frontend teams.",
+    requirements: [
+      "4+ years experience building backend services (Node, Python, Go, or Java)",
+      "Deep understanding of RESTful APIs, authentication/authorization, and microservices patterns",
+      "Experience with cloud platforms (AWS/GCP/Azure) and containerization (Docker/Kubernetes)",
+      "Knowledge of relational and NoSQL databases and query optimization",
+      "Familiarity with CI/CD, observability, and automated testing",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/3",
+  },
+  {
+    id: 4,
+    title: "Machine Learning Engineer",
+    department: "Data Science",
+    jobType: "Full-time",
+    salaryRange: { min: 95000, max: 150000, currency: "USD" },
+    description:
+      "Build and productionize ML models that deliver predictive and prescriptive insights. You will work from model design and feature engineering through deployment and monitoring in production.",
+    requirements: [
+      "MS or BS in Computer Science, Machine Learning, or related engineering field (MS preferred)",
+      "Experience building ML models end-to-end and deploying them to production",
+      "Strong Python skills and familiarity with ML libraries (scikit-learn, PyTorch, TensorFlow)",
+      "Experience with feature stores, model monitoring, and MLOps practices",
+      "Ability to translate business problems into ML solutions and communicate results clearly",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/4",
+  },
+  {
+    id: 5,
+    title: "Product Manager – Data Products",
+    department: "Product",
+    jobType: "Full-time",
+    salaryRange: { min: 90000, max: 140000, currency: "USD" },
+    description:
+      "Own the roadmap for a core data product. You will work with design, engineering, and customers to define features, prioritize work, and measure outcomes that increase value and adoption.",
+    requirements: [
+      "3+ years product management experience (SaaS or data product preferred)",
+      "Strong analytical skills and familiarity with data/analytics workflows",
+      "Proven ability to lead cross-functional teams and manage stakeholder expectations",
+      "Experience writing product requirements, defining KPIs, and running experiments",
+      "Excellent communication and customer empathy",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/5",
+  },
+  {
+    id: 6,
+    title: "Data Engineer",
+    department: "Data & Analytics",
+    jobType: "Full-time",
+    salaryRange: { min: 85000, max: 125000, currency: "USD" },
+    description:
+      "Design and maintain robust data pipelines and warehouses that power analytics and ML. You will ensure data quality, optimize ETL jobs, and collaborate closely with analysts and ML engineers.",
+    requirements: [
+      "3+ years experience in data engineering or backend data roles",
+      "Experience with ETL/ELT frameworks, Spark, Airflow or alternatives",
+      "Strong SQL skills and cloud data warehouse experience (BigQuery, Redshift, Snowflake)",
+      "Knowledge of data modelling, partitioning, and performance optimization",
+      "Familiarity with data governance and testing practices",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/6",
+  },
+  {
+    id: 7,
+    title: "UI/UX Designer",
+    department: "Design",
+    jobType: "Remote",
+    salaryRange: { min: 65000, max: 95000, currency: "USD" },
+    description:
+      "Design intuitive interfaces and experiences for data-heavy products. You will own wireframes, prototypes, and the visual design language that helps users understand complexity at a glance.",
+    requirements: [
+      "3+ years product design experience, preferably in SaaS or analytics",
+      "Strong portfolio showcasing interface design, interaction design and prototyping",
+      "Familiar with Figma (or similar) and design systems",
+      "Ability to collaborate closely with researchers, PMs and engineers",
+      "Understanding of data visualization principles and accessibility",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/7",
+  },
+  {
+    id: 8,
+    title: "Business Analyst",
+    department: "Customer Success & Sales",
+    jobType: "Contract",
+    salaryRange: { min: 35000, max: 60000, currency: "USD" },
+    description:
+      "Work with customers to gather requirements, map processes, and translate business questions into analytical work. You’ll act as the bridge between customers and the product team to ensure solutions meet real needs.",
+    requirements: [
+      "2+ years experience in business analysis, consulting, or a client-facing analytics role",
+      "Excellent stakeholder management and problem-framing skills",
+      "Comfortable with SQL and spreadsheet modelling",
+      "Strong written and verbal communication skills",
+      "Experience documenting requirements and creating user stories",
+    ],
+    applyLink: "https://smartedge.example.com/careers/apply/8",
   },
 ];

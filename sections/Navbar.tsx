@@ -16,13 +16,13 @@ const Navbar = () => {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Services", href: "/" },
-    { label: "Careers", href: "/" },
+    { label: "Careers", href: "/careers" },
     { label: "Contact", href: "/contact" },
     { label: "Blog", href: "/" },
   ];
 
   return (
-    <nav className="w-full fixed top-0 backdrop-blur-md z-50 px-4 sm:px-6 lg:px-8 border-b border-slate-400">
+    <nav className="w-full fixed top-0 backdrop-blur-md z-50 px-4 sm:px-6 lg:px-8 shadow-md bg-pry ">
       <div className="flex items-center justify-between h-16 max-w-7xl mx-auto">
         {/* Logo */}
         <div className="cursor-pointer ">
@@ -32,13 +32,13 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Nav Links */}
-        <div className="hidden sm:flex items-baseline space-x-4 text-white">
+        <div className="hidden sm:flex items-baseline space-x-4 text-white uppercase">
           {navLinks.map((link, index) => (
             <Link
               key={index}
               href={link.href}
               aria-label={`Visit ${link.label} page`}
-              className="font-medium px-4 py-2 hover:text-blue transition-all duration-300 relative group"
+              className="font-medium text-sm px-4 py-2 hover:text-blue transition-all duration-300 relative group"
             >
               {link.label}
             </Link>
@@ -47,7 +47,7 @@ const Navbar = () => {
 
         {/* CTA Button (Desktop) */}
         <div className="hidden sm:block">
-          <Button variant="default" size="sm">
+          <Button variant="default" size="sm" aria-label="Get Started">
             Get Started
           </Button>
         </div>
@@ -57,6 +57,7 @@ const Navbar = () => {
           className="sm:hidden block cursor-pointer"
           variant="ghost"
           onClick={toggle}
+          aria-label="Toggle Menu"
         >
           {showMenu ? <X size={20} /> : <Menu size={20} />}
         </Button>
@@ -75,12 +76,12 @@ const Navbar = () => {
               href={link.href}
               onClick={toggle}
               aria-label={`Visit ${link.label} page`}
-              className="text-white font-medium w-full py-3 hover:bg-white/20 transition-all duration-300"
+              className="text-white text-xs uppercase font-medium w-full py-3 hover:bg-white/20 transition-all duration-300"
             >
               {link.label}
             </Link>
           ))}
-          <Button variant="default">
+          <Button variant="default" aria-label="Get Started">
             Get Started
           </Button>
         </div>

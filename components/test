@@ -1,0 +1,13 @@
+ {/**<ul className="mt-2 space-y-1">
+              {job.requirements.map((req, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <Check className="text-green-500 w-4 h-4 mt-1" />
+                  <span>{req}</span>
+                </li>
+              ))}
+            </ul>*/}
+            {/**<p className="mt-2 text-sm text-slate-400">
+              Department: {job.department} | Type: {job.jobType} | Salary:{" "}
+              {job.salaryRange.currency} {job.salaryRange.min.toLocaleString()}{" "}
+              - {job.salaryRange.max.toLocaleString()}
+            </p>*/}

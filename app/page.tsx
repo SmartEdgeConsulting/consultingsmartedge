@@ -3,7 +3,7 @@
 import Suscribe from "@/components/Suscribe";
 import About from "@/sections/About";
 import Events from "@/sections/Events";
-import Hero from "@/sections/Hero";
+import Hero from "@/sections/hero/Hero";
 import Services from "@/sections/Services";
 import Works from "@/sections/Works";
 import { useState } from "react";

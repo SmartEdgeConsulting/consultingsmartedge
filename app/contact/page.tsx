@@ -1,7 +1,7 @@
 "use client";
 
 import Contact from "@/sections/Contact";
-import ContactHero from "@/sections/ContactHero";
+import ContactHero from "@/sections/hero/ContactHero";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";

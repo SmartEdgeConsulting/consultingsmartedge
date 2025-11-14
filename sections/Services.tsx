@@ -6,13 +6,13 @@ import { Zap } from "lucide-react";
 const Services = () => {
   return (
     <section id="services" className="py-20">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center mb-16">
           <Heading title="Our Services" icon={<Zap size={18} />} />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pry mb-6">
             Giving You An Edge That&apos;s <span className="text-sec">Smart…</span>
           </h2>
-          <p className="text-base sm:text-xl text-slate-300 leading-7 max-w-3xl mb-8 text-center mx-auto">
+          <p className="text-base sm:text-xl text-slate-800 leading-7 max-w-3xl mb-8 text-center mx-auto">
             From data to decisions, we deliver tailored solutions that transform
             how you work, plan, and grow.
           </p>

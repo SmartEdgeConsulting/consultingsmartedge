@@ -4,7 +4,7 @@ import { contactInfo } from "@/lib/data";
 
 const Contact = () => {
   return (
-    <section className="contact-animate px-4 sm:px-8 lg:px-10 flex flex-col sm:flex-row gap-15 items-start">
+    <section className="contact-animate mx-auto px-4 sm:px-8 lg:px-10 flex flex-col sm:flex-row gap-15 items-start py-20">
       <div className=" sm:w-[40%] w-full flex flex-col gap-2.5">
         {contactInfo.map((contact) => (
           <ContactCard
@@ -18,7 +18,7 @@ const Contact = () => {
         ))}
       </div>
 
-      <div className="bg-[#0b1d3a60] sm:w-[60%] w-full rounded-lg p-5">
+      <div className="bg-pry sm:w-[60%] w-full rounded-lg p-5">
         <h4 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4">
           Send us a Message
         </h4>

@@ -1,4 +1,4 @@
-import AboutHero from "@/sections/AboutHero";
+import AboutHero from "@/sections/hero/AboutHero";
 import Teams from "@/sections/Teams";
 import Values from "@/sections/Values";
 
