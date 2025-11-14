@@ -5,7 +5,7 @@ import { Zap } from "lucide-react";
 
 const Services = () => {
   return (
-    <section id="services" className="py-20">
+    <section id="services" className="py-20 scroll-mt-16">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center mb-16">
           <Heading title="Our Services" icon={<Zap size={18} />} />

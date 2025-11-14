@@ -4,11 +4,11 @@ import { lazy, Suspense } from "react";
 const Mission = lazy(() => import("@/components/Mission"));
 const AboutHero = () => {
   return (
-    <section className="py-20 flex flex-col items-center mx-auto text-center">
+    <section className="py-20 flex flex-col items-center mx-auto text-center bg-gradient-primary">
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pry mb-8">
         The <span className="text-sec">Edge</span> Behind SmartEdge
       </h1>
-      <p className="text-sm sm:text-base leading-7 text-slate-800 max-w-2xl mb-8 text-center">
+      <p className="text-base sm:text-lg leading-7 text-slate-800 max-w-2xl mb-8 text-center">
         SmartEdge Consulting & Analytics is a forward-thinking data consulting
         company focused on helping businesses extract value from their data. We
         believe every organization — regardless of size — can make better

@@ -20,7 +20,7 @@ const CareersHero = () => {
             Join <span className="text-acc">SmartEdge</span>
           </h1>
 
-          <p className="text-sm sm:text-base leading-7 text-slate-300 max-w-xl mb-8">
+          <p className="text-base sm:text-xl leading-7 text-slate-300 max-w-xl mb-8">
             Join our team and help build intelligent solutions that power better
             decisions. We&apos;re looking for curious, innovative minds ready to
             turn data into impact.

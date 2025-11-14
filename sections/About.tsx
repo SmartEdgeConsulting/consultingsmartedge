@@ -3,14 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 const About = () => {
   return (
-    <section id="about" className="py-20">
-      <div className="mx-auto max-w-7xl grid gap-8 grid-cols-1 sm:grid-cols-2 px-4 sm:px-6 lg:px-8 items-center">
+    <section
+      id="about"
+      role="region"
+      aria-labelledby="about-heading"
+      className="py-20"
+    >
+      <div className="mx-auto max-w-7xl grid gap-12 grid-cols-1 sm:grid-cols-2 px-4 sm:px-6 lg:px-8 items-center">
         <div className="mb-16">
           <Heading title="Who We Are" icon={<Users size={18} />} />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pry mb-6">
+          <h2
+            id="about-heading"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pry mb-6"
+          >
             We turn raw <span className="text-sec">data</span> into business
             clarity.
           </h2>
@@ -21,10 +30,13 @@ const About = () => {
             you understand it, use it, and profit from it.
           </p>
           <Button
+            asChild
             className="text-md font-bold"
-            aria-label="Learn more about our company"
+            aria-label="Learn more about SmartEdge Consulting "
           >
-            <Link href="/about">Learn More About Us</Link>
+            <Link href="/about" prefetch={false}>
+              Learn More About Us
+            </Link>
           </Button>
         </div>
         <div>
@@ -35,6 +47,7 @@ const About = () => {
             alt="About image"
             className="rounded-lg"
             priority
+            quality={85}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           />
         </div>
@@ -43,4 +56,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default React.memo(About);

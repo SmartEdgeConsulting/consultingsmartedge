@@ -16,7 +16,7 @@ const Home = () => {
       <Hero />
       <About />
       <Services />
-      <Works />
+      {/** <Works />*/}
       <Events />
 
       {/* Fixed Bottom Left Button */}
@@ -27,8 +27,7 @@ const Home = () => {
         Suscribe
       </button>
 
-      <Suscribe open={openDialog} onOpenChange={setOpenDialog}/>
-
+      <Suscribe open={openDialog} onOpenChange={setOpenDialog} />
     </div>
   );
 };

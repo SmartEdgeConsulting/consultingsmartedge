@@ -10,7 +10,7 @@ const ServiceCard = ({
 }: serviceProps) => {
   console.log(id)
   return (
-    <div className="relative mb-5 rounded-lg shadow-md flex flex-col space-y-1.5 p-6 text-center text-white bg-pry">
+    <div className="relative mb-5 rounded-lg shadow-md flex flex-col space-y-1.5 p-6 text-center text-white bg-pry/90">
       {/* Icon Section */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 flex items-center justify-center rounded-lg bg-sec/70">
         <Icon size={24} />

@@ -12,18 +12,33 @@ const Hero = () => {
     >
       <section
         id="home"
-        className="min-h-screen flex flex-col items-center justify-center px-4"
+        className="min-h-screen flex flex-col items-center justify-center px-4 mx-auto max-w-5xl text-center"
       >
-        <h1 className="text-4xl md:text-6xl font-bold text-white text-center mb-6">
-          Data. Intelligence. Growth — Powered by <span className="text-sec">SmartEdge.</span>
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl leading-tight font-bold text-white mb-6">
+          Data. Intelligence. Growth Powered by{" "}
+          <span className="text-sec">SmartEdge.</span>
         </h1>
-        <p className="text-base sm:text-xl text-slate-300 text-center max-w-3xl mb-8">
+        <p className="text-base sm:text-xl text-slate-300 leading-8 max-w-3xl mb-8">
           We help businesses uncover clarity and accelerate growth through data
           analytics, research, and intelligent automation.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
-          <Button variant="default" className="text-md font-bold">Get a Free Data Consultation</Button>
-          <Button variant="outline" className="text-md font-bold">Upload Your Data</Button>
+          <Button
+            variant="default"
+            className="text-md font-bold"
+            aria-label="Book Consultation"
+            aria-roledescription="navigation button"
+          >
+            Get a Free Data Consultation
+          </Button>
+          <Button
+            variant="outline"
+            className="text-md font-bold"
+            aria-label="Upload Data for Analysis"
+            aria-roledescription="navigation button"
+          >
+            Upload Your Data
+          </Button>
         </div>
       </section>
     </AnimatedBackground>
