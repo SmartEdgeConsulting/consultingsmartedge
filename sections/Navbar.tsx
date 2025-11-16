@@ -33,11 +33,12 @@ const Navbar = () => {
     {
       label: "Company",
       children: [
+        { label: "Our Services", href: "/services" },
         { label: "Careers", href: "/careers" },
         { label: "Events", href: "/events" },
       ],
     },
-    { label: "Services", href: "/services" },
+    { label: "Contact Us", href: "/contact" },
     {
       label: "Blog",
       href: "/blog",
