@@ -69,6 +69,49 @@ export const servicesData: serviceProps[] = [
   },
 ];
 
+export const services: serviceProps[] = [
+  {
+    id: 1,
+    icon: ChartCandlestick,
+    title: "Market & Investment Research",
+    description:
+      "Understand your market, customers, and competition with research-driven intelligence that fuels strategy.",
+    button: "Request a Research Proposal",
+  },
+  {
+    id: 2,
+    icon: Database,
+    title: "Data Analytics & Business Intelligence",
+    description:
+      "Build custom dashboards and data pipelines that turn numbers into narratives.",
+    button: "Schedule a Demo",
+  },
+  {
+    id: 3,
+    icon: Brain,
+    title: "Intelligence Automation",
+    description:
+      "Free your team from manual reporting. Automate analytics workflows, alerts, and insights.",
+    button: "See Automation in Action",
+  },
+  {
+    id: 4,
+    icon: Gauge,
+    title: "Quality Engineering",
+    description:
+      "Ensure your data systems deliver reliable, consistent, and validated outputs.",
+    button: "Talk to a Data Engineer",
+  },
+  {
+    id: 5,
+    icon: BookOpen,
+    title: "Learning & Development",
+    description:
+      "Upskill yourself or your team through SmartEdge Bootcamps, training programs, and corporate workshops.",
+    button: "Join the DataEdge  Bootcamp",
+  },
+];
+
 export const process: processProps[] = [
   {
     id: 1,

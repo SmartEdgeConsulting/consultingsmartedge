@@ -4,18 +4,18 @@ import Suscribe from "@/components/Suscribe";
 import About from "@/sections/About";
 import Events from "@/sections/Events";
 import Hero from "@/sections/hero/Hero";
-import Services from "@/sections/Services";
-import Works from "@/sections/Works";
+import ServicesOverview from "@/sections/ServicesOverview";
+//import Works from "@/sections/Works";
 import { useState } from "react";
 
 const Home = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   return (
-    <div className="relative">
+    <main className="relative">
       <Hero />
       <About />
-      <Services />
+      <ServicesOverview />
       {/** <Works />*/}
       <Events />
 
@@ -28,7 +28,7 @@ const Home = () => {
       </button>
 
       <Suscribe open={openDialog} onOpenChange={setOpenDialog} />
-    </div>
+    </main>
   );
 };
 

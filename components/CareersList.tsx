@@ -74,7 +74,7 @@ const CareersPagination = () => {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <section className="px-4 sm:px-6 lg:px-8 py-8">
       {/** Filter and search section */}
       <div className="w-full mb-8 p-4 sm:p-6 bg-white rounded-lg shadow-sm border border-slate-200">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -18,16 +18,14 @@ const Footer = () => {
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10 max-w-7xl">
         <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/**first  */}
-          <div>
+          <div className="text-slate-300 text-sm sm:text-base">
             <div className="mb-6">
               <h3 className="text-xl sm:text-2xl text-acc mb-2 font-bold">
                 SmartEdge
               </h3>
-              <p className="text-slate-300 text-sm sm:text-base">
-                Consulting & Analytics
-              </p>
+              <p className="">Consulting & Analytics</p>
             </div>
-            <p className="text-slate-300 text-sm sm:text-base leading-7">
+            <p className="leading-7">
               Transforming businesses through data-driven insights and
               cutting-edge analytics solutions. Your trusted partner in the data
               revolution.

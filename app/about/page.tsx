@@ -4,11 +4,11 @@ import Values from "@/sections/Values";
 
 const AboutPage = () => {
   return (
-    <div className="mt-16">
+    <main className="mt-16">
       <AboutHero />
       <Values />
       <Teams />
-    </div>
+    </main>
   );
 };
 

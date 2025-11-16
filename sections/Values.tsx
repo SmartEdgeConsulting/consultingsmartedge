@@ -36,8 +36,8 @@ const Values = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-pry">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="values" className="py-20 bg-pry scroll-mt-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
           Our Core Values
         </h2>

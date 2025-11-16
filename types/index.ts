@@ -1,7 +1,7 @@
 import { LucideIcon } from "lucide-react";
 
 export type serviceProps = {
-  id: number;
+  id?: number;
   icon: LucideIcon;
   title: string;
   description: string;

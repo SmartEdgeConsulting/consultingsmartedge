@@ -34,10 +34,10 @@ const ContactPage = () => {
   );
 
   return (
-    <div className="mt-16" ref={contactRef}>
+    <main className="mt-16" ref={contactRef}>
       <ContactHero />
       <Contact />
-    </div>
+    </main>
   );
 };
 

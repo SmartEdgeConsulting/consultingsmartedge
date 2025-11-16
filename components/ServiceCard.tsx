@@ -2,26 +2,38 @@ import { serviceProps } from "@/types";
 import { Button } from "./ui/button";
 
 const ServiceCard = ({
-  id,
   icon: Icon,
   title,
   description,
   button,
 }: serviceProps) => {
-  console.log(id)
   return (
-    <div className="relative mb-5 rounded-lg shadow-md flex flex-col space-y-1.5 p-6 text-center text-white bg-pry/90">
+    <article className="relative mb-10 pt-10 pb-6 px-6 rounded-lg shadow-lg bg-pry/90 text-white flex flex-col">
       {/* Icon Section */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 flex items-center justify-center rounded-lg bg-sec/70">
-        <Icon size={24} />
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 flex items-center justify-center rounded-lg bg-sec/70 shadow-md"
+        aria-hidden="true"
+      >
+        <Icon size={28} strokeWidth={2} />
       </div>
-      <h3 className="text-sm sm:text-base font-semibold mt-5">{title}</h3>
-      <p className="text-xs sm:text-sm mt-2 mb-4 text-slate-300 leading-5">{description}</p>
 
-      <Button size="sm" variant="outline" className="mt-auto">
-        {button}
-      </Button>
-    </div>
+      {/* Content */}
+      <div className="flex flex-col grow text-center">
+        <h3 className="text-lg sm:text-xl font-semibold mb-3">{title}</h3>
+        <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 grow">
+          {description}
+        </p>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="mt-auto w-full mx-auto"
+          aria-label={`Learn more about ${title}`}
+        >
+          {button}
+        </Button>
+      </div>
+    </article>
   );
 };
 
