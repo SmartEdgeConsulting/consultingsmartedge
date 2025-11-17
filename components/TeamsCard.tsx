@@ -12,7 +12,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-pry text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-md",
+        "bg-primary text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-md",
         className
       )}
       {...props}
@@ -33,13 +33,15 @@ const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
       <CardContent className="flex items-center flex-col">
         <h3 className="text-lg font-bold text-white mb-3.5">{name}</h3>
         <h5 className="text-base text-slate-300 mb-5">{role}</h5>
-        <p className="text-center text-slate-300 leading-6 text-sm mb-5">{bio}</p>
+        <p className="text-center text-slate-300 leading-6 text-sm mb-5">
+          {bio}
+        </p>
         <ul className="flex flex-wrap justify-center gap-1.5 mb-4">
           {skills.map((skill, index) => {
             return (
               <li
                 key={index}
-                className="inline-flex items-center px-2 py-1 rounded-full border border-sec bg-sec/30 text-sec text-xs"
+                className="inline-flex items-center px-2 py-1 rounded-full border border-secondary bg-secondary/30 text-secondary text-xs"
               >
                 {skill}
               </li>

@@ -7,7 +7,7 @@ const Teams = () => {
     <section className="py-12 sm:py-16 lg:py-20 scroll-mt-16" id="teams">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-pry mb-6">
+          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
             Meet Our Team
           </h3>
           <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8">
@@ -34,16 +34,14 @@ const Teams = () => {
         </div>
 
         <div className="my-10 text-center max-w-3xl mx-auto">
-          <h5 className="text-xl sm:text-2xl lg:text-3xl font-bold text-pry mb-6">
+          <h5 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-6">
             Want to work with our Team?
           </h5>
           <p className="text-sm sm:text-base text-slate-800 mb-6">
             Our experts are ready to help you unlock the full potential of your
             data. Let&apos;s start the conversation today.
           </p>
-          <Button variant="default" >
-            Scheule A Meeting
-          </Button>
+          <Button variant="default">Scheule A Meeting</Button>
         </div>
       </div>
     </section>

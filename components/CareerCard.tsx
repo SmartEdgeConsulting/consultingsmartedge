@@ -26,10 +26,10 @@ const CareerCard = ({ job }: { job: Job }) => {
         {/* Job Details */}
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-sec transition-colors">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-secondary transition-colors">
               {job.title}
             </h3>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-sec/10 text-sec self-start">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary self-start">
               {job.department}
             </span>
           </div>

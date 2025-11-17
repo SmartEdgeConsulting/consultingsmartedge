@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
 
-const BlogPage = () => {
+import Blogs from "@/sections/Blogs";
+import BlogHero from "@/sections/hero/BlogHero";
+
+const BlogPage = async () => {
   return (
-    <main>
-      
+    <main className="mt-16">
+      <BlogHero />
+      <Blogs />
     </main>
-  )
-}
+  );
+};
 
-export default BlogPage
+export default BlogPage;

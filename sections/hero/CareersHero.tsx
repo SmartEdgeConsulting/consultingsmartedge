@@ -23,7 +23,7 @@ const CareersHero = () => {
       <div className="relative z-10 w-full max-w-screen-2xl px-4 sm:px-8 lg:px-16">
         <div className="flex flex-col items-start text-left max-w-3xl">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 sm:mb-8">
-            Join the <span className="text-acc">SmartEdge</span> Team
+            Join the <span className="text-accent">SmartEdge</span> Team
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-slate-300 mb-6 sm:mb-8">

@@ -7,7 +7,8 @@ const Works = () => {
     <section className="py-10 items-center flex flex-col">
       <div className="mx-auto">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white  text-center mb-8">
-          From <span className="text-sec">Data</span> to Impact — Our Process
+          From <span className="text-secondary">Data</span> to Impact — Our
+          Process
         </h2>
       </div>
 

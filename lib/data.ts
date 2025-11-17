@@ -311,7 +311,7 @@ export const careers: Job[] = [
     jobType: "Full-time",
     salaryRange: { min: 85000, max: 130000, currency: "USD" },
     description:
-      "Design and maintain the APIs and data pipelines that power our platform. You'll focus on reliability, scalability, and security while working across the stack with data engineering and frontend teams.",
+      "Design and maintain the APIs and data pipelines that power our platform. You'll focus on reliability, scalability, and secondaryurity while working across the stack with data engineering and frontend teams.",
     requirements: [
       "4+ years experience building backend services (Node, Python, Go, or Java)",
       "Deep understanding of RESTful APIs, authentication/authorization, and microservices patterns",
@@ -405,5 +405,83 @@ export const careers: Job[] = [
       "Experience documenting requirements and creating user stories",
     ],
     applyLink: "https://smartedge.example.com/careers/apply/8",
+  },
+];
+
+export const blogArticles = [
+  {
+    id: 1,
+    title: "How to Write a Job-Winning Resume in 2025",
+    slug: "job-winning-resume-2025",
+    excerpt:
+      "Learn the exact structure, keywords, and design employers are looking for in modern resumes.",
+    content:
+      "A detailed guide on building a resume that stands out. We'll cover formatting, ATS optimization, power verbs, and real examples...",
+    author: "Sarah Johnson",
+    authorImage: "/authors/sarah.jpg",
+    category: "Career Tips",
+    readTime: "6 min read",
+    date: "2025-01-14",
+    coverImage: "/blogs/resume-guide.jpg",
+  },
+  {
+    id: 2,
+    title: "How AI Is Transforming Hiring for Job Seekers",
+    slug: "ai-transforming-hiring",
+    excerpt:
+      "Recruiters are using AI more than ever. Here's how to adapt and take advantage of the trend.",
+    content:
+      "Artificial Intelligence now filters resumes, ranks candidates, and even analyzes interview performance...",
+    author: "Michael Carter",
+    authorImage: "/authors/michael.jpg",
+    category: "Hiring Trends",
+    readTime: "5 min read",
+    date: "2025-02-03",
+    coverImage: "/blogs/ai-hiring.jpg",
+  },
+  {
+    id: 3,
+    title: "Top Tech Skills Companies Want in 2025",
+    slug: "top-tech-skills-2025",
+    excerpt:
+      "From cloud computing to prompt engineering, here are the most in-demand skills you should learn.",
+    content:
+      "Tech roles are evolving fast. Mastering cloud DevOps, TypeScript frameworks, AI tools, and data visualization is now essential...",
+    author: "Linda Park",
+    authorImage: "/authors/linda.jpg",
+    category: "Tech Careers",
+    readTime: "7 min read",
+    date: "2025-03-01",
+    coverImage: "/blogs/tech-skills.jpg",
+  },
+  {
+    id: 4,
+    title: "How to Prepare for Your Next Remote Interview",
+    slug: "remote-interview-tips",
+    excerpt:
+      "Remote interviews require a different approach. Here’s how to impress recruiters virtually.",
+    content:
+      "Setting up good lighting, mastering online communication, and preparing technical tests are key for remote hiring...",
+    author: "James Walker",
+    authorImage: "/authors/james.jpg",
+    category: "Interviews",
+    readTime: "4 min read",
+    date: "2025-01-28",
+    coverImage: "/blogs/remote-interview.jpg",
+  },
+  {
+    id: 5,
+    title: "How to Build a Strong Portfolio as a Developer",
+    slug: "developer-portfolio-guide",
+    excerpt:
+      "A complete guide for building a portfolio that attracts recruiters and clients.",
+    content:
+      "Your portfolio should highlight real-world projects, clean UI, problem-solving skills, and story-driven case studies...",
+    author: "Maria Gomez",
+    authorImage: "/authors/maria.jpg",
+    category: "Development",
+    readTime: "8 min read",
+    date: "2025-04-10",
+    coverImage: "/blogs/dev-portfolio.jpg",
   },
 ];

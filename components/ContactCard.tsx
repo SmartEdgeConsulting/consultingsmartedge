@@ -8,7 +8,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-pry text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-md",
+        "bg-primary text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-md",
         className
       )}
       {...props}
@@ -22,10 +22,10 @@ const ContactCard = ({
   info,
   description,
 }: contactInfoProps) => {
-  console.log(id)
+  console.log(id);
   return (
     <Card className="w-full flex flex-row gap-5 px-4 items-start">
-      <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-sec text-white">
+      <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-secondary text-white">
         <Icon size={24} />
       </div>
       <div className="flex flex-col gap-1">

@@ -4,14 +4,14 @@ import Image from "next/image";
 
 const Reasons = () => {
   return (
-    <section className="py-16 sm:py-20 bg-pry">
+    <section className="py-16 sm:py-20 bg-primary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-white mb-12 sm:mb-16">
-          Why <span className="text-sec">SmartEdge</span>?
+          Why <span className="text-secondary">SmartEdge</span>?
         </h2>
-        
+
         <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2 items-center">
-          {/* Image Section */}
+          {/* Image secondarytion */}
           <div className="relative aspect-3/2 lg:aspect-4/3 w-full">
             <Image
               src="/careers1.jpg"
@@ -33,7 +33,7 @@ const Reasons = () => {
                 >
                   <Check
                     size={24}
-                    className="text-sec mt-0.5 sm:mt-1 shrink-0 transition-transform duration-200 group-hover:scale-110"
+                    className="text-secondary mt-0.5 sm:mt-1 shrink-0 transition-transform duration-200 group-hover:scale-110"
                     aria-hidden="true"
                   />
                   <span className="transition-colors duration-200 group-hover:text-white">

@@ -28,7 +28,7 @@ const Values = () => {
         opacity: 0,
         duration: 1,
         ease: "power2.out",
-        stagger: 0.2, //stagger each card by 0.2 seconds
+        stagger: 0.2, //stagger each card by 0.2 secondaryonds
       });
     }, containerRef);
 
@@ -36,7 +36,7 @@ const Values = () => {
   }, []);
 
   return (
-    <section id="values" className="py-20 bg-pry scroll-mt-16">
+    <section id="values" className="py-20 bg-primary scroll-mt-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
           Our Core Values
@@ -50,7 +50,7 @@ const Values = () => {
             return (
               <div key={value.id} className="flex items-center my-4 gap-5">
                 <div className="mr-4">
-                  <Icon size={35} className="text-sec" />
+                  <Icon size={35} className="text-secondary" />
                 </div>
                 <div>
                   <h4 className="text-lg font-medium text-white">

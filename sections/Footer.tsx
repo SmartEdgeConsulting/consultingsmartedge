@@ -14,13 +14,13 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-pry">
+    <footer className="bg-primary">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10 max-w-7xl">
         <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/**first  */}
           <div className="text-slate-300 text-sm sm:text-base">
             <div className="mb-6">
-              <h3 className="text-xl sm:text-2xl text-acc mb-2 font-bold">
+              <h3 className="text-xl sm:text-2xl text-accent mb-2 font-bold">
                 SmartEdge
               </h3>
               <p className="">Consulting & Analytics</p>
@@ -31,7 +31,7 @@ const Footer = () => {
               revolution.
             </p>
           </div>
-          {/**second */}
+          {/**secondaryond */}
           <div>
             <h4 className="uppercase text-white text-sm sm:text-base mb-4">
               Quick Links
@@ -71,7 +71,7 @@ const Footer = () => {
                 const Icon = contact.icon;
                 return (
                   <div key={contact.id} className="flex items-center gap-5">
-                    <div className="h-10 w-10 flex items-center justify-center text-sec rounded-lg">
+                    <div className="h-10 w-10 flex items-center justify-center text-secondary rounded-lg">
                       <Icon size={20} />
                     </div>
                     <div className="">

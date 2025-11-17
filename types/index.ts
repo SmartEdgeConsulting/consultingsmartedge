@@ -48,3 +48,17 @@ export type Job = {
   requirements: string[];
   applyLink: string;
 };
+
+export type articlesProp = {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  authorImage: string;
+  category: string;
+  readTime: string;
+  date: string;
+  coverImage: string;
+};
