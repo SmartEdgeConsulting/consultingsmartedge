@@ -18,9 +18,9 @@ const ServiceCard = ({
       </div>
 
       {/* Content */}
-      <div className="flex flex-col grow text-center">
-        <h3 className="text-lg sm:text-xl font-semibold mb-3">{title}</h3>
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 grow">
+      <div className="flex flex-col grow text-center gap-4 mt-4">
+        <h3 className="text-base sm:text-lg font-semibold ">{title}</h3>
+        <p className="text-sm text-slate-300 leading-relaxed grow">
           {description}
         </p>
 
