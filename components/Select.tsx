@@ -10,10 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { departmentProps } from "@/types";
 
 const SelectDepartment = ({
   onSelectChange,
+  departments,
 }: {
+  departments: departmentProps[];
   onSelectChange: (value: string) => void;
 }) => {
   const [selected, setSelected] = React.useState<string>("");
@@ -32,14 +35,13 @@ const SelectDepartment = ({
         <SelectGroup>
           <SelectLabel>Departments</SelectLabel>
           <SelectItem value="all">All Departments</SelectItem>
-          <SelectItem value="Data & Analytics">Data & Analytics</SelectItem>
-          <SelectItem value="Engineering">Engineering</SelectItem>
-          <SelectItem value="Data Science">Data Science</SelectItem>
-          <SelectItem value="Product">Product</SelectItem>
-          <SelectItem value="Design">Design</SelectItem>
-          <SelectItem value="Customer Success & Sales">
-            Customer Success & Sales
-          </SelectItem>
+          {departments.map((department) => {
+            return (
+              <SelectItem key={department._id} value={department.department}>
+                {department.department}
+              </SelectItem>
+            );
+          })}
         </SelectGroup>
       </SelectContent>
     </Select>

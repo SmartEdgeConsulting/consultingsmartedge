@@ -1,12 +1,20 @@
 import { Clock } from "lucide-react";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { Job } from "@/types";
+import { jobProps } from "@/types";
 
-const CareerCard = ({ job }: { job: Job }) => {
+const CareerCard = ({ job }: { job: jobProps }) => {
+  const {
+    _id,
+    jobDescription,
+    jobTitle,
+    jobType,
+    department,
+    applicationLink,
+  } = job;
   return (
     <article
-      key={job.id}
+      key={_id}
       className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 border border-slate-200 overflow-hidden"
     >
       <div className="flex flex-col sm:flex-row gap-4 p-5 sm:p-6">
@@ -27,28 +35,28 @@ const CareerCard = ({ job }: { job: Job }) => {
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
             <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-secondary transition-colors">
-              {job.title}
+              {jobTitle}
             </h3>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary self-start">
-              {job.department}
+              {department.department}
             </span>
           </div>
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed mb-4">
-            {job.description}
+            {jobDescription}
           </p>
 
           {/* Job Meta Info */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 mb-4">
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              <span>{job.jobType}</span>
+              <span>{jobType}</span>
             </div>
           </div>
 
           {/* Apply Button */}
           <Button asChild size="sm" className="mt-2">
-            <a href={job.applyLink}>Apply Now</a>
+            <a href={applicationLink}>Apply Now</a>
           </Button>
         </div>
       </div>

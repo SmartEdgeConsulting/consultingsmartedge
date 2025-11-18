@@ -1,185 +1,23 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
 
-"use client";
+/** @type {import('next').NextConfig} */
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
-import { Button } from "@/components/ui/button";
-import { ChevronDown, Menu, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const Navbar = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const mobileButtonRef = useRef<HTMLButtonElement | null>(null);
-
-  // Close dropdowns on Escape
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setMobileOpen(false);
-      }
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  const nav = [
-    { label: "Home", href: "/" },
-    {
-      label: "About Us",
-      children: [
-        { label: "Our Mission and Vision", href: "/about" },
-        { label: "Our Values", href: "/about/#values" },
-        { label: "Teams", href: "/about/#teams" },
-      ],
-    },
-    {
-      label: "Company",
-      children: [
-        { label: "Careers", href: "/careers" },
-        { label: "Events", href: "/events" },
-      ],
-    },
-    { label: "Services", href: "/services" },
-    {
-      label: "Blog",
-      href: "/blog",
-    },
-  ];
-
-  return (
-    <nav className="bg-white/90 backdrop-blur-sm border-b border-gray-200 w-full z-50 overflow-visible fixed top-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="cursor-pointer ">
-            <Link href="/">
-              <Image src="/logo.jpg" alt="Logo" width={50} height={50} />
-            </Link>
-          </div>
-
-          {/* Desktop nav */}
-          <div className="hidden md:flex md:items-center md:gap-6">
-            {nav.map((item) =>
-              item.children ? (
-                <DropdownMenu key={item.label}>
-                  <DropdownMenuTrigger className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-100">
-                    {item.label}
-                    <ChevronDown size={16} />
-                  </DropdownMenuTrigger>
-
-                  <DropdownMenuContent align="start" className="w-48">
-                    {item.children.map((c) => (
-                      <DropdownMenuItem key={c.label} asChild className="my-2">
-                        <Link href={c.href}>{c.label}</Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="py-2 px-3 rounded-md hover:bg-gray-100 text-slate-800"
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </div>
-
-          {/* Actions & Mobile button */}
-          <div className="flex items-center gap-4">
-            <Button
-              variant="default"
-              aria-label="Get Started"
-              className="hidden sm:block"
-            >
-              Get Started
-            </Button>
-
-            <button
-              ref={mobileButtonRef}
-              className="md:hidden p-2 rounded-md hover:bg-gray-100"
-              onClick={() => setMobileOpen((s) => !s)}
-              aria-controls="mobile-menu"
-              aria-expanded={mobileOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu panel */}
-      <div
-        id="mobile-menu"
-        className={`md:hidden ${
-          mobileOpen ? "block" : "hidden"
-        } border-t border-gray-100 bg-white`}
-      >
-        <div className="px-4 pt-4 pb-6 space-y-1">
-          {nav.map((item) => (
-            <div key={item.label}>
-              {!item.children ? (
-                <a
-                  href={item.href}
-                  className="block px-3 py-2 rounded-md text-slate-800 font-medium hover:bg-gray-50"
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <MobileGroup item={item} />
-              )}
-            </div>
-          ))}
-
-          <Button variant="default" aria-label="Get Started" className="w-full">
-            Get Started
-          </Button>
-        </div>
-      </div>
-    </nav>
-  );
+const nextConfig = {
+  reactStrictMode: true,
+  productionBrowserSourceMaps: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
+    ],
+    formats: ['image/avif', 'image/webp'], // optional: modern formats
+    qualities: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100], // include 70
+  },
 };
 
-function MobileGroup({
-  item,
-}: {
-  item: { label: string; children: { label: string; href: string }[] };
-}) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="border-b border-gray-100">
-      <button
-        onClick={() => setOpen((s) => !s)}
-        className="w-full flex items-center justify-between px-3 py-3 text-slate-800 hover:bg-gray-50"
-        aria-expanded={open}
-      >
-        <span className="font-medium">{item.label}</span>
-        <ChevronDown size={18} />
-      </button>
-      {open && (
-        <div className="pl-6 pb-2">
-          {item.children.map((c) => (
-            <Link
-              key={c.label}
-              href={c.href}
-              className="block px-3 py-2 rounded-md text-slate-800 hover:bg-gray-50"
-            >
-              {c.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default Navbar;
+export default withBundleAnalyzer(nextConfig);

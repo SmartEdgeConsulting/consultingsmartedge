@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { careers } from "@/lib/data";
 import {
   Pagination,
   PaginationContent,
@@ -16,12 +15,15 @@ import { Button } from "./ui/button";
 import SelectDepartment from "./Select";
 import { Search } from "lucide-react";
 import CareerCard from "./CareerCard";
+import { departmentProps, jobProps } from "@/types";
 
-const CareersPagination = () => {
+
+
+const CareersPagination = ({departments, availableJobs} :{departments: departmentProps[], availableJobs: jobProps[] }) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [jobSearch, setJobSearch] = useState("");
-  const [jobs, setJobs] = useState(careers);
+  const [jobs, setJobs] = useState(availableJobs);
 
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
 
@@ -34,14 +36,14 @@ const CareersPagination = () => {
     const searchTerm = jobSearch.trim().toLowerCase();
 
     if (searchTerm) {
-      const newJobs = careers.filter(
-        (career) =>
-          career.title.toLowerCase().includes(searchTerm) ||
-          career.description.toLowerCase().includes(searchTerm)
+      const newJobs = availableJobs.filter(
+        (job) =>
+          job.jobTitle.toLowerCase().includes(searchTerm) ||
+          job.jobDescription.toLowerCase().includes(searchTerm)
       );
       setJobs(newJobs);
     } else {
-      setJobs(careers);
+      setJobs(availableJobs);
     }
     setCurrentPage(1);
   };
@@ -51,16 +53,16 @@ const CareersPagination = () => {
     setJobSearch(value);
 
     if (value === "") {
-      setJobs(careers);
+      setJobs(availableJobs);
       setCurrentPage(1);
     }
   };
 
   const onSelectChange = (value: string) => {
     if (value === "all") {
-      setJobs(careers);
+      setJobs(availableJobs);
     } else {
-      const newJobs = careers.filter((career) => career.department === value);
+      const newJobs = availableJobs.filter((job) => job.department.department === value);
       setJobs(newJobs);
     }
     setCurrentPage(1);
@@ -95,12 +97,12 @@ const CareersPagination = () => {
           </div>
 
           <div>
-            <SelectDepartment onSelectChange={onSelectChange} />
+            <SelectDepartment onSelectChange={onSelectChange} departments={departments}/>
           </div>
         </div>
       </div>
 
-      {/* Careers List */}
+      {/* availableJobs List */}
       {jobs.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-lg shadow-sm">
           <div className="text-slate-400 mb-4">
@@ -116,7 +118,7 @@ const CareersPagination = () => {
       ) : (
         <div className="space-y-4">
           {currentItems.map((job) => (
-            <CareerCard key={job.id} job={job} />
+            <CareerCard key={job._id} job={job} />
           ))}
         </div>
       )}

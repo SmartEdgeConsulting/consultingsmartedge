@@ -31,22 +31,19 @@ export type contactInfoProps = {
   description: string;
 };
 
-export type Job = {
-  id: number;
-  title: string;
+export type departmentProps = {
+  _id: string;
   department: string;
-  jobType:
-    | "Full-time"
-    | "Part-time"
-    | "Contract"
-    | "Internship"
-    | "Remote"
-    | "Hybrid"
-    | "On-site";
-  salaryRange: { min: number; max: number; currency: string };
-  description: string;
+};
+
+export type jobProps = {
+  _id: string;
+  jobTitle: string;
+  department: departmentProps;
+  jobType:string;
+  jobDescription: string;
   requirements: string[];
-  applyLink: string;
+  applicationLink: string;
 };
 
 export type articlesProp = {
