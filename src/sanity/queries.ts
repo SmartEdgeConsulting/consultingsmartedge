@@ -31,30 +31,40 @@ export const getTeams = `*[_type == "teams"] | order(order asc) {
   email
 }`;
 
-export const getArticles = `*[_type == "articles"] | order(_createdAt desc){
+export const getArticles = `*[_type == "articles"] | order(publishedAt desc) {
   _id,
   title,
   "slug": slug.current,
-  coverImage,
-  content,
-  author->{
-    name,
-    profilePicture
+  category,
+  publishedAt,
+  coverImage {
+    asset->,
+    caption
   },
-  _createdAt,
-  _updatedAt
+  author {
+    name,
+    profilePicture {
+      asset->
+    }
+  },
+  content
 }`;
 
 export const getArticle = `*[_type == "articles" && slug.current == $slug][0]{
-_id,
+  _id,
   title,
   "slug": slug.current,
-  coverImage,
-  content,
-  mentor->{
-    name,
-    profilePicture
+  category,
+  publishedAt,
+  coverImage {
+    asset->,
+    caption
   },
-  _createdAt,
-  _updatedAt
+  author {
+    name,
+    profilePicture {
+      asset->
+    }
+  },
+  content
 }`;

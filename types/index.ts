@@ -40,22 +40,121 @@ export type jobProps = {
   _id: string;
   jobTitle: string;
   department: departmentProps;
-  jobType:string;
+  jobType: string;
   jobDescription: string;
   requirements: string[];
   applicationLink: string;
 };
 
-export type articlesProp = {
-  id: number;
+export interface SanityImage {
+  asset: {
+    _id: string;
+    url: string;
+    metadata: {
+      dimensions: {
+        width: number;
+        height: number;
+        aspectRatio: number;
+      };
+      lqip: string;
+    };
+  };
+  caption?: string;
+  alt?: string;
+}
+export interface SanityAsset {
+  _id: string;
+  url: string;
+  metadata: {
+    dimensions: {
+      width: number;
+      height: number;
+      aspectRatio: number;
+    };
+    lqip: string;
+  };
+}
+
+// types/article.ts
+export interface PortableTextImage {
+  _key: string;
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
+  alt?: string;
+  caption?: string;
+  hotspot?: {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+  };
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+}
+export interface Author {
+  name: string;
+  profilePicture?: SanityImage;
+}
+
+// Simplified portable text types
+export interface PortableTextChild {
+  _key: string;
+  _type: string;
+  text?: string;
+  marks?: string[];
+  asset?: SanityImage["asset"];
+  alt?: string;
+  caption?: string;
+  code?: string;
+  language?: string;
+}
+
+export interface PortableTextBlock {
+  _key: string;
+  _type: "block";
+  style: string;
+  children: PortableTextChild[];
+  markDefs?: Array<{
+    _key: string;
+    _type: string;
+    href?: string;
+  }>;
+  listItem?: string;
+  level?: number;
+}
+
+export type PortableTextContent =
+  | PortableTextBlock
+  | {
+      _key: string;
+      _type: "image";
+      asset: SanityImage["asset"];
+      alt?: string;
+      caption?: string;
+    }
+  | {
+      _key: string;
+      _type: "code";
+      code: string;
+      language?: string;
+    };
+
+export interface Article {
+  _id: string;
   title: string;
   slug: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  authorImage: string;
+  author: Author;
   category: string;
-  readTime: string;
-  date: string;
-  coverImage: string;
-};
+  coverImage: SanityImage;
+  content: PortableTextContent[];
+  publishedAt: string;
+  excerpt?: string;
+  estimatedReadingTime?: number;
+}

@@ -1,8 +1,14 @@
 import TeamsCard from "@/components/TeamsCard";
 import { Button } from "@/components/ui/button";
 import { teams } from "@/lib/data";
+import { getTeams } from "@/src/sanity/queries";
+import { client } from "@/src/sanity/client";
 
-const Teams = () => {
+const options = { next: { revalidate: 30 } };
+
+const Teams = async () => {
+  const teamMembers = await client.fetch(getTeams, {}, options);
+console.log(teamMembers)
   return (
     <section className="py-12 sm:py-16 lg:py-20 scroll-mt-16" id="teams">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
