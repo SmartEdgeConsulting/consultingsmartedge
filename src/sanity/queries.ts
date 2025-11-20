@@ -1,3 +1,10 @@
+export const getAnnouncement = `*[_type == "announcement"]{
+  _id,
+  newAnnouncement,
+  button,
+  link
+}`;
+
 export const getDepartments = `*[_type == "departments"] {
   _id,
   department,

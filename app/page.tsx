@@ -2,6 +2,7 @@
 
 import Suscribe from "@/components/Suscribe";
 import About from "@/sections/About";
+import Announcement from "@/sections/Announcement";
 import Events from "@/sections/Events";
 import Hero from "@/sections/hero/Hero";
 import ServicesOverview from "@/sections/ServicesOverview";
@@ -17,6 +18,7 @@ const Home = () => {
       <About />
       <ServicesOverview />
       {/** <Works />*/}
+      <Announcement />
       <Events />
 
       {/* Fixed Bottom Left Button */}
