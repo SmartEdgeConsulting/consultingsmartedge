@@ -10,7 +10,7 @@ const Hero = () => {
       backgroundColor="#09007D"
       className="min-h-screen"
     >
-      <section
+      <header
         id="home"
         className="min-h-screen flex flex-col items-center justify-center px-4 mx-auto max-w-5xl text-center"
       >
@@ -40,7 +40,7 @@ const Hero = () => {
             Upload Your Data
           </Button>
         </div>
-      </section>
+      </header>
     </AnimatedBackground>
   );
 };

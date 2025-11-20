@@ -1,8 +1,6 @@
 export const getAnnouncement = `*[_type == "announcement"]{
   _id,
   newAnnouncement,
-  button,
-  link
 }`;
 
 export const getDepartments = `*[_type == "departments"] {
@@ -36,6 +34,18 @@ export const getTeams = `*[_type == "teams"] | order(order asc) {
   "techStack": techStack[].stack,
   linkedin,
   email
+}`;
+
+export const getEvents = `*[_type == "events"] {
+  _id,
+  name,
+  "slug": slug.current,
+  publishedAt,
+  coverImage {
+    asset->,
+    caption
+  },
+  description
 }`;
 
 export const getArticles = `*[_type == "articles"] | order(publishedAt desc) {

@@ -1,4 +1,4 @@
-import ContactCard from "@/components/ContactCard";
+import ContactCard from "@/card-components/ContactCard";
 import Form from "@/components/Form";
 import { contactInfo } from "@/lib/data";
 

@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutHero = () => {
   return (
-    <section className="py-10 sm:py-12 lg:py-16">
+    <header className="py-10 sm:py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-8">
           The <span className="text-secondary">Edge</span> Behind SmartEdge
@@ -15,7 +15,7 @@ const AboutHero = () => {
           research, and technology to help organizations grow smarter.
         </p>
       </div>
-    </section>
+    </header>
   );
 };
 

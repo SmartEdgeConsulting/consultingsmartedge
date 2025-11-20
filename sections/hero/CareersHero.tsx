@@ -4,13 +4,13 @@ import Link from "next/link";
 
 const CareersHero = () => {
   return (
-    <section className="relative flex items-center justify-center min-h-[400px] sm:min-h-[500px] py-20 overflow-hidden">
+    <header className="relative flex items-center justify-center min-h-[400px] sm:min-h-[500px] py-20 overflow-hidden">
       {/* Background Image */}
       <Image
         src="/reason.jpg"
         alt="SmartEdge careers - team collaboration"
         fill
-        priority
+        loading="lazy"
         quality={85}
         sizes="100vw"
         className="object-cover object-center"
@@ -38,7 +38,7 @@ const CareersHero = () => {
           </Button>
         </div>
       </div>
-    </section>
+    </header>
   );
 };
 

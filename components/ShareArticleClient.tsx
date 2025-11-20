@@ -19,9 +19,9 @@ const ShareArticleClient = ({
   const copyLink = async (): Promise<void> => {
     try {
       await navigator.clipboard.writeText(fullUrl);
-      console.info("Link copied to clipboard!");
+      alert("Link copied to clipboard!");
     } catch (err) {
-      console.error("Failed to copy:", err);
+      alert(`Failed to copy: ${err}`);
     }
   };
 

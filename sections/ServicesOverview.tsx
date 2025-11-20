@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading";
-import ServiceCard from "@/components/ServiceCard";
+import ServiceCard from "@/card-components/ServiceCard";
 import { servicesData } from "@/lib/data";
 import { Zap } from "lucide-react";
 

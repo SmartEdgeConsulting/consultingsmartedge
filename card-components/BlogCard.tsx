@@ -38,7 +38,7 @@ const BlogCard = ({ article, index }: { article: Article; index: number }) => {
       {/* Cover Image */}
       <div className="w-full sm:w-1/3 h-56 sm:h-auto relative">
         <Image
-          src={article.coverImage.asset.url || "/careers1.jpg"}
+          src={urlFor(article.coverImage.asset).url() || "/placeholder.jpg"}
           alt={`Cover image for ${article.title}`}
           fill
           className="object-cover"

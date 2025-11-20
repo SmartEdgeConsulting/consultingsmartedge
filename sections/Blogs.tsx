@@ -1,4 +1,4 @@
-import BlogCard from "@/components/BlogCard";
+import BlogCard from "@/card-components/BlogCard";
 import BlogsSkeleton from "@/components/BlogsSkeleton";
 import NoBlog from "@/components/NoBlog";
 import { Suspense } from "react";

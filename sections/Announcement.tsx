@@ -1,4 +1,4 @@
-import AnnouncementCard from "@/components/AnnouncementCard";
+import AnnouncementCard from "@/card-components/AnnouncementCard";
 import Heading from "@/components/Heading";
 import { client } from "@/src/sanity/client";
 import { getAnnouncement } from "@/src/sanity/queries";
@@ -12,13 +12,15 @@ const Announcement = async () => {
   if (!announcement || announcement.length === 0) return null;
 
   return (
-    <section>
-      <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-20 py-10">
-        {/* Heading */}
-        <Heading title="Upcoming Events" icon={<Calendar size={18} />} />
+    <section className="py-10 scroll-mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-20">
+        <div className="text-center mb-10">
+          {/* Heading */}
+          <Heading title="Upcoming Events" icon={<Calendar size={18} />} />
+        </div>
 
         {/* Announcement Container */}
-        {/** <AnnouncementCard announcement={announcement} />*/}
+        <AnnouncementCard announcement={announcement} />
       </div>
     </section>
   );

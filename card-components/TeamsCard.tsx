@@ -1,11 +1,11 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { CardContent, CardHeader } from "./ui/card";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Linkedin, Mail } from "lucide-react";
 import { teamsProps } from "@/types";
 
 import { cn } from "@/lib/utils";
+import { CardContent, CardHeader } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -20,7 +20,6 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
-  console.log(id);
   return (
     <Card className="w-full max-w-md flex flex-col ">
       <CardHeader className="flex justify-center space-x-4 pb-4">

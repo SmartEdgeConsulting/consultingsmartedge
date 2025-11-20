@@ -14,7 +14,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import SelectDepartment from "./Select";
 import { Search } from "lucide-react";
-import CareerCard from "./CareerCard";
+import CareerCard from "@/card-components/CareerCard";
 import { departmentProps, jobProps } from "@/types";
 
 

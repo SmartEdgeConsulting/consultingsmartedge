@@ -12,6 +12,7 @@ export type processProps = {
   id: number;
   title: string;
   description: string;
+  color: string;
 };
 
 export type teamsProps = {
@@ -158,3 +159,12 @@ export interface Article {
   excerpt?: string;
   estimatedReadingTime?: number;
 }
+
+export type eventProps = {
+  _id: string;
+  name: string;
+  slug: string;
+  description: string;
+  coverImage: SanityImage;
+  publishedAt: string;
+};

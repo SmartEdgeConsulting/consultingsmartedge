@@ -116,21 +116,25 @@ export const process: processProps[] = [
     id: 1,
     title: "Discover",
     description: "We understand your goals, challenges, and data needs.",
+    color: "bg-red-200",
   },
   {
     id: 2,
     title: "Analyze",
     description: "We use analytics and AI to uncover patterns and insights.",
+    color: "bg-orange-200",
   },
   {
     id: 3,
     title: "Transform",
     description: "We turn insights into decisions that improve performance.",
+    color: "bg-yellow-200",
   },
   {
     id: 4,
     title: "Automate",
     description: "We implement systems that sustain continuous growth.",
+    color: "bg-green-200",
   },
 ];
 

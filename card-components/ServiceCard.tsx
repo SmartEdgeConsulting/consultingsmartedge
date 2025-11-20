@@ -1,5 +1,5 @@
 import { serviceProps } from "@/types";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const ServiceCard = ({
   icon: Icon,

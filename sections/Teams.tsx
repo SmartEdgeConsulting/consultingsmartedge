@@ -1,4 +1,4 @@
-import TeamsCard from "@/components/TeamsCard";
+import TeamsCard from "@/card-components/TeamsCard";
 import { Button } from "@/components/ui/button";
 import { teams } from "@/lib/data";
 import { getTeams } from "@/src/sanity/queries";
