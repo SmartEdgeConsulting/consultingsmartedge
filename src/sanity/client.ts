@@ -5,4 +5,5 @@ export const client = createClient({
   dataset: "production",
   apiVersion: "2025-11-18",
   useCdn: true,
+  perspective: "published",
 });

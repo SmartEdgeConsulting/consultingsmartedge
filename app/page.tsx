@@ -18,7 +18,7 @@ const Home = () => {
       <About />
       <ServicesOverview />
       {/** <Works />*/}
-      <Announcement />
+      {/**<Announcement />*/}
       <Events />
 
       {/* Fixed Bottom Left Button */}

@@ -18,7 +18,7 @@ const Announcement = async () => {
         <Heading title="Upcoming Events" icon={<Calendar size={18} />} />
 
         {/* Announcement Container */}
-        <AnnouncementCard announcement={announcement} />
+        {/** <AnnouncementCard announcement={announcement} />*/}
       </div>
     </section>
   );
