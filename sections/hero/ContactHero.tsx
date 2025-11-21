@@ -8,7 +8,7 @@ const ContactHero = () => {
         <Heading title="Get in Touch" icon={<MessageSquareMore size={18} />} />
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
           Let&apos;s Build Smarter{" "}
-          <span className="text-secondary">Solutions</span> Together
+          <span className="text-gradient-primary">Solutions</span> Together
         </h1>
         <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8">
           We&apos;d love to understand your goals and discuss how SmartEdge can

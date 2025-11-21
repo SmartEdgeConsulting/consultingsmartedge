@@ -10,7 +10,7 @@ const SuscribeButton = () => {
     <>
       <button
         onClick={() => setOpenDialog(true)}
-        className="fixed animate-bounce bottom-6 right-6 z-50 bg-secondary text-white px-4 py-2 rounded-full shadow-lg hover:bg-secondary/70 transition"
+        className="fixed animate-bounce bottom-6 right-6 z-50 bg-gradient-primary text-white px-4 py-2 rounded-full shadow-lg hover:bg-secondary/70 transition"
       >
         Suscribe
       </button>

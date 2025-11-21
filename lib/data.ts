@@ -203,14 +203,14 @@ export const contactInfo: contactInfoProps[] = [
     id: 2,
     icon: Phone,
     label: "Phone",
-    info: "+1 (555) 123-4567",
+    info: "+234 813 783 1630",
     description: "Mon-Fri from 8am to 5pm",
   },
   {
     id: 3,
     icon: MapPin,
     label: "Office",
-    info: "123 Data Drive, Analytics City, AC 12345",
+    info: "39, Alhaja Molika Street, Ebenezer Obantoko, Abeokuta Ogun State",
     description: "Come say hello at our office",
   },
   {
@@ -226,19 +226,19 @@ export const socials = [
   {
     id: 1,
     name: "LinkedIn",
-    href: "https://www.linkedin.com/company/smartedge-analytics",
+    href: "https://www.linkedin.com/company/smartedge-analytics/",
     icon: LinkedInIcon,
   },
   {
     id: 2,
     name: "Facebook",
-    href: "https://www.linkedin.com/company/smartedge-analytics",
+    href: "https://www.facebook.com/profile.php?id=61581334894053",
     icon: FacebookIcon,
   },
   {
     id: 3,
     name: "Instagram",
-    href: "https://www.linkedin.com/company/smartedge-analytics",
+    href: "https://www.instagram.com/smartedge_consulting/",
     icon: InstagramIcon,
   },
   {

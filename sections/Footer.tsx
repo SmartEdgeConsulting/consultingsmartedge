@@ -70,11 +70,11 @@ const Footer = () => {
               {contactInfo.map((contact) => {
                 const Icon = contact.icon;
                 return (
-                  <div key={contact.id} className="flex items-center gap-5">
-                    <div className="h-10 w-10 flex items-center justify-center text-secondary rounded-lg">
+                  <div key={contact.id} className="flex items-center gap-3">
+                    <div className="h-10 w-10 shrink-0 flex items-center justify-center text-secondary rounded-lg">
                       <Icon size={20} />
                     </div>
-                    <div className="">
+                    <div className="flex-1">
                       <h4 className="text-xs sm:text-sm text-slate-200">
                         {contact.info}
                       </h4>

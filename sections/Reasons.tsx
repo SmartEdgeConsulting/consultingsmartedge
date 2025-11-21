@@ -7,7 +7,7 @@ const Reasons = () => {
     <section className="py-16 sm:py-20 bg-primary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-white mb-12 sm:mb-16">
-          Why <span className="text-secondary">SmartEdge</span>?
+          Why <span className="text-gradient-primary">SmartEdge</span>?
         </h2>
 
         <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2 items-center">

@@ -20,7 +20,7 @@ const About = () => {
             id="about-heading"
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6"
           >
-            We turn raw <span className="text-secondary">data</span> into
+            We turn raw <span className="text-gradient-primary">data</span> into
             business clarity.
           </h2>
           <p className="text-base sm:text-xl leading-7 text-slate-800 max-w-3xl mb-8">

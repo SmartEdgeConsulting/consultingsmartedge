@@ -11,7 +11,7 @@ const ServicesOverview = () => {
           <Heading title="What We Do" icon={<Zap size={18} />} />
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
             Giving You An Edge That&apos;s{" "}
-            <span className="text-secondary">Smart…</span>
+            <span className="text-gradient-primary">Smart…</span>
           </h2>
           <p className="text-base sm:text-xl text-slate-800 leading-relaxed max-w-3xl mb-8 mx-auto">
             From data to decisions, we deliver tailored solutions that transform

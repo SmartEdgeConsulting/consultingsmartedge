@@ -17,9 +17,13 @@ import { Search } from "lucide-react";
 import CareerCard from "@/card-components/CareerCard";
 import { departmentProps, jobProps } from "@/types";
 
-
-
-const CareersPagination = ({departments, availableJobs} :{departments: departmentProps[], availableJobs: jobProps[] }) => {
+const CareersPagination = ({
+  departments,
+  availableJobs,
+}: {
+  departments: departmentProps[];
+  availableJobs: jobProps[];
+}) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [jobSearch, setJobSearch] = useState("");
@@ -62,7 +66,9 @@ const CareersPagination = ({departments, availableJobs} :{departments: departmen
     if (value === "all") {
       setJobs(availableJobs);
     } else {
-      const newJobs = availableJobs.filter((job) => job.department.department === value);
+      const newJobs = availableJobs.filter(
+        (job) => job.department.department === value
+      );
       setJobs(newJobs);
     }
     setCurrentPage(1);
@@ -97,7 +103,10 @@ const CareersPagination = ({departments, availableJobs} :{departments: departmen
           </div>
 
           <div>
-            <SelectDepartment onSelectChange={onSelectChange} departments={departments}/>
+            <SelectDepartment
+              onSelectChange={onSelectChange}
+              departments={departments}
+            />
           </div>
         </div>
       </div>

@@ -34,10 +34,10 @@ const CareerCard = ({ job }: { job: jobProps }) => {
         {/* Job Details */}
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-secondary transition-colors">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-gradient-primary transition-colors">
               {jobTitle}
             </h3>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary self-start">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-gradient-primary self-start">
               {department.department}
             </span>
           </div>
