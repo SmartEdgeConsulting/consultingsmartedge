@@ -1,21 +1,22 @@
 import BlogCard from "@/card-components/BlogCard";
 import BlogsSkeleton from "@/components/BlogsSkeleton";
-import NoBlog from "@/components/NoBlog";
 import { Suspense } from "react";
 import { client } from "@/src/sanity/client";
 import { getArticles } from "@/src/sanity/queries";
-import { Article} from "@/types";
+import { Article } from "@/types";
+import { Briefcase } from "lucide-react";
 
 const options = { next: { revalidate: 30 } };
 
 const Blogs = async () => {
-  const articles : Article[] = await client.fetch(getArticles, {}, options);
+  const articles: Article[] = await client.fetch(getArticles, {}, options);
 
   if (!articles?.length) {
     return (
-      <section>
-        <div className="mx-auto px-4 sm:px-10 lg:px-20 py-10 max-w-7xl">
-          <NoBlog />
+      <section className="mx-auto px-4 sm:px-10 lg:px-20 py-10 max-w-7xl">
+        <div className="h-[250px] bg-white rounded-lg shadow-lg text-slate-400 flex flex-col items-center justify-center">
+          <Briefcase className="w-16 h-16 mx-auto mb-4" />
+          <h3 className="text-base">No Blog Article</h3>
         </div>
       </section>
     );

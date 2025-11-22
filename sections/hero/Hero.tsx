@@ -16,7 +16,7 @@ const Hero = () => {
       >
         <h1 className="text-4xl sm:text-6xl lg:text-7xl leading-tight font-bold text-white mb-6">
           Data. Intelligence. Growth Powered by{" "}
-          <span className="text-gradient-primary">SmartEdge</span>
+          <span className="text-accent">SmartEdge</span>
         </h1>
         <p className="text-base sm:text-xl text-slate-300 leading-8 max-w-3xl mb-8">
           We help businesses uncover clarity and accelerate growth through data

@@ -26,7 +26,7 @@ const CareersHero = () => {
             Join the <span className="text-accent">SmartEdge</span> Team
           </h1>
 
-          <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-slate-300 mb-6 sm:mb-8">
+          <p className="text-base sm:text-lg leading-relaxed text-slate-300 mb-6 sm:mb-8">
             Be part of a mission-driven data company transforming how Africa and
             the world make business decisions.
           </p>

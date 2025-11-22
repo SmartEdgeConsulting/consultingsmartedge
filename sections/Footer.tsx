@@ -1,4 +1,4 @@
-import { contactInfo, servicesData, socials } from "@/lib/data";
+import { contactInfo, socials } from "@/lib/data";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10 max-w-7xl">
-        <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="py-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
           {/**first  */}
           <div className="text-slate-300 text-sm sm:text-base">
             <div className="mb-6">
@@ -31,7 +31,7 @@ const Footer = () => {
               revolution.
             </p>
           </div>
-          {/**secondaryond */}
+          {/**second */}
           <div>
             <h4 className="uppercase text-white text-sm sm:text-base mb-4">
               Quick Links
@@ -47,21 +47,6 @@ const Footer = () => {
             </ul>
           </div>
           {/**third */}
-          <div>
-            <h4 className="uppercase text-white text-sm sm:text-base mb-4">
-              Services
-            </h4>
-            <ul className="text-slate-300 text-sm sm:text-base">
-              {servicesData.map((service) => {
-                return (
-                  <li key={service.id} className="mb-2">
-                    {service.title}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          {/** fourth */}
           <div>
             <h4 className="uppercase text-white text-sm sm:text-base mb-4">
               Get in Touch

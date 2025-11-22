@@ -7,11 +7,11 @@ const Reasons = () => {
     <section className="py-16 sm:py-20 bg-primary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-white mb-12 sm:mb-16">
-          Why <span className="text-gradient-primary">SmartEdge</span>?
+          Why SmartEdge?
         </h2>
 
         <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2 items-center">
-          {/* Image secondarytion */}
+          {/* Image Section */}
           <div className="relative aspect-3/2 lg:aspect-4/3 w-full">
             <Image
               src="/careers1.jpg"
@@ -29,7 +29,7 @@ const Reasons = () => {
               {reasons.map((reason) => (
                 <li
                   key={reason.id}
-                  className="flex items-start gap-3 sm:gap-4 text-base sm:text-lg lg:text-xl text-slate-300 group"
+                  className="flex items-start gap-3 sm:gap-4 text-base sm:text-lg text-slate-300 group"
                 >
                   <Check
                     size={24}

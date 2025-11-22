@@ -20,10 +20,9 @@ const About = () => {
             id="about-heading"
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6"
           >
-            We turn raw <span className="text-gradient-primary">data</span> into
-            business clarity.
+            We turn raw data into business clarity.
           </h2>
-          <p className="text-base sm:text-xl leading-7 text-slate-800 max-w-3xl mb-8">
+          <p className="text-base sm:text-lg leading-7 text-slate-800 max-w-3xl mb-8">
             SmartEdge Consulting & Analytics is a data-driven consulting firm
             helping organizations make smarter decisions through Research,
             Analytics, and Technology. We don&apos;t just analyze data we help

@@ -13,11 +13,11 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import SelectDepartment from "./Select";
-import { Search } from "lucide-react";
+import { Search, Briefcase } from "lucide-react"; 
 import CareerCard from "@/card-components/CareerCard";
 import { departmentProps, jobProps } from "@/types";
 
-const CareersPagination = ({
+const CareersList = ({
   departments,
   availableJobs,
 }: {
@@ -27,6 +27,7 @@ const CareersPagination = ({
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [jobSearch, setJobSearch] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("all"); 
   const [jobs, setJobs] = useState(availableJobs);
 
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
@@ -63,6 +64,7 @@ const CareersPagination = ({
   };
 
   const onSelectChange = (value: string) => {
+    setSelectedDepartment(value); 
     if (value === "all") {
       setJobs(availableJobs);
     } else {
@@ -81,9 +83,13 @@ const CareersPagination = ({
     setCurrentPage(page);
   };
 
+  // Check if user has applied any filters, if there is a search or a chosen department
+  const hasActiveFilters =
+    jobSearch.trim() !== "" || selectedDepartment !== "all";
+
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-8">
-      {/** Filter and search secondarytion */}
+      {/** Filter and search section */}
       <div className="w-full mb-8 p-4 sm:p-6 bg-white rounded-lg shadow-sm border border-slate-200">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex items-center gap-2">
@@ -115,14 +121,31 @@ const CareersPagination = ({
       {jobs.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-lg shadow-sm">
           <div className="text-slate-400 mb-4">
-            <Search className="w-16 h-16 mx-auto" />
+            {hasActiveFilters ? (
+              <Search className="w-16 h-16 mx-auto" />
+            ) : (
+              <Briefcase className="w-16 h-16 mx-auto" />
+            )}
           </div>
-          <p className="text-slate-600 text-lg font-medium">
-            No jobs found matching your search
-          </p>
-          <p className="text-slate-400 text-sm mt-2">
-            Try adjusting your filters or search terms
-          </p>
+          {hasActiveFilters ? (
+            <>
+              <p className="text-slate-600 text-lg font-medium">
+                No jobs found matching your search
+              </p>
+              <p className="text-slate-400 text-sm mt-2">
+                Try adjusting your filters or search terms
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-slate-600 text-lg font-medium">
+                No job openings available
+              </p>
+              <p className="text-slate-400 text-sm mt-2">
+                Check back later for new opportunities
+              </p>
+            </>
+          )}
         </div>
       ) : (
         <div className="space-y-4">
@@ -184,4 +207,4 @@ const CareersPagination = ({
   );
 };
 
-export default CareersPagination;
+export default CareersList;

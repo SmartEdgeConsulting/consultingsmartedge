@@ -210,7 +210,7 @@ export const contactInfo: contactInfoProps[] = [
     id: 3,
     icon: MapPin,
     label: "Office",
-    info: "39, Alhaja Molika Street, Ebenezer Obantoko, Abeokuta Ogun State",
+    info: "39, Alhaja Molika Street, Ebenezer Obantoko, Abeokuta Ogun State.",
     description: "Come say hello at our office",
   },
   {

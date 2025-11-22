@@ -8,7 +8,7 @@ const options = { next: { revalidate: 30 } };
 
 const Teams = async () => {
   const teamMembers = await client.fetch(getTeams, {}, options);
-console.log(teamMembers)
+  console.log(teamMembers);
   return (
     <section className="py-12 sm:py-16 lg:py-20 scroll-mt-16" id="teams">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -16,7 +16,7 @@ console.log(teamMembers)
           <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
             Meet Our Team
           </h3>
-          <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8">
+          <p className="text-base sm:text-lg leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8">
             Our diverse team of data scientists, engineers, and consultants
             brings together decades of experience in transforming businesses
             through data-driven solutions.
@@ -25,17 +25,7 @@ console.log(teamMembers)
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
           {teams.map((team) => {
-            return (
-              <TeamsCard
-                id={team.id}
-                key={team.id}
-                name={team.name}
-                avatar={team.avatar}
-                bio={team.bio}
-                role={team.role}
-                skills={team.skills}
-              />
-            );
+            return <TeamsCard key={team.id} {...team} />;
           })}
         </div>
 

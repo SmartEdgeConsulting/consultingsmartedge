@@ -5,9 +5,9 @@ const AboutHero = () => {
     <header className="py-10 sm:py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-8">
-          The <span className="text-gradient-primary">Edge</span> Behind SmartEdge
+          The Edge Behind SmartEdge
         </h1>
-        <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8">
+        <p className="text-sm sm:text-lg leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8">
           SmartEdge Consulting & Analytics is a forward-thinking data consulting
           company focused on helping businesses extract value from their data.
           We believe every organization regardless of size can make better

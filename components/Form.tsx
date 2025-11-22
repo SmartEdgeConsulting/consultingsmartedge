@@ -49,7 +49,7 @@ const Form = () => {
               type="submit"
               variant="default"
               size="sm"
-              className="w-full text-bold text-white"
+              className="w-full font-extrabold text-white"
             >
               Sign In <Send />
             </Button>

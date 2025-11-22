@@ -1,4 +1,4 @@
-import CareersPagination from "@/components/CareersList";
+import CareersList from "@/components/CareersList";
 import React from "react";
 import { getDepartments, getJobs } from "@/src/sanity/queries";
 import { client } from "@/src/sanity/client";
@@ -15,7 +15,7 @@ const Careers = async () => {
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-8">
           Career Oportunities
         </h2>
-        <CareersPagination availableJobs={availableJobs} departments={departments}/>
+        <CareersList availableJobs={availableJobs} departments={departments}/>
       </div>
     </section>
   );

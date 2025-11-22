@@ -7,7 +7,7 @@ import Works from "@/sections/Works";
 
 const Home = () => {
   return (
-    <main className="relative">
+    <main className="relative mt-16">
       <Hero />
       <About />
       <ServicesOverview />
