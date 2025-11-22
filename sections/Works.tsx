@@ -7,7 +7,7 @@ import { Gpu } from "lucide-react";
 const Works = () => {
   return (
     <section className="py-10 ">
-      <div className="mx-auto max-w-7xl items-center flex flex-col">
+      <div className="mx-auto max-w-7xl items-center flex flex-col px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <Heading title="How It Works" icon={<Gpu size={18} />} />
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">

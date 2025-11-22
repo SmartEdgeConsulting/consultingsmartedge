@@ -121,6 +121,14 @@
   }
 }
 
+@utility hero-heading {
+  @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-8;
+}
+
+@utility hero-paragraph {
+  @apply text-sm sm:text-lg leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8;
+}
+
 @utility bg-gradient-primary {
   background-image: linear-gradient(180deg, #f6cf0e, #f5922d);
 }
