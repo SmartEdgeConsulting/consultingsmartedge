@@ -61,7 +61,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="cursor-pointer ">
           <Link href="/">
-            <Image src="/logo.jpg" alt="Logo" width={50} height={50} />
+            <Image src="/smartedge_logo.png" alt="Logo" width={50} height={50} />
           </Link>
         </div>
 

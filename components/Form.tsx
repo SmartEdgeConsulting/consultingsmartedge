@@ -51,7 +51,7 @@ const Form = () => {
               size="sm"
               className="w-full font-extrabold text-white"
             >
-              Sign In <Send />
+              Send Message <Send />
             </Button>
           </div>
         </form>

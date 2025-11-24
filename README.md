@@ -1,8 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smartedge Consulting & Analytics
 
-## Getting Started
+SmartEdge Consulting & Analytics is a data-driven consulting firm helping organizations make smarter decisions through Research, Analytics, and Technology.
 
-First, run the development server:
+## 🚀 Features
+
+- **Modern UI/UX** - Built with shadcn/ui components for a polished, professional interface
+- **Type Safety** - Full TypeScript implementation for robust, maintainable code
+- **Responsive Design** - Mobile-first approach ensuring great experience across all devices
+- **Performance Optimized** - Leveraging Next.js App Router for optimal loading times
+- **Icon System** - Comprehensive icon library with Lucide React
+- **Accessible** - WCAG compliant components from shadcn/ui
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Animations:**  [GSAP](https://gsap.com/)
+- **Content Management:** [Sanity](https://www.sanity.io/)
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js 18.17 or later
+- npm, yarn, or pnpm package manager
+
+## 🔧 Installation
+
+1. Clone the repository:
+
+```bash
+git clone git@github.com:SmartEdgeConsulting/WebsiteDev.git
+cd WebsiteDev
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Set up environment variables:
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` with your configuration:
+
+```env
+# Add your environment variables here
+NEXT_PUBLIC_API_URL=your_api_url
+DATABASE_URL=your_database_url
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +69,83 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/                  # Next.js App Router pages
+├── components/           # React components
+│   ├── ui/              # shadcn/ui components
+│   └── ...              # Custom components
+├── lib/                 # Utility functions and configurations
+├── public/              # Static assets
+├──                      # Global styles
+└── types/               # TypeScript type definitions
+```
 
-## Learn More
+## 🎨 Adding shadcn/ui Components
 
-To learn more about Next.js, take a look at the following resources:
+To add new shadcn/ui components:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx shadcn-ui@latest add [component-name]
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Example:
 
-## Deploy on Vercel
+```bash
+npx shadcn-ui@latest add button
+npx shadcn-ui@latest add dialog
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Building for Production
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create an optimized production build:
+
+```bash
+npm run build
+npm run start
+```
+
+## 📝 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Create production build
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript compiler check
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- Oloniyo Bolaji - [https://github.com/Oloniyo-Bolaji](https://github.com/Oloniyo-Bolaji)
+
+## 🙏 Acknowledgments
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide Icons](https://lucide.dev/)
+- [Sanity](https://www.sanity.io/)
+
+## 📧 Contact
+
+For questions or support, please contact [ayoolabolaji12@yahoo.com]
+
+---
+
+Made with ❤️ using Next.js and TypeScript
