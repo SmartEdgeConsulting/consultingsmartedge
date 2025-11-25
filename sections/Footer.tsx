@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { contactInfo, socials } from "@/lib/data";
 
 const Footer = () => {
@@ -71,6 +73,19 @@ const Footer = () => {
           </div>
         </div>
 
+        <div className="border-t flex justify-center items-center py-10">
+          <div className="text-center">
+            <h4 className="uppercase text-white text-sm sm:text-base mb-4">
+              Suscribe to Our NewsLetter
+            </h4>
+            <p className="text-slate-300 text-sm sm:text-base mb-2.5">Get weekly insights, tips, and business intelligence updates.</p>
+            <div className="flex gap-2.5">
+              <Input type="email" placeholder="Email" />
+              <Button size="md">Suscribe</Button>
+            </div>
+          </div>
+        </div>
+
         <div className="border-t flex flex-col sm:flex-row gap-5 justify-between items-center pt-10">
           <div className="flex gap-1.5 sm:gap-2 ">
             {socials.map((social) => {
@@ -78,7 +93,7 @@ const Footer = () => {
               return (
                 <div
                   key={social.id}
-                  className="flex items-center justify-center h-10 w-10 rounded-full border"
+                  className="flex items-center justify-center h-10 w-10 rounded-full border group"
                 >
                   <a
                     href={social.href}
@@ -86,7 +101,7 @@ const Footer = () => {
                     target="open_blank"
                     className="mx-2"
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-5 h-5  transition-transform duration-200 group-hover:scale-110" />
                   </a>
                 </div>
               );

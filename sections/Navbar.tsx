@@ -56,7 +56,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full fixed top-0 backdrop-blur-md z-50 px-4 sm:px-6 lg:px-8 shadow-md bg-white/90 border-b border-gray-200">
+    <nav className="w-full fixed top-0 backdrop-blur-md z-50 px-4 sm:px-6 lg:px-8 shadow-md bg-primary/10 border-b border-gray-200">
       <div className="flex items-center justify-between h-16 max-w-7xl mx-auto">
         {/* Logo */}
         <div className="cursor-pointer ">

@@ -1,4 +1,3 @@
-import SuscribeButton from "@/components/SuscribeButton";
 import About from "@/sections/About";
 import Announcement from "@/sections/Announcement";
 import Featured from "@/sections/Featured";
@@ -16,7 +15,6 @@ const Home = () => {
       <Featured />
       <Announcement />
 
-      <SuscribeButton />
     </main>
   );
 };

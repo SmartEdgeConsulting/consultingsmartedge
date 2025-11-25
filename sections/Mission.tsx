@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Mission = () => {
   return (
-    <section className="bg-primary py-16 lg:py-20 mb-10">
+    <section className="py-16 lg:py-20 mb-10">
       <div className="mx-auto max-w-5xl px-4 sm:px-10">
         <Tabs defaultValue="mission" className="w-full">
           {/* Bigger Tabs */}

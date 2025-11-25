@@ -26,7 +26,7 @@ const ServiceCard = ({
 
         <Button
           size="sm"
-          variant="outline"
+          variant="darkoutline"
           className="mt-auto w-full mx-auto"
           aria-label={`Learn more about ${title}`}
         >

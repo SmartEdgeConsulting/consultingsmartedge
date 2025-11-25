@@ -37,7 +37,7 @@ const Teams = async () => {
             Our experts are ready to help you unlock the full potential of your
             data. Let&apos;s start the conversation today.
           </p>
-          <Button variant="default">Scheule A Meeting</Button>
+          <Button variant="default">Get in Touch</Button>
         </div>
       </div>
     </section>

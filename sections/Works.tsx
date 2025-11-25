@@ -11,7 +11,7 @@ const Works = () => {
         <div className="text-center mb-10">
           <Heading title="How It Works" icon={<Gpu size={18} />} />
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
-            From Data to Impact
+            From <span className="text-gradient-primary">Data</span> to Impact
           </h2>
         </div>
 
