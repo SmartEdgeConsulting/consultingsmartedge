@@ -61,7 +61,12 @@ const Navbar = () => {
         {/* Logo */}
         <div className="cursor-pointer ">
           <Link href="/">
-            <Image src="/smartedge_logo.png" alt="Logo" width={50} height={50} />
+            <Image
+              src="/smartedge_logo.png"
+              alt="Logo"
+              width={50}
+              height={50}
+            />
           </Link>
         </div>
 
@@ -98,7 +103,7 @@ const Navbar = () => {
         {/* CTA Button (Desktop) */}
         <div className="hidden sm:block">
           <Button variant="default" aria-label="Get Started">
-            Get Started
+            <Link href="/login"> Get Started</Link>
           </Button>
         </div>
 
@@ -172,8 +177,12 @@ const Navbar = () => {
           ))}
 
           <div className="px-3 pt-2 w-full">
-            <Button variant="default" aria-label="Get Started" className="w-full">
-              Get Started
+            <Button
+              variant="default"
+              aria-label="Get Started"
+              className="w-full"
+            >
+              <Link href="/login"> Get Started</Link>
             </Button>
           </div>
         </div>

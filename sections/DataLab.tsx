@@ -111,14 +111,14 @@ const DataLab = () => {
   return (
     <section className="py-10 sm:py-15">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <form onSubmit={handleSubmit} className="rounded-lg shadow-lg p-10">
+        <form onSubmit={handleSubmit} className="rounded-lg shadow-lg p-10 bg-primary/10">
           <div className="flex flex-col gap-10">
             <div className="space-y-2">
               <Label className="text-sm font-medium text-primary">
                 Upload file
               </Label>
 
-              <div className="w-full bg-primary/10 p-5 rounded-lg">
+              <div className="w-full bg-white p-5 rounded-lg">
                 <div
                   {...getRootProps()}
                   className="border-2 border-dashed border-primary rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors"
@@ -178,6 +178,7 @@ const DataLab = () => {
                 id="email"
                 name="email"
                 type="email"
+                placeholder="janedoe@example.com"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -194,6 +195,7 @@ const DataLab = () => {
               <Input
                 id="company"
                 name="company"
+                placeholder="Your Company's Name"
                 value={formData.company}
                 onChange={handleChange}
                 required
@@ -211,6 +213,7 @@ const DataLab = () => {
                 rows={6}
                 id="purpose"
                 name="purpose"
+                placeholder="Tell us the purpose of the data.."
                 value={formData.purpose}
                 onChange={handleChange}
                 required
