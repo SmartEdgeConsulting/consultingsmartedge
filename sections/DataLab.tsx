@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FileSpreadsheet, FileUp, X } from "lucide-react";
+import { File, FileSpreadsheet, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useDropzone, FileRejection } from "react-dropzone";
 
@@ -109,17 +109,19 @@ const DataLab = () => {
   };
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="py-10 sm:py-15">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="rounded-lg shadow-lg p-10">
           <div className="flex flex-col gap-10">
-            <div className="grid gap-2">
-              <Label className="text-primary">Upload file</Label>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-primary">
+                Upload file
+              </Label>
 
-              <div className="w-full">
+              <div className="w-full bg-primary/10 p-5 rounded-lg">
                 <div
                   {...getRootProps()}
-                  className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors"
+                  className="border-2 border-dashed border-primary rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors"
                 >
                   <input {...getInputProps()} />
                   <div>
@@ -144,12 +146,19 @@ const DataLab = () => {
                       <p className="text-gray-700">Drop the file here ...</p>
                     ) : (
                       <div className="flex flex-col justify-center items-center gap-2.5">
-                        <FileUp size={40} className="animate-pulse" />
-                        <p className="text-gray-700">
+                        <p className="text-gray-700 text-sm">
                           Drag and drop your spreadsheet here
                         </p>
+                        <Button className="rounded-full px-10">
+                          <File className="h-20 w-20 font-bold" />
+                          Upload File
+                        </Button>
                         <p className="text-sm text-gray-500 mt-2">
-                          or click to browse (CSV or Excel, max 4MB)
+                          or click to browse
+                        </p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          Supported formats:{" "}
+                          <strong>CSV, Excel (max 4MB)</strong>
                         </p>
                       </div>
                     )}
@@ -158,8 +167,13 @@ const DataLab = () => {
               </div>
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="email" className="text-primary">Email</Label>
+            <div className="space-y-2">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium text-primary"
+              >
+                Email
+              </Label>
               <Input
                 id="email"
                 name="email"
@@ -170,8 +184,13 @@ const DataLab = () => {
               />
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="company" className="text-primary">Company Name</Label>
+            <div className="space-y-2">
+              <Label
+                htmlFor="company"
+                className="text-sm font-medium text-primary"
+              >
+                Company Name
+              </Label>
               <Input
                 id="company"
                 name="company"
@@ -181,8 +200,13 @@ const DataLab = () => {
               />
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="purpose" className="text-primary">Purpose</Label>
+            <div className="space-y-2">
+              <Label
+                htmlFor="purpose"
+                className="text-sm font-medium text-primary"
+              >
+                Purpose
+              </Label>
               <Textarea
                 rows={6}
                 id="purpose"
