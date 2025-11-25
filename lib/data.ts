@@ -196,7 +196,7 @@ export const contactInfo: contactInfoProps[] = [
     id: 1,
     icon: Mail,
     label: "Email",
-    info: "hello@smartedge-analytics.com",
+    info: "consultingsmartedge@gmail.com",
     description: "Get in touch with our support team",
   },
   {
@@ -244,7 +244,7 @@ export const socials = [
   {
     id: 4,
     name: "Youtube",
-    href: "https://www.linkedin.com/company/smartedge-analytics",
+    href: "https://youtube.com/@smartedgeconsulting",
     icon: YouTubeIcon,
   },
 ];

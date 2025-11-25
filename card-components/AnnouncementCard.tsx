@@ -13,7 +13,7 @@ const AnnouncementCard = ({
 }) => {
   return (
     <div className="flex justify-center">
-      <div className="bg-primary rounded-2xl py-10 px-6 flex flex-col items-center text-white gap-5 max-w-5xl w-full">
+      <div className="bg-primary rounded-2xl py-15 px-6 flex flex-col items-center text-white gap-5 max-w-5xl w-full">
         <Megaphone className="w-10 h-10 animate-pulse" />
         <p className="text-center text-sm sm:text-lg">
           {announcement.newAnnouncement}

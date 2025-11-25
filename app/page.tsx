@@ -1,6 +1,7 @@
 import SuscribeButton from "@/components/SuscribeButton";
 import About from "@/sections/About";
 import Announcement from "@/sections/Announcement";
+import Featured from "@/sections/Featured";
 import Hero from "@/sections/hero/Hero";
 import ServicesOverview from "@/sections/ServicesOverview";
 import Works from "@/sections/Works";
@@ -12,6 +13,7 @@ const Home = () => {
       <About />
       <ServicesOverview />
       <Works />
+      <Featured />
       <Announcement />
 
       <SuscribeButton />

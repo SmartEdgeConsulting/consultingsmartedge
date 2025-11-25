@@ -1,5 +1,6 @@
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -29,7 +30,7 @@ const Hero = () => {
             aria-label="Book Consultation"
             aria-roledescription="navigation button"
           >
-            Get a Free Data Consultation
+            <Link href="/consultation">Get a Free Data Consultation</Link>
           </Button>
           <Button
             variant="outline"
@@ -37,7 +38,7 @@ const Hero = () => {
             aria-label="Upload Data for Analysis"
             aria-roledescription="navigation button"
           >
-            Upload Your Data
+            <Link href="/automated-data-lab"> Upload Your Data</Link>
           </Button>
         </div>
       </header>

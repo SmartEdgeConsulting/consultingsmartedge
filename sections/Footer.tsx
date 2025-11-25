@@ -83,6 +83,7 @@ const Footer = () => {
                   <a
                     href={social.href}
                     aria-label={social.name}
+                    target="open_blank"
                     className="mx-2"
                   >
                     <Icon className="w-5 h-5" />
