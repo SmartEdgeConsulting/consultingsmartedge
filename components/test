@@ -192,3 +192,14 @@ const newsletterHTML = `
 `;
 
 sendNewsletterWithResend('Weekly Update - March 2024', newsletterHTML);
+
+
+// In your auth.ts pages section
+pages: {
+  signIn: "/login",
+  verifyRequest: "/auth/verify-request", // NextAuth's default page
+  error: "/login",
+},
+
+
+

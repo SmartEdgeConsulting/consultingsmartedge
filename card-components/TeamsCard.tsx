@@ -23,7 +23,7 @@ const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
   return (
     <Card className="w-full max-w-md flex flex-col ">
       <CardHeader className="flex justify-center space-x-4 pb-4">
-        <Avatar>
+        <Avatar className="size-30">
           <AvatarImage src={avatar} alt={`${name} avatar`} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>

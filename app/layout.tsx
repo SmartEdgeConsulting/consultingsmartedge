@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/sections/Navbar";
 import Footer from "@/sections/Footer";
 import localFont from "next/font/local";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = localFont({
   src: [
@@ -40,12 +42,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className}`}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${poppins.className}`}>
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

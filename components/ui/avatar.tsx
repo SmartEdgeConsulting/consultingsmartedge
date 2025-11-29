@@ -5,6 +5,7 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "@/lib/utils"
 
+
 function Avatar({
   className,
   ...props
@@ -13,7 +14,7 @@ function Avatar({
     <AvatarPrimitive.Root
       data-slot="avatar"
       className={cn(
-        "relative flex size-30 shrink-0 overflow-hidden rounded-full",
+        `relative flex shrink-0 overflow-hidden rounded-full`,
         className
       )}
       {...props}
