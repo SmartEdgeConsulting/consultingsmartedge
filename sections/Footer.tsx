@@ -1,8 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { contactInfo, socials } from "@/lib/data";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+
   const year = new Date().getFullYear();
 
   // Footer links
@@ -14,6 +23,36 @@ const Footer = () => {
     { label: "Contact", href: "/contact" },
     { label: "Blog", href: "/" },
   ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      setStatus("success");
+      toast.success(data.message);
+      setEmail("");
+    } catch (error) {
+      setStatus("error");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to subscribe"
+      );
+    }
+  };
 
   return (
     <footer className="bg-primary">
@@ -78,11 +117,27 @@ const Footer = () => {
             <h4 className="uppercase text-white text-sm sm:text-base mb-4">
               Suscribe to Our NewsLetter
             </h4>
-            <p className="text-slate-300 text-sm sm:text-base mb-2.5">Get weekly insights, tips, and business intelligence updates.</p>
-            <div className="flex gap-2.5">
-              <Input type="email" placeholder="Email" />
-              <Button size="md">Suscribe</Button>
-            </div>
+            <p className="text-slate-300 text-sm sm:text-base mb-2.5">
+              Get weekly insights, tips, and business intelligence updates.
+            </p>
+            <form onSubmit={handleSubmit} className="flex gap-2.5">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={status === "loading"}
+                className="flex-1"
+              />
+              <Button
+                type="submit"
+                size="md"
+                disabled={status === "loading" || !email}
+              >
+                {status === "loading" ? "Subscribing..." : "Subscribe"}
+              </Button>
+            </form>
           </div>
         </div>
 

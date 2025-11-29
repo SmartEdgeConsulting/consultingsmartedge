@@ -1,4 +1,12 @@
-import { boolean, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  index,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -13,25 +21,22 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
- export const subscribers = pgTable('subscribers', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  
-  // Subscription status
-  status: varchar('status', { length: 20 }).default('pending'), // 'pending', 'confirmed', 'unsubscribed'
-  isActive: boolean('is_active').default(false),
-  
-  // Tokens
-  confirmationToken: uuid('confirmation_token').defaultRandom(),
-  unsubscribeToken: uuid('unsubscribe_token').defaultRandom(),
-  
-  // Resend specific
-  resendContactId: varchar('resend_contact_id', { length: 100 }), // Store Resend contact ID if using Audiences
-  
-  createdAt: timestamp('created_at').defaultNow(),
-  confirmedAt: timestamp('confirmed_at'),
-});
+export const subscribers = pgTable(
+  "subscribers",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    status: varchar("status", { length: 20 }).notNull().default("active"), // active, unsubscribed
+    subscribedAt: timestamp("subscribed_at").notNull().defaultNow(),
+    unsubscribedAt: timestamp("unsubscribed_at"),
+  },
+  (table) => ({
+    emailIdx: index("email_idx").on(table.email),
+  })
+);
+
+export type Subscriber = typeof subscribers.$inferSelect;
+export type NewSubscriber = typeof subscribers.$inferInsert;
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
-
