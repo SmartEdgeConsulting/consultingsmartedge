@@ -1,47 +1,100 @@
-//unauthorized/page.tsx
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { LogIn, Home } from "lucide-react";
+import Image from "next/image";
 
-export default function Unauthorized() {
+const Unauthorized = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md mx-4">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-amber-600">
-            Access Denied
-          </CardTitle>
-          <CardDescription className="text-lg">
-            Authentication Required
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4 text-center">
-          <p className="text-muted-foreground">
-            You need to be signed in to access this page.
-          </p>
-          <div className="flex flex-col gap-2">
-            <Button asChild>
-              <Link href="/login" className="flex items-center gap-2">
-                <LogIn className="h-4 w-4" />
-                Sign In
-              </Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/" className="flex items-center gap-2">
-                <Home className="h-4 w-4" />
-                Go Home
-              </Link>
-            </Button>
+    <main className="mt-16 py-8 sm:py-12 lg:py-16 bg-primary/10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row gap-0 shadow-lg rounded-2xl overflow-hidden bg-white">
+          {/* Image Section */}
+          <div className="w-full lg:w-2/5 bg-white hidden sm:flex justify-center items-center p-6">
+            <Image
+              src="/locked.png"
+              alt="Locked Page image"
+              width={400}
+              height={400}
+              className="object-contain"
+              priority
+            />
           </div>
-        </CardContent>
-      </Card>
-    </div>
+
+          {/* Page Content */}
+          <div className="w-full lg:w-3/5 p-6 sm:p-8 lg:p-12 flex justify-center items-center flex-col text-center">
+            {/* Error Code */}
+            <h1 className="text-8xl font-bold text-gradient-primary mb-4 tracking-tight">
+              403
+            </h1>
+
+            {/* Main Title */}
+            <h4 className="text-3xl font-semibold text-gray-800 mb-4">
+              Unauthorized Access
+            </h4>
+
+            {/* Description */}
+            <p className="text-base text-gray-600 mb-8 max-w-md leading-relaxed">
+              Oops! You&apos;re not authorized to access this page. Please check
+              your permissions or log in with the appropriate account.
+            </p>
+
+            {/* What can you do section */}
+            <div className="mb-8">
+              <h5 className="text-xl font-medium text-gray-800 mb-6">
+                What can you do?
+              </h5>
+
+              <ol className="space-y-4 text-left max-w-sm mx-auto">
+                <li className="flex items-start gap-3">
+                  <span className="shrink-0 w-6 h-6 bg-blue-100 text-primary rounded-full flex items-center justify-center text-sm font-medium mt-0.5">
+                    1
+                  </span>
+                  <span className="text-gray-700">
+                    Go back to{" "}
+                    <Link
+                      href="/"
+                      className="text-primary hover:text-blue-700 font-medium underline underline-offset-2 transition-colors"
+                    >
+                      home page
+                    </Link>
+                  </span>
+                </li>
+
+                <li className="flex items-start gap-3">
+                  <span className="shrink-0 w-6 h-6 bg-blue-100 text-primary rounded-full flex items-center justify-center text-sm font-medium mt-0.5">
+                    2
+                  </span>
+                  <span className="text-gray-700">
+                    <Link
+                      href="/login"
+                      className="text-primary hover:text-blue-700 font-medium underline underline-offset-2 transition-colors"
+                    >
+                      Sign up / Login
+                    </Link>{" "}
+                    to access this page
+                  </span>
+                </li>
+
+                <li className="flex items-start gap-3">
+                  <span className="shrink-0 w-6 h-6 bg-blue-100 text-primary rounded-full flex items-center justify-center text-sm font-medium mt-0.5">
+                    3
+                  </span>
+                  <span className="text-gray-700">
+                    Contact our{" "}
+                    <Link
+                      href="/contact"
+                      className="text-primary hover:text-blue-700 font-medium underline underline-offset-2 transition-colors"
+                    >
+                      support team
+                    </Link>{" "}
+                    for assistance
+                  </span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
-}
+};
+
+export default Unauthorized;
