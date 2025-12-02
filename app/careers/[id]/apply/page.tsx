@@ -2,9 +2,9 @@ import React from 'react'
 
 const ApplicationForm = () => {
   return (
-    <div>
+    <main className="mt-16">
       
-    </div>
+    </main>
   )
 }
 
