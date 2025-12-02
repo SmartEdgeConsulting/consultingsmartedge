@@ -8,7 +8,7 @@ export const getDepartments = `*[_type == "departments"] {
   department,
 }`;
 
-export const getJobs = `*[_type == "careers" && Available == true] | order(publishedAt desc) {
+export const getJobs = `*[_type == "careers" && available == true] | order(publishedAt desc) {
   _id,
   jobTitle,
   slug,
@@ -19,8 +19,7 @@ export const getJobs = `*[_type == "careers" && Available == true] | order(publi
   },
   jobDescription,
   jobType,
-  "requirements": requirements[].requirement,
-  applicationLink,
+  available,
   publishedAt
 }`;
 

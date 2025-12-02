@@ -2,6 +2,7 @@ import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { jobProps } from "@/types";
+import Link from "next/link";
 
 const CareerCard = ({ job }: { job: jobProps }) => {
   const {
@@ -10,7 +11,6 @@ const CareerCard = ({ job }: { job: jobProps }) => {
     jobTitle,
     jobType,
     department,
-    applicationLink,
   } = job;
   return (
     <article
@@ -50,14 +50,16 @@ const CareerCard = ({ job }: { job: jobProps }) => {
           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 mb-4">
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              <span>{jobType}</span>
+              <span className="capitalize">{jobType}</span>
             </div>
           </div>
 
           {/* Apply Button */}
-          <Button asChild size="sm" className="mt-2">
-            <a href={applicationLink}>Apply Now</a>
-          </Button>
+          <Link href={`/careers/${job._id}/apply`} >
+            <Button  size="sm" className="mt-2">
+              Apply Now
+            </Button>
+          </Link>
         </div>
       </div>
     </article>

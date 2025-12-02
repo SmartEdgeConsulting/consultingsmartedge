@@ -5,7 +5,8 @@ const ServiceHero = () => {
     <header className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 className="hero-heading">
-          Solutions That Move Businesses Forward
+          Solutions That Move{" "}
+          <span className="text-gradient-primary">Businesses </span>Forward
         </h1>
         <p className="hero-paragraph">
           Our expertise lies in combining data and strategy to unlock

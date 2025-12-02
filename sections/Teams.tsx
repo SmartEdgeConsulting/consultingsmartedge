@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { teams } from "@/lib/data";
 import { getTeams } from "@/src/sanity/queries";
 import { client } from "@/src/sanity/client";
+import Link from "next/link";
 
 const options = { next: { revalidate: 30 } };
 
@@ -37,7 +38,16 @@ const Teams = async () => {
             Our experts are ready to help you unlock the full potential of your
             data. Let&apos;s start the conversation today.
           </p>
-          <Button variant="default">Get in Touch</Button>
+          <Button
+            variant="default"
+            asChild
+            className="text-md font-bold"
+            aria-label="Get in Touch with our team members"
+          >
+            <Link href="/contact" prefetch={false}>
+              Get in Touch
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

@@ -1,11 +1,13 @@
 import { serviceProps } from "@/types";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const ServiceCard = ({
   icon: Icon,
   title,
   description,
   button,
+  link,
 }: serviceProps) => {
   return (
     <article className="relative mb-10 pt-10 pb-6 px-6 rounded-lg shadow-lg bg-white text-primary flex flex-col">
@@ -24,14 +26,16 @@ const ServiceCard = ({
           {description}
         </p>
 
-        <Button
-          size="sm"
-          variant="darkoutline"
-          className="mt-auto w-full mx-auto"
-          aria-label={`Learn more about ${title}`}
-        >
-          {button}
-        </Button>
+        <Link href={link || "/"} className="mt-auto">
+          <Button
+            size="sm"
+            variant="darkoutline"
+            className="w-full"
+            aria-label={`Learn more about ${title}`}
+          >
+            {button}
+          </Button>
+        </Link>
       </div>
     </article>
   );

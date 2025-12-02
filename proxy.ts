@@ -13,8 +13,8 @@ const isPublicRoute = createRouteMatcher([
   "/login(.*)",
   "/sign-up(.*)",
   "/sign-up/verify(.*)",
-  "/unauthorized",
-  "/api/subscribe(.*)", 
+  "/api/subscribe(.*)",
+  "/api/sanity-webhook", 
   "/api/webhooks/clerk(.*)",
 ]);
 
@@ -28,7 +28,7 @@ export default clerkMiddleware(async (auth, request) => {
 
   // If user is not signed in and trying to access protected route
   if (!userId) {
-    const unauthorizedUrl = new URL("/unauthorized", request.url);
+    const unauthorizedUrl = new URL("/sign-up", request.url);
     return NextResponse.redirect(unauthorizedUrl);
   }
 

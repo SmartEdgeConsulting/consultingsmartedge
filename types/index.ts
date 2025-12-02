@@ -6,6 +6,7 @@ export type serviceProps = {
   title: string;
   description: string;
   button: string;
+  link?: string;
 };
 
 export type processProps = {
@@ -44,7 +45,6 @@ export type jobProps = {
   jobType: string;
   jobDescription: string;
   requirements: string[];
-  applicationLink: string;
 };
 
 export interface SanityImage {
