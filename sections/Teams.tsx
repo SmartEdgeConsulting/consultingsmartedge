@@ -5,11 +5,23 @@ import { getTeams } from "@/src/sanity/queries";
 import { client } from "@/src/sanity/client";
 import Link from "next/link";
 
-const options = { next: { revalidate: 30 } };
 
 const Teams = async () => {
-  const teamMembers = await client.fetch(getTeams, {}, options);
-  console.log(teamMembers);
+  let teamMembers = [];
+
+  try {
+    teamMembers = await client.fetch(
+      getTeams,
+      {},
+      { next: { revalidate: 30 } }
+    );
+    console.log("Fetched team members:", teamMembers);
+  } catch (error) {
+    console.error("Failed to fetch team members:", error);
+    // Fall back to static data
+    teamMembers = teams; // Use your local teams data as fallback
+  }
+
   return (
     <section className="py-12 sm:py-16 lg:py-20 scroll-mt-16" id="teams">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
