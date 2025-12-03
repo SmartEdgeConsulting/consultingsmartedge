@@ -1,9 +1,10 @@
+//lib/career.ts
 import { SanityJob } from "@/src/sanity/types";
 import { db } from "./database";
 import { careers, type Career, type NewCareer } from "./database/schema";
 import { eq, and, inArray, desc, sql, isNull, not } from "drizzle-orm";
 
-// Convert job from sanitys to database format
+// Convert job from sanity to database format
 function sanityToDbJob(sanityJob: SanityJob): NewCareer {
   return {
     sanityId: sanityJob._id,
