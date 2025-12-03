@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar from "@/sections/Navbar";
-import Footer from "@/sections/Footer";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -45,9 +43,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${poppins.className}`}>
-          <Navbar />
           {children}
-          <Footer />
           <Toaster />
         </body>
       </html>

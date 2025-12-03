@@ -6,6 +6,14 @@ import { eq, and, inArray, desc, sql, isNull, not } from "drizzle-orm";
 
 // Convert job from sanity to database format
 function sanityToDbJob(sanityJob: SanityJob): NewCareer {
+  const departmentValue =
+    sanityJob.department &&
+    typeof sanityJob.department === "object" &&
+    "department" in sanityJob.department
+      ? sanityJob.department.department 
+      : sanityJob.department || null; 
+
+      
   return {
     sanityId: sanityJob._id,
     sanityRev: sanityJob._rev,
@@ -13,7 +21,7 @@ function sanityToDbJob(sanityJob: SanityJob): NewCareer {
     slug: sanityJob.slug?.current || null,
     jobDescription: sanityJob.jobDescription || null,
     jobType: sanityJob.jobType || null,
-    department: sanityJob.department?.department || null,
+    department: departmentValue,
     publishedAt: sanityJob.publishedAt
       ? new Date(sanityJob.publishedAt)
       : new Date(),

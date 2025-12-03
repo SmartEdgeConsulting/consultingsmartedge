@@ -21,6 +21,7 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { isSignedIn, user, isLoaded } = useUser();
+  const isAdmin = user?.publicMetadata?.role === "admin";
   const { signOut } = useClerk();
   const router = useRouter();
 
@@ -134,7 +135,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Nav Links */}
-        <div className="hidden sm:flex items-baseline space-x-4 text-slate-800">
+        <div className="hidden sm:flex items-baseline space-x-4 text-slate-800 font-medium">
           {navLinks.map((item) =>
             item.children ? (
               <DropdownMenu key={item.label}>
@@ -159,7 +160,7 @@ const Navbar = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className="py-2 px-3 rounded-md hover:bg-gray-100 text-slate-800 transition-colors duration-200 font-medium"
+                className="py-2 px-3 rounded-md hover:bg-gray-100 text-slate-800 transition-colors duration-200 "
                 onClick={closeMobileMenu}
               >
                 {item.label}
@@ -195,12 +196,21 @@ const Navbar = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild className="cursor-pointer">
-                  <Link href="/dashboard" className="flex items-center">
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                </DropdownMenuItem>
+                {isAdmin ? (
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href="/admin" className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Admin Panel</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href="/dashboard" className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer text-red-600 focus:text-red-600"
@@ -309,11 +319,20 @@ const Navbar = () => {
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link href="/dashboard" onClick={closeMobileMenu}>
-                      Dashboard
-                    </Link>
-                  </Button>
+                  {isAdmin ? (
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href="/admin" onClick={closeMobileMenu}>
+                        Admin Panel
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href="/dashboard" onClick={closeMobileMenu}>
+                        Dashboard
+                      </Link>
+                    </Button>
+                  )}
+
                   <Button
                     variant="outline"
                     className="w-full text-red-600 border-red-200 hover:bg-red-50"

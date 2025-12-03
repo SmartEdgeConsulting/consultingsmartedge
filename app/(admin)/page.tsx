@@ -1,12 +1,11 @@
 import React from 'react'
 
-const BootcampPage = () => {
+const page = () => {
   return (
     <div>
-      
+      Admin page
     </div>
   )
 }
 
-export default BootcampPage
-
+export default page
