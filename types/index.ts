@@ -1,8 +1,7 @@
-import { LucideIcon } from "lucide-react";
 
 export type serviceProps = {
   id?: number;
-  icon: LucideIcon;
+  icon: string;
   title: string;
   description: string;
   button: string;
@@ -27,7 +26,7 @@ export type teamsProps = {
 
 export type contactInfoProps = {
   id: number;
-  icon: LucideIcon;
+  icon: string;
   label: string;
   info: string;
   description: string;

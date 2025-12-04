@@ -175,10 +175,6 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar className="size-10 cursor-pointer border-2 border-transparent hover:border-gray-300 transition-colors duration-200">
-                  <AvatarImage
-                    src={user.imageUrl}
-                    alt={`${user.firstName || user.username}'s avatar`}
-                  />
                   <AvatarFallback className="bg-blue-100 text-blue-800 font-semibold">
                     {getInitials()}
                   </AvatarFallback>

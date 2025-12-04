@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import * as Icons from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,9 +37,9 @@ const Values = () => {
   }, []);
 
   return (
-    <section id="values" className="py-20 bg-primary scroll-mt-16">
+    <section id="values" className="py-20 bg-primary/10 scroll-mt-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
           Our Core Values
         </h2>
         <div
@@ -46,14 +47,21 @@ const Values = () => {
           ref={containerRef}
         >
           {values.map((value) => {
-            const Icon = value.icon;
+            const Icon = Icons[
+              value.icon as keyof typeof Icons
+            ] as React.ComponentType<{
+              size?: number;
+              strokeWidth?: number;
+              className?: string;
+            }>;
+
             return (
               <div key={value.id} className="flex items-center my-4 gap-5">
                 <div className="mr-4">
-                  <Icon size={35} className="text-secondary" />
+                  {Icon && <Icon size={35} className="text-secondary" />}
                 </div>
                 <div>
-                  <h4 className="text-lg font-medium text-white">
+                  <h4 className="text-lg font-medium text-primary">
                     {value.title}
                   </h4>
                 </div>

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { contactInfo, socials } from "@/lib/data";
 import { useState } from "react";
 import { toast } from "sonner";
+import * as Icons from "lucide-react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -94,7 +95,13 @@ const Footer = () => {
             </h4>
             <div className="flex flex-col gap-2.5">
               {contactInfo.map((contact) => {
-                const Icon = contact.icon;
+                const Icon = Icons[
+                  contact.icon as keyof typeof Icons
+                ] as React.ComponentType<{
+                  size?: number;
+                  strokeWidth?: number;
+                  className?: string;
+                }>;
                 return (
                   <div key={contact.id} className="flex items-center gap-3">
                     <div className="h-10 w-10 shrink-0 flex items-center justify-center text-secondary rounded-lg">

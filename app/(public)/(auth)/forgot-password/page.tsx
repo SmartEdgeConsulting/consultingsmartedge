@@ -22,8 +22,11 @@ const ForgotPasswordPage = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
+  const [step, setStep] = useState<"email" | "code" | "password">("email");
 
   if (!isLoaded) {
     return (
@@ -33,21 +36,20 @@ const ForgotPasswordPage = () => {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSendCode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Create a password reset request
       await signIn.create({
         strategy: "reset_password_email_code",
         identifier: email,
       });
 
-      setEmailSent(true);
-      toast.success("Password reset email sent!");
+      setStep("code");
+      toast.success("Verification code sent to your email!");
     } catch (err) {
-      console.error("Password reset error:", err);
+      console.error("Error sending code:", err);
       const errorMessage = getClerkErrorMessage(err);
       toast.error(errorMessage);
     } finally {
@@ -55,86 +57,265 @@ const ForgotPasswordPage = () => {
     }
   };
 
-  if (emailSent) {
+  const handleVerifyCode = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const result = await signIn.attemptFirstFactor({
+        strategy: "reset_password_email_code",
+        code,
+      });
+
+      if (result.status === "needs_new_password") {
+        setStep("password");
+        toast.success("Code verified! Please set your new password.");
+      }
+    } catch (err) {
+      console.error("Verification error:", err);
+      const errorMessage = getClerkErrorMessage(err);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result = await signIn.resetPassword({
+        password: newPassword,
+        // Some Clerk versions might require the code here too
+        // code: code,
+      });
+
+      if (result.status === "complete") {
+        toast.success("Password reset successfully!");
+        router.push("/login");
+      } else {
+        console.error("Unexpected status:", result.status);
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Reset password error:", err);
+      const errorMessage = getClerkErrorMessage(err);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resendCode = async () => {
+    setLoading(true);
+    try {
+      await signIn.create({
+        strategy: "reset_password_email_code",
+        identifier: email,
+      });
+      toast.success("New code sent to your email!");
+    } catch (err) {
+      const errorMessage = getClerkErrorMessage(err);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Step 1: Enter Email
+  if (step === "email") {
     return (
-      <main className="min-h-screen flex justify-center items-center px-4">
+      <main className="min-h-screen flex justify-center items-center px-4 py-12">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Check your email</CardTitle>
+            <CardTitle>Forgot password?</CardTitle>
             <CardDescription>
-              We sent a password reset link to <strong>{email}</strong>
+              Enter your email to receive a verification code
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Click the link in the email to reset your password. The link
-              expires in 24 hours.
-            </p>
-            <div className="space-y-2">
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => router.push("/login")}
-              >
-                Back to Login
+          <CardContent>
+            <form onSubmit={handleSendCode} className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">
+                  Email
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  required
+                  disabled={loading}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Verification Code"
+                )}
               </Button>
-              <Button
-                variant="ghost"
-                className="w-full"
-                onClick={() => setEmailSent(false)}
-              >
-                Try a different email
-              </Button>
-            </div>
+
+              <p className="text-center text-sm text-muted-foreground">
+                Remember your password?{" "}
+                <Link href="/login" className="text-primary hover:underline">
+                  Sign in
+                </Link>
+              </p>
+            </form>
           </CardContent>
         </Card>
       </main>
     );
   }
 
+  // Step 2: Enter Code
+  if (step === "code") {
+    return (
+      <main className="min-h-screen flex justify-center items-center px-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Enter Verification Code</CardTitle>
+            <CardDescription>
+              Check your email for the 6-digit code
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleVerifyCode} className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="code" className="text-sm font-medium">
+                  Verification Code
+                </label>
+                <Input
+                  id="code"
+                  placeholder="Enter 6-digit code"
+                  required
+                  maxLength={6}
+                  disabled={loading}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Enter the 6-digit code sent to {email}
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <Button type="submit" disabled={loading} className="w-full">
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Verifying...
+                    </>
+                  ) : (
+                    "Verify Code"
+                  )}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={loading}
+                  className="w-full"
+                  onClick={resendCode}
+                >
+                  Resend Code
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  disabled={loading}
+                  className="w-full"
+                  onClick={() => setStep("email")}
+                >
+                  Use a different email
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </main>
+    );
+  }
+
+  // Step 3: Set New Password
   return (
-    <main className="min-h-screen flex justify-center items-center px-4 py-12">
+    <main className="min-h-screen flex justify-center items-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Forgot password?</CardTitle>
+          <CardTitle>Set New Password</CardTitle>
           <CardDescription>
-            Enter your email to receive a password reset link
+            Create a new password for your account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleResetPassword} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email
+              <label htmlFor="newPassword" className="text-sm font-medium">
+                New Password
               </label>
               <Input
-                id="email"
-                type="email"
-                placeholder="john@example.com"
+                id="newPassword"
+                type="password"
+                placeholder="••••••••"
                 required
+                minLength={8}
                 disabled={loading}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
               />
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                "Send Reset Link"
-              )}
-            </Button>
+            <div className="space-y-2">
+              <label htmlFor="confirmPassword" className="text-sm font-medium">
+                Confirm New Password
+              </label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                required
+                disabled={loading}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
 
-            <p className="text-center text-sm text-muted-foreground">
-              Remember your password?{" "}
-              <Link href="/login" className="text-primary hover:underline">
-                Sign in
-              </Link>
-            </p>
+            <div className="space-y-3">
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Resetting...
+                  </>
+                ) : (
+                  "Reset Password"
+                )}
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                disabled={loading}
+                className="w-full"
+                onClick={() => setStep("code")}
+              >
+                Back to code entry
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

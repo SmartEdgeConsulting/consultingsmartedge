@@ -20,13 +20,13 @@ const Works = () => {
             <ProcessCard key={process.id} {...process} />
           ))}
         </div>
-        <Button
+        {/**<Button
           variant="default"
           className="mt-6"
           aria-label="Book A Discovery Session with SmartEdge Consulting "
         >
           Book A Discovery Session
-        </Button>
+        </Button>*/}
       </div>
     </section>
   );

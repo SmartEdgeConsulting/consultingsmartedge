@@ -1,10 +1,7 @@
 import TeamsCard from "@/card-components/TeamsCard";
-import { Button } from "@/components/ui/button";
 import { teams } from "@/lib/data";
 import { getTeams } from "@/src/sanity/queries";
 import { client } from "@/src/sanity/client";
-import Link from "next/link";
-
 
 const Teams = async () => {
   let teamMembers = [];
@@ -42,7 +39,7 @@ const Teams = async () => {
           })}
         </div>
 
-        <div className="my-10 text-center max-w-3xl mx-auto">
+        {/**<div className="my-10 text-center max-w-3xl mx-auto">
           <h5 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-6">
             Want to work with our Team?
           </h5>
@@ -60,7 +57,7 @@ const Teams = async () => {
               Get in Touch
             </Link>
           </Button>
-        </div>
+        </div>*/}
       </div>
     </section>
   );

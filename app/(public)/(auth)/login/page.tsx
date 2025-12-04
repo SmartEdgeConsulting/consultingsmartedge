@@ -18,8 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useSignIn } from "@clerk/nextjs";
-import React, { useState } from "react";
+import { useAuth, useSignIn } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -32,7 +32,15 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
 
   const { isLoaded, signIn, setActive } = useSignIn();
+  const { isSignedIn } = useAuth()
   const router = useRouter();
+
+  useEffect(() => {
+    // If user is already signed in, redirect to dashboard
+    if (isSignedIn) {
+      router.push("/dashboard");
+    }
+  }, [isSignedIn, router]);
 
   if (!isLoaded) {
     return (
@@ -132,12 +140,12 @@ const LoginPage = () => {
               </Field>
 
               <div className="text-right">
-                <a
+                <Link
                   href="/forgot-password"
                   className="text-sm text-blue-600 hover:underline"
                 >
                   Forgot password?
-                </a>
+                </Link>
               </div>
 
               <FieldGroup>

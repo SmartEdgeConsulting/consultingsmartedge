@@ -142,7 +142,7 @@ const SignUpPage = () => {
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
               Click the link in the email to verify your account. The link
-              expires in 24 hours.
+              expires in 10 mins.
             </p>
             <Button
               variant="outline"

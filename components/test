@@ -103,20 +103,3 @@ await brevo.sendTransacEmail({
     <p>We're excited to have you on board.</p>
   `
 });
-
-// 1. Add new domain to Clerk webhooks
-// Clerk Dashboard → Webhooks → Add Endpoint
-
-// 2. Update your Next.js app configuration
-// next.config.js
-module.exports = {
-  async redirects() {
-    return [
-      {
-        source: '/api/webhooks/clerk',
-        destination: 'https://yourdomain.com/api/webhooks/clerk',
-        permanent: true,
-      },
-    ]
-  },
-}

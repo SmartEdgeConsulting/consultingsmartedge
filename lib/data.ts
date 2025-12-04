@@ -1,18 +1,4 @@
 import {
-  Database,
-  ChartCandlestick,
-  Brain,
-  Gauge,
-  BookOpen,
-  Compass,
-  Lightbulb,
-  Users,
-  Mail,
-  Phone,
-  MapPin,
-  Clock7,
-} from "lucide-react";
-import {
   contactInfoProps,
   processProps,
   serviceProps,
@@ -28,7 +14,7 @@ import {
 export const servicesData: serviceProps[] = [
   {
     id: 1,
-    icon: ChartCandlestick,
+    icon: "ChartCandlestick",
     title: "Market Research & Strategy",
     description:
       "Gain clarity on your market, customers, and opportunities through research that drives confident decisions.",
@@ -36,7 +22,7 @@ export const servicesData: serviceProps[] = [
   },
   {
     id: 2,
-    icon: Database,
+    icon: "Database",
     title: "Data Analytics & Business Intelligence",
     description:
       "Turn data into actionable insights with dashboards, reports, and predictive models tailored to your business.",
@@ -44,7 +30,7 @@ export const servicesData: serviceProps[] = [
   },
   {
     id: 3,
-    icon: Brain,
+    icon: "Brain",
     title: "Intelligence Automation",
     description:
       "Automate repetitive analysis, reporting, and decision processes saving you time while improving accuracy.",
@@ -52,7 +38,7 @@ export const servicesData: serviceProps[] = [
   },
   {
     id: 4,
-    icon: Gauge,
+    icon: "Gauge",
     title: "Quality Engineering",
     description:
       "Ensure data accuracy, consistency, and reliability the foundation of every smart decision.",
@@ -60,7 +46,7 @@ export const servicesData: serviceProps[] = [
   },
   {
     id: 5,
-    icon: BookOpen,
+    icon: "BookOpen",
     title: "Learning & Development",
     description:
       "Join our DataEdge Bootcamp and corporate training programs to empower your team with the skills that drive results.",
@@ -71,7 +57,7 @@ export const servicesData: serviceProps[] = [
 export const services: serviceProps[] = [
   {
     id: 1,
-    icon: ChartCandlestick,
+    icon: "ChartCandlestick",
     title: "Market & Investment Research",
     description:
       "Understand your market, customers, and competition with research-driven intelligence that fuels strategy.",
@@ -80,7 +66,7 @@ export const services: serviceProps[] = [
   },
   {
     id: 2,
-    icon: Database,
+    icon: "Database",
     title: "Data Analytics & Business Intelligence",
     description:
       "Build custom dashboards and data pipelines that turn numbers into narratives.",
@@ -89,7 +75,7 @@ export const services: serviceProps[] = [
   },
   {
     id: 3,
-    icon: Brain,
+    icon: "Brain",
     title: "Intelligence Automation",
     description:
       "Free your team from manual reporting. Automate analytics workflows, alerts, and insights.",
@@ -98,7 +84,7 @@ export const services: serviceProps[] = [
   },
   {
     id: 4,
-    icon: Gauge,
+    icon: "Gauge",
     title: "Quality Engineering",
     description:
       "Ensure your data systems deliver reliable, consistent, and validated outputs.",
@@ -107,7 +93,7 @@ export const services: serviceProps[] = [
   },
   {
     id: 5,
-    icon: BookOpen,
+    icon: "BookOpen",
     title: "Learning & Development",
     description:
       "Upskill yourself or your team through SmartEdge Bootcamps, training programs, and corporate workshops.",
@@ -146,17 +132,17 @@ export const process: processProps[] = [
 export const values = [
   {
     id: 1,
-    icon: Compass,
+    icon: "Compass",
     title: "Integrity and Clarity",
   },
   {
     id: 2,
-    icon: Lightbulb,
+    icon: "Lightbulb",
     title: "Innovation and Impact",
   },
   {
     id: 3,
-    icon: Users,
+    icon: "Users",
     title: "Collaboration and Growth",
   },
 ];
@@ -199,28 +185,28 @@ export const teams: teamsProps[] = [
 export const contactInfo: contactInfoProps[] = [
   {
     id: 1,
-    icon: Mail,
+    icon: "Mail",
     label: "Email",
     info: "consultingsmartedge@gmail.com",
     description: "Get in touch with our support team",
   },
   {
     id: 2,
-    icon: Phone,
+    icon: "Phone",
     label: "Phone",
     info: "+234 813 783 1630",
     description: "Mon-Fri from 8am to 5pm",
   },
   {
     id: 3,
-    icon: MapPin,
+    icon: "MapPin",
     label: "Office",
     info: "39, Alhaja Molika Street, Ebenezer Obantoko, Abeokuta Ogun State.",
     description: "Come say hello at our office",
   },
   {
     id: 4,
-    icon: Clock7,
+    icon: "Clock7",
     label: "Working Hours",
     info: "Mon-Fri: 8:00 AM - 6:00 PM",
     description: "Weekend support available",
