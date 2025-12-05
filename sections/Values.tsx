@@ -25,25 +25,25 @@ const Values = () => {
           trigger: containerRef.current,
           start: "top 85%",
         },
-        x: 100, // animate from right
+        x: 100, 
         opacity: 0,
         duration: 1,
-        ease: "power2.out",
-        stagger: 0.2, //stagger each card by 0.2 secondaryonds
+        ease: "power3.out",
+        stagger: 0.15, 
       });
     }, containerRef);
 
-    return () => ctx.revert(); // cleanup
+    return () => ctx.revert(); 
   }, []);
 
   return (
-    <section id="values" className="py-20 bg-primary/10 scroll-mt-16">
+    <section id="values" className="py-20 bg-primary/10 scroll-mt-16 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
           Our Core Values
         </h2>
         <div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-5 my-5 "
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6"
           ref={containerRef}
         >
           {values.map((value) => {
@@ -57,8 +57,8 @@ const Values = () => {
 
             return (
               <div key={value.id} className="flex items-center my-4 gap-5">
-                <div className="mr-4">
-                  {Icon && <Icon size={35} className="text-secondary" />}
+                <div className="shrink-0 mr-4">
+                  {Icon && <Icon size={35} className="text-secondary" strokeWidth={2}/>}
                 </div>
                 <div>
                   <h4 className="text-lg font-medium text-primary">

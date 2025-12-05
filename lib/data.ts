@@ -62,7 +62,7 @@ export const services: serviceProps[] = [
     description:
       "Understand your market, customers, and competition with research-driven intelligence that fuels strategy.",
     button: "Request a Research Proposal",
-    link: "/",
+    link: "/services/research",
   },
   {
     id: 2,
@@ -89,7 +89,7 @@ export const services: serviceProps[] = [
     description:
       "Ensure your data systems deliver reliable, consistent, and validated outputs.",
     button: "Talk to a Data Engineer",
-    link: "/",
+    link: "/services/",
   },
   {
     id: 5,
@@ -99,6 +99,34 @@ export const services: serviceProps[] = [
       "Upskill yourself or your team through SmartEdge Bootcamps, training programs, and corporate workshops.",
     button: "Join the DataEdge  Bootcamp",
     link: "/services/bootcamp",
+  },
+];
+
+export const offers = [
+  {
+    id: 1,
+    icon: "Target",
+    title: "Competitor analysis",
+  },
+  {
+    id: 2,
+    icon: "BarChart2",
+    title: "Market size estimation",
+  },
+  {
+    id: 3,
+    icon: "Search",
+    title: "Customer research",
+  },
+    {
+    id: 4,
+    icon: "TrendingUp",
+    title: "Trend analysis",
+  },
+    {
+    id: 5,
+    icon: "DollarSign",
+    title: "Investment insights",
   },
 ];
 

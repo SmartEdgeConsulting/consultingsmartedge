@@ -40,7 +40,7 @@ const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
             return (
               <li
                 key={index}
-                className="inline-flex items-center px-2 py-1 rounded-full border border-secondary bg-secondary/30 text-gradient-primary text-xs"
+                className="inline-flex items-center px-2 py-1 rounded-full border border-accent bg-accent/30 text-accent text-xs"
               >
                 {skill}
               </li>
