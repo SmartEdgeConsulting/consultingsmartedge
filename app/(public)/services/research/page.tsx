@@ -4,7 +4,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <main className="mt-16">
+    <main>
       <Research />
       <ResearchForm />
     </main>

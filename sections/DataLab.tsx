@@ -109,10 +109,86 @@ const DataLab = () => {
   };
 
   return (
-    <section className="py-10 sm:py-15">
+    <section className="py-10 sm:py-16 scroll-mt-18" id="custom-report">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <form onSubmit={handleSubmit} className="rounded-lg shadow-lg p-10 bg-primary/10">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-lg shadow-lg p-10 bg-primary/10"
+        >
           <div className="flex flex-col gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-semibold">
+                  Email Address <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  required
+                  className="h-12 border-gray-300 bg-white focus:border-primary focus:ring-primary"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="industry" className="text-sm font-semibold">
+                  Industry <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="industry"
+                  type="text"
+                  placeholder="Industry name"
+                  required
+                  className="h-12 border-gray-300 bg-white focus:border-primary focus:ring-primary"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2"> 
+              <Label htmlFor="problem" className="text-sm font-semibold">
+                Data Problem
+              </Label>
+              <Textarea
+                rows={6}
+                id="problem"
+                name="problem"
+                placeholder="Tell us the problem the data wants to solve.."
+                value={formData.purpose}
+                onChange={handleChange}
+                required
+                className="resize-none border-gray-300 bg-white focus:border-primary focus:ring-primary min-h-[120px]"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="timeline" className="text-sm font-semibold">
+                  Timeline
+                </Label>
+                <Input
+                  id="timeline"
+                  type="date"
+                  className="h-12 border-gray-300 bg-white focus:border-primary focus:ring-primary text-gray-700"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="budget" className="text-sm font-semibold">
+                  Budget Range
+                </Label>
+                <select
+                  id="budget"
+                  className="w-full h-12 px-3 rounded-md border border-gray-300 bg-white text-gray-900 focus:border-primary focus:ring-primary focus:outline-none"
+                >
+                  <option value="">Select a range</option>
+                  <option value="under-5k">Under $5,000</option>
+                  <option value="5k-15k">$5,000 - $15,000</option>
+                  <option value="15k-30k">$15,000 - $30,000</option>
+                  <option value="30k-plus">$30,000+</option>
+                </select>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label className="text-sm font-medium text-primary">
                 Upload file
@@ -167,65 +243,12 @@ const DataLab = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label
-                htmlFor="email"
-                className="text-sm font-medium text-primary"
-              >
-                Email
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="janedoe@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label
-                htmlFor="company"
-                className="text-sm font-medium text-primary"
-              >
-                Company Name
-              </Label>
-              <Input
-                id="company"
-                name="company"
-                placeholder="Your Company's Name"
-                value={formData.company}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label
-                htmlFor="purpose"
-                className="text-sm font-medium text-primary"
-              >
-                Purpose
-              </Label>
-              <Textarea
-                rows={6}
-                id="purpose"
-                name="purpose"
-                placeholder="Tell us the purpose of the data.."
-                value={formData.purpose}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
             <Button
               type="submit"
               className="font-bold"
               disabled={!formData.file}
             >
-              Analyze
+              Request
             </Button>
           </div>
         </form>

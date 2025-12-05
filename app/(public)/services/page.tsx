@@ -4,7 +4,7 @@ import React from "react";
 
 const ServicePage = () => {
   return (
-    <main className="mt-16">
+    <main>
       <ServiceHero />
       <Services />
     </main>
