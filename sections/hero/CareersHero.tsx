@@ -7,7 +7,7 @@ const CareersHero = () => {
     <header className="relative flex items-center justify-center min-h-[400px] sm:min-h-[500px] py-20 overflow-hidden">
       {/* Background Image */}
       <Image
-        src="/reason.jpg"
+        src="/career2.jpg"
         alt="SmartEdge careers - team collaboration"
         fill
         loading="lazy"

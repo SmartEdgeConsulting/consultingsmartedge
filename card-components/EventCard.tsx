@@ -1,36 +1,77 @@
+import { urlFor } from "@/lib/utils/image-builder";
 import { eventProps } from "@/types";
+import { ClipboardCheck, Clock5, Tag } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import { urlFor } from "@/lib/utils/image-builder";
 
+const EventCard = ({ event }: { event: eventProps }) => {
+  const { name, time, description, coverImage, ctaButton } = event;
 
-const EventCard = ({ eve, index }: { eve: eventProps; index: number }) => {
-  const { name, description, coverImage } = eve;
-  const isEven = index % 2 === 0;
+  const getUrl = (text: string) => {
+    if (text.toLowerCase().includes("bootcamp")) {
+      return `/services/bootcamp`;
+    } else {
+      return ctaButton?.url || "/";
+    }
+  };
 
   return (
-    <article
-      className={`flex ${isEven ? "justify-start" : "justify-end"} w-full mb-8`}
-    >
-      <div className="sm:w-100 w-80 rounded-xl shadow-md overflow-hidden bg-linear-to-b from-primary to-white">
-        {/* Image Container - Fixed Height */}
-        <div className="w-full h-48 relative">
-          <Image
-            src={urlFor(coverImage?.asset).url()}
-            alt={`Cover image for ${name}`}
-            fill
-            className="object-cover"
-            loading="lazy"
-            sizes="(max-width: 640px) 100vw, 320px"
-          />
-        </div>
-        {/* Content Container */}
-        <div className="p-4">
-          <h3 className="text-xl font-semibold text-primary mb-2 line-clamp-2">
+    <article className="group w-full max-w-sm bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-primary/20">
+      {/* Image Container */}
+      <div className="relative h-56 w-full overflow-hidden">
+        <Image
+          src={urlFor(coverImage?.asset).url()}
+          alt={`Cover image for ${name}`}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          priority={false}
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      </div>
+
+      {/* Content Container */}
+      <div className="p-6">
+        {/* Event Name */}
+        <div className="flex items-start gap-3 mb-4">
+          <div className="p-2 bg-primary/10 rounded-lg shrink-0">
+            <Tag className="w-5 h-5 text-primary" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
             {name}
           </h3>
-          <p className="text-slate-800 text-sm line-clamp-3">{description}</p>
         </div>
+
+        {/* Description */}
+        <div className="flex gap-3 mb-4 items-start">
+          <div className="p-2 bg-blue-50 rounded-lg shrink-0">
+            <ClipboardCheck className="w-5 h-5 text-blue-600" />
+          </div>
+          <p className="text-gray-600 text-sm line-clamp-3 flex-1">
+            {description}
+          </p>
+        </div>
+
+        {/* Time */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-amber-50 rounded-lg">
+            <Clock5 className="w-5 h-5 text-amber-600" />
+          </div>
+          <span className="text-sm font-medium text-gray-700">
+            {time || "Date TBA"}
+          </span>
+        </div>
+
+        {/* CTA Button */}
+        {ctaButton?.text && (
+          <a
+            href={getUrl(ctaButton.text)}
+            className="block w-full py-3 px-4 bg-primary text-white text-center font-semibold rounded-lg hover:bg-primary/90 transition-colors duration-200 shadow-md hover:shadow-lg"
+          >
+            {ctaButton.text}
+          </a>
+        )}
       </div>
     </article>
   );

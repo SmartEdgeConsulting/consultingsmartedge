@@ -1,4 +1,3 @@
-
 export type serviceProps = {
   id?: number;
   icon: string;
@@ -159,11 +158,17 @@ export interface Article {
   estimatedReadingTime?: number;
 }
 
+interface button {
+  text: string;
+  url: string | null;
+}
 export type eventProps = {
   _id: string;
   name: string;
   slug: string;
+  time: string;
   description: string;
   coverImage: SanityImage;
+  ctaButton: button;
   publishedAt: string;
 };

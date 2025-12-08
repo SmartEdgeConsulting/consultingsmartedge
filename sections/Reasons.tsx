@@ -14,7 +14,7 @@ const Reasons = () => {
           {/* Image Section */}
           <div className="relative aspect-3/2 lg:aspect-4/3 w-full">
             <Image
-              src="/careers1.jpg"
+              src="/career-image1.jpg"
               alt="SmartEdge team collaboration and workplace culture"
               fill
               className="rounded-lg object-cover"

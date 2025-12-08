@@ -39,10 +39,15 @@ export const getEvents = `*[_type == "events"] {
   _id,
   name,
   "slug": slug.current,
+  time,
   publishedAt,
   coverImage {
     asset->,
     caption
+  },
+  ctaButton {
+    text,
+    url
   },
   description
 }`;

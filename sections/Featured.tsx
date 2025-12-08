@@ -23,6 +23,7 @@ const Featured = () => {
         </Button>
       </div>
 
+
       <DataLabModal open={openDialog} onOpenChange={setOpenDialog}/>
     </section>
   );

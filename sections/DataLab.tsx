@@ -111,6 +111,7 @@ const DataLab = () => {
   return (
     <section className="py-10 sm:py-16 scroll-mt-18" id="custom-report">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <h3>Request Custom Report</h3>
         <form
           onSubmit={handleSubmit}
           className="rounded-lg shadow-lg p-10 bg-primary/10"

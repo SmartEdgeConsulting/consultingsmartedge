@@ -1,9 +1,14 @@
+"use client"
+
+import DataLabModal from "@/components/DataLabModal";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const DataLabHero = () => {
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+
   return (
     <header className="py-10 sm:py-12 lg:py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -25,8 +30,9 @@ const DataLabHero = () => {
                 className="text-md font-bold"
                 aria-label="Book Consultation"
                 aria-roledescription="navigation button"
+                onClick={() => setOpenDialog(true)}
               >
-                <Link href="/">Try It Free</Link>
+                Try It Free
               </Button>
               <Button
                 variant="darkoutline"
@@ -68,6 +74,8 @@ const DataLabHero = () => {
           </div>
         </div>
       </div>
+
+      <DataLabModal open={openDialog} onOpenChange={setOpenDialog} />
     </header>
   );
 };
