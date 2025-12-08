@@ -31,7 +31,13 @@ const ContactHero = () => {
             aria-label="Join or community platforms"
             aria-roledescription="navigation button"
           >
-            <Link href="/">Join Our Community</Link>
+            <a
+              href="https://chat.whatsapp.com/EqE8eCwYLbT8kO69Euqxc9"
+              aria-label="community invite link"
+              target="open_blank"
+            >
+              Join Our Community
+            </a>
           </Button>
         </div>
       </div>
