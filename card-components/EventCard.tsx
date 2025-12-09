@@ -67,7 +67,7 @@ const EventCard = ({ event }: { event: eventProps }) => {
         {ctaButton?.text && (
           <a
             href={getUrl(ctaButton.text)}
-            className="block w-full py-3 px-4 bg-primary text-white text-center font-semibold rounded-lg hover:bg-primary/90 transition-colors duration-200 shadow-md hover:shadow-lg"
+            className="block w-full py-3 px-4 border border-primary text-primary text-center font-semibold rounded-lg hover:bg-primary/20 transition-colors duration-200"
           >
             {ctaButton.text}
           </a>

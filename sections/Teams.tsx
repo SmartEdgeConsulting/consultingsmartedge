@@ -43,7 +43,7 @@ const Teams = async () => {
 
         <div className="my-10 text-center max-w-3xl mx-auto">
           <h5 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-6">
-            Want to work with our Team?
+            Want to work with our <span className="text-gradient-primary">Team?</span>
           </h5>
           <p className="text-sm sm:text-base text-slate-800 mb-6">
             Our experts are ready to help you unlock the full potential of your

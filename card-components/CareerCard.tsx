@@ -5,13 +5,7 @@ import { jobProps } from "@/types";
 import Link from "next/link";
 
 const CareerCard = ({ job }: { job: jobProps }) => {
-  const {
-    _id,
-    jobDescription,
-    jobTitle,
-    jobType,
-    department,
-  } = job;
+  const { _id, jobDescription, jobTitle, jobType, department } = job;
   return (
     <article
       key={_id}
@@ -37,7 +31,7 @@ const CareerCard = ({ job }: { job: jobProps }) => {
             <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-gradient-primary transition-colors">
               {jobTitle}
             </h3>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/40 text-gradient-primary self-start">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-gradient-primary self-start">
               {department.department}
             </span>
           </div>
@@ -55,8 +49,8 @@ const CareerCard = ({ job }: { job: jobProps }) => {
           </div>
 
           {/* Apply Button */}
-          <Link href={`/careers/${job._id}/apply`} >
-            <Button  size="sm" className="mt-2">
+          <Link href={`/careers/${job._id}/apply`}>
+            <Button size="sm" className="mt-2">
               Apply Now
             </Button>
           </Link>

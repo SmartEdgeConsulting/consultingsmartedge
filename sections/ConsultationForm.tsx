@@ -10,7 +10,7 @@ const ConsultationForm = () => {
   return (
     <section className="py-8 sm:py-12 lg:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-0 shadow-lg rounded-2xl overflow-hidden bg-white">
+        <div className="flex flex-col lg:flex-row gap-0 shadow-lg rounded-2xl overflow-hidden bg-white border-t-4 border-primary">
           {/* Image Section */}
           <div className="w-full lg:w-2/5 bg-white hidden sm:flex justify-center items-center p-6">
             <Image

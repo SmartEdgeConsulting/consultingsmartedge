@@ -49,11 +49,11 @@ const DataLabHero = () => {
           <div className="relative order-last flex justify-center items-center">
             {/* Decorative blob background */}
             <div className="absolute inset-0 flex justify-center items-center">
-              <div className="w-80 h-80 bg-linear-to-br from-primary/20 to-primary/10 rounded-[35%_65%_65%_35%/35%_35%_65%_65%] animate-pulse"></div>
+              <div className="w-80 h-80 bg-linear-to-br from-primary/90 to-primary/70 rounded-[35%_65%_65%_35%/35%_35%_65%_65%] animate-pulse"></div>
             </div>
 
             {/* Shadow blob */}
-            <div className="absolute w-[300px] h-[300px] bg-primary/20 blur-xl rounded-[30%_70%_70%_30%/30%_30%_70%_70%] transform translate-y-2"></div>
+            <div className="absolute w-[300px] h-[300px] bg-primary blur-xl rounded-[30%_70%_70%_30%/30%_30%_70%_70%] transform translate-y-2"></div>
 
             {/* Main Image */}
             <div className="relative z-10 transition-transform duration-300 hover:scale-105">
@@ -69,8 +69,8 @@ const DataLabHero = () => {
             </div>
 
             {/* Decorative dots */}
-            <div className="absolute -top-4 -left-4 w-20 h-20 border-2 border-primary/30 rounded-[40%_60%_60%_40%/40%_40%_60%_60%]"></div>
-            <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-primary/20 rounded-[50%_50%_50%_50%/50%_50%_50%_50%]"></div>
+            <div className="absolute -top-4 -left-4 w-20 h-20 border-2 border-primary rounded-[40%_60%_60%_40%/40%_40%_60%_60%]"></div>
+            <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-primary rounded-[50%_50%_50%_50%/50%_50%_50%_50%]"></div>
           </div>
         </div>
       </div>

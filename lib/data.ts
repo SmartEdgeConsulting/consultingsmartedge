@@ -130,33 +130,6 @@ export const offers = [
   },
 ];
 
-export const bootcamp = [
-  {
-    id: 1,
-    title: "Curriculum",
-    img: "/curriculum.webp",
-    link: "#curriculum",
-  },
-  {
-    id: 2,
-    title: "Testimonials",
-    img: "/testimonial.webp",
-    link: "#testimonials",
-  },
-  {
-    id: 3,
-    title: "Training benefits",
-    img: "/benefit.png",
-    link: "#benefits",
-  },
-  {
-    id: 4,
-    title: "Pricing",
-    img: "/pricing.jpg",
-    link: "#pricing",
-  },
-];
-
 export const process: processProps[] = [
   {
     id: 1,

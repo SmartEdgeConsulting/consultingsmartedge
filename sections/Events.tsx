@@ -22,7 +22,7 @@ const Events = async () => {
         <div className="text-center mb-10">
           {/* Heading */}
           <Heading title="Upcoming Events" icon={<Calendar size={18} />} />
-          <h4 className="hero-heading text-lg sm:text-xl">
+          <h4 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-6">
             Learn, Connect, and Grow with{" "}
             <span className="text-gradient-primary">SmartEdge</span>
           </h4>

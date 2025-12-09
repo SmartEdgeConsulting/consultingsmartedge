@@ -1,16 +1,299 @@
 import React from "react";
-import Curriculum from "../components/Curriculum";
-import Testimonials from "../components/Testimonials";
-import Benefits from "../components/Benefits";
-import Pricing from "../components/Pricing";
+import { 
+  BookOpen, 
+  BarChart3, 
+  Database, 
+  TrendingUp, 
+  Users, 
+  FileSpreadsheet,
+  Target,
+  Briefcase,
+  Award,
+  Clock,
+  Zap,
+  ChevronRight
+} from "lucide-react";
 
 const BootcampDetails = () => {
+  const curriculumModules = [
+    {
+      week: "Week 1-2",
+      title: "Foundation Building",
+      subtitle: "Data Analytics Fundamentals & Excel Mastery",
+      icon: <FileSpreadsheet className="w-6 h-6" />,
+      color: "from-blue-500 to-cyan-500",
+      topics: [
+        "Data Analytics in African Context",
+        "Excel Fundamentals & Data Cleaning",
+        "Advanced Formulas & PivotTables",
+        "Data Validation & Error Handling",
+        "Financial Analysis Dashboard Project"
+      ],
+      outcome: "Build complete financial dashboards for African SMEs"
+    },
+    {
+      week: "Week 3-4",
+      title: "Business Intelligence",
+      subtitle: "Power BI & Data Visualization",
+      icon: <BarChart3 className="w-6 h-6" />,
+      color: "from-purple-500 to-pink-500",
+      topics: [
+        "Data Modeling & DAX Language",
+        "Interactive Reports & Dashboards",
+        "Power Query for ETL Processes",
+        "Tableau Fundamentals",
+        "Retail BI Dashboard Project"
+      ],
+      outcome: "Create comprehensive business intelligence solutions"
+    },
+    {
+      week: "Week 5-6",
+      title: "Advanced Analytics",
+      subtitle: "Tableau Mastery & Data Storytelling",
+      icon: <TrendingUp className="w-6 h-6" />,
+      color: "from-orange-500 to-red-500",
+      topics: [
+        "Advanced Visualization Techniques",
+        "Calculated Fields & Parameters",
+        "Dashboard Design Principles",
+        "Data Storytelling & Presentation",
+        "Executive Dashboard Project"
+      ],
+      outcome: "Develop compelling data narratives for stakeholders"
+    },
+    {
+      week: "Week 7-8",
+      title: "Career Launchpad",
+      subtitle: "Capstone Project & Industry Integration",
+      icon: <Briefcase className="w-6 h-6" />,
+      color: "from-green-500 to-emerald-500",
+      topics: [
+        "End-to-End Capstone Project",
+        "Portfolio Development",
+        "Interview Preparation",
+        "Industry Networking",
+        "Final Presentation to Judges"
+      ],
+      outcome: "Launch your data analytics career with confidence"
+    }
+  ];
+
+  const toolsTechnologies = [
+    { name: "Microsoft Excel", level: "Professional", icon: "📊" },
+    { name: "Power BI", level: "Advanced", icon: "📈" },
+    { name: "Tableau", level: "Intermediate+", icon: "🎨" },
+
+  ];
+
+  const learningOutcomes = [
+    {
+      icon: <Target className="w-8 h-8" />,
+      title: "Practical Skills",
+      description: "Build professional dashboards from scratch"
+    },
+    {
+      icon: <Database className="w-8 h-8" />,
+      title: "Real Projects",
+      description: "Complete 3+ portfolio-ready projects"
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Career Support",
+      description: "Get job placement assistance"
+    },
+    {
+      icon: <Award className="w-8 h-8" />,
+      title: "Certification",
+      description: "Earn industry-recognized certificate"
+    }
+  ];
+
   return (
-    <section className="py-10 sm:py-16 lg:py-20">
-      <Curriculum />
-      <Testimonials />
-      <Benefits />
-      <Pricing />
+    <section id="curriculum" className="scroll-mt-16 py-10 sm:py-12 lg:py-16 bg-linear-to-b from-white to-gray-50/50">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+          <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary mb-4">
+            <BookOpen className="w-4 h-4 mr-2" />
+            CURRICULUM BREAKDOWN
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4">
+            What You&apos;ll Learn in{" "}
+            <span className="text-gradient-primary">8 Weeks</span>
+          </h2>
+          <p className="text-lg text-gray-600">
+            A comprehensive, project-driven curriculum designed to transform you 
+            from beginner to job-ready data analyst
+          </p>
+        </div>
+
+        {/* Curriculum Timeline */}
+        <div className="mb-16 lg:mb-20">
+          <div className="grid gap-8 lg:grid-cols-2">
+            {curriculumModules.map((module, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200"
+              >
+                {/* Decorative gradient bar */}
+                <div className={`absolute top-0 left-0 w-full h-2 bg-linear-to-r ${module.color}`} />
+                
+                <div className="p-6 lg:p-8">
+                  {/* Week & Title */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-sm font-semibold text-gray-700 mb-2">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {module.week}
+                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">
+                        {module.title}
+                      </h3>
+                      <p className="text-gray-600 font-medium">
+                        {module.subtitle}
+                      </p>
+                    </div>
+                    <div className={`p-3 rounded-xl bg-linear-to-br ${module.color} text-white`}>
+                      {module.icon}
+                    </div>
+                  </div>
+
+                  {/* Topics */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                      Topics Covered
+                    </h4>
+                    <ul className="space-y-2">
+                      {module.topics.map((topic, topicIndex) => (
+                        <li key={topicIndex} className="flex items-start">
+                          <ChevronRight className="w-4 h-4 text-primary mt-1 mr-2 shrink-0" />
+                          <span className="text-gray-700">{topic}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Learning Outcome */}
+                  <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <div className="flex items-center">
+                      <Zap className="w-5 h-5 text-yellow-500 mr-2" />
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          Learning Outcome
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {module.outcome}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Tools & Technologies */}
+        <div className="mb-16 lg:mb-20">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              Tools & Technologies You&apos;ll Master
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Industry-standard tools used by global companies
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {toolsTechnologies.map((tool, index) => (
+              <div
+                key={index}
+                className="group bg-white rounded-xl p-4 text-center border border-gray-200 hover:border-primary hover:shadow-md transition-all duration-300"
+              >
+                <div className="text-3xl mb-3">{tool.icon}</div>
+                <h4 className="font-semibold text-gray-900 mb-1">{tool.name}</h4>
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                  {tool.level}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Learning Outcomes */}
+        <div className="bg-linear-to-r from-primary/5 to-blue-500/5 rounded-3xl p-8 lg:p-12">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              What You&apos;ll Achieve
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              By the end of the bootcamp, you will have:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {learningOutcomes.map((outcome, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow duration-300"
+              >
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 text-primary mb-4">
+                  {outcome.icon}
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">
+                  {outcome.title}
+                </h4>
+                <p className="text-gray-600">
+                  {outcome.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Stats */}
+          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">60+</div>
+              <div className="text-sm text-gray-600">Hours of Live Instruction</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">3+</div>
+              <div className="text-sm text-gray-600">Portfolio Projects</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">100+</div>
+              <div className="text-sm text-gray-600">Alumni Network</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">1:1</div>
+              <div className="text-sm text-gray-600">Mentorship Sessions</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Schedule Info */}
+        <div className="mt-12 text-center">
+          <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-4 bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+            <div className="flex items-center">
+              <Clock className="w-5 h-5 text-primary mr-2" />
+              <span className="font-semibold text-gray-900">Schedule:</span>
+              <span className="ml-2 text-gray-600">Evenings</span>
+            </div>
+            <div className="hidden sm:block w-px h-6 bg-gray-300" />
+            <div className="flex items-center">
+              <Users className="w-5 h-5 text-primary mr-2" />
+              <span className="font-semibold text-gray-900">Format:</span>
+              <span className="ml-2 text-gray-600">Live Online + Recordings</span>
+            </div>
+            <div className="hidden sm:block w-px h-6 bg-gray-300" />
+            <div className="flex items-center">
+              <Award className="w-5 h-5 text-primary mr-2" />
+              <span className="font-semibold text-gray-900">Certificate:</span>
+              <span className="ml-2 text-gray-600">Industry-Recognized</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

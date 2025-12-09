@@ -8,6 +8,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDropzone, FileRejection } from "react-dropzone";
 
 import React, { useCallback, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type FormData = {
   company: string;
@@ -111,10 +120,12 @@ const DataLab = () => {
   return (
     <section className="py-10 sm:py-16 scroll-mt-18" id="custom-report">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <h3>Request Custom Report</h3>
+        <h5 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-6">
+          Request Custom Report Form
+        </h5>
         <form
           onSubmit={handleSubmit}
-          className="rounded-lg shadow-lg p-10 bg-primary/10"
+          className="rounded-lg shadow-lg p-10 border-y-4 border-primary "
         >
           <div className="flex flex-col gap-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -127,7 +138,7 @@ const DataLab = () => {
                   type="email"
                   placeholder="your.email@example.com"
                   required
-                  className="h-12 border-gray-300 bg-white focus:border-primary focus:ring-primary"
+                  className="h-12 border-gray-300  focus:border-primary focus:ring-primary"
                 />
               </div>
 
@@ -140,24 +151,24 @@ const DataLab = () => {
                   type="text"
                   placeholder="Industry name"
                   required
-                  className="h-12 border-gray-300 bg-white focus:border-primary focus:ring-primary"
+                  className="h-12 border-gray-300  focus:border-primary focus:ring-primary"
                 />
               </div>
             </div>
 
-            <div className="space-y-2"> 
-              <Label htmlFor="problem" className="text-sm font-semibold">
-                Data Problem
+            <div className="space-y-2">
+              <Label htmlFor="purpose" className="text-sm font-semibold">
+                Data Problem / Purpose <span className="text-red-500">*</span>
               </Label>
               <Textarea
                 rows={6}
-                id="problem"
-                name="problem"
-                placeholder="Tell us the problem the data wants to solve.."
+                id="purpose"
+                name="purpose"
+                placeholder="Tell us the problem the data wants to solve..."
                 value={formData.purpose}
                 onChange={handleChange}
                 required
-                className="resize-none border-gray-300 bg-white focus:border-primary focus:ring-primary min-h-[120px]"
+                className="resize-none border-gray-300 focus:border-primary focus:ring-primary min-h-[120px]"
               />
             </div>
 
@@ -169,7 +180,7 @@ const DataLab = () => {
                 <Input
                   id="timeline"
                   type="date"
-                  className="h-12 border-gray-300 bg-white focus:border-primary focus:ring-primary text-gray-700"
+                  className=" border-gray-300  focus:border-primary focus:ring-primary text-gray-700"
                 />
               </div>
 
@@ -177,25 +188,29 @@ const DataLab = () => {
                 <Label htmlFor="budget" className="text-sm font-semibold">
                   Budget Range
                 </Label>
-                <select
-                  id="budget"
-                  className="w-full h-12 px-3 rounded-md border border-gray-300 bg-white text-gray-900 focus:border-primary focus:ring-primary focus:outline-none"
-                >
-                  <option value="">Select a range</option>
-                  <option value="under-5k">Under $5,000</option>
-                  <option value="5k-15k">$5,000 - $15,000</option>
-                  <option value="15k-30k">$15,000 - $30,000</option>
-                  <option value="30k-plus">$30,000+</option>
-                </select>
+                <Select>
+                  <SelectTrigger className="w-full h-12">
+                    <SelectValue placeholder="Select a range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Select a range</SelectLabel>
+                      <SelectItem value="under-5k">Under $5,000</SelectItem>
+                      <SelectItem value="5k-15k">$5,000 - $15,000</SelectItem>
+                      <SelectItem value="15k-30k">$15,000 - $30,000</SelectItem>
+                      <SelectItem value="30k-plus">$30,000+</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-primary">
-                Upload file
+              <Label className="text-sm font-bold text-primary">
+                Upload file <span className="text-red-500">*</span>
               </Label>
 
-              <div className="w-full bg-white p-5 rounded-lg">
+              <div className="w-full  p-5 rounded-lg">
                 <div
                   {...getRootProps()}
                   className="border-2 border-dashed border-primary rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors"

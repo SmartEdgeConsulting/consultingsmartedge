@@ -9,7 +9,7 @@ import { useDropzone, FileRejection } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useUploadThing } from "@/lib/utils/uploadthing";
 import { useParams } from "next/navigation";
@@ -38,7 +38,7 @@ const applicationSchema = z.object({
 type ApplicationFormData = z.infer<typeof applicationSchema>;
 
 interface ApplicationFormProps {
-  careerId?: string; // Make it optional if you want to get it from params
+  careerId?: string; 
 }
 
 const ApplicationForm = ({ careerId: propCareerId }: ApplicationFormProps) => {
