@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../components/ui/button";
 import { Send } from "lucide-react";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Label } from "../components/ui/label";
+import { Input } from "../components/ui/input";
 
 const ContactForm = () => {
   return (
@@ -12,8 +12,8 @@ const ContactForm = () => {
         {/* Name & Email Row */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
           <div className="space-y-3">
-            <Label 
-              htmlFor="name" 
+            <Label
+              htmlFor="name"
               className="text-sm font-semibold text-white flex items-center gap-1"
             >
               Full Name
@@ -29,8 +29,8 @@ const ContactForm = () => {
           </div>
 
           <div className="space-y-3">
-            <Label 
-              htmlFor="email" 
+            <Label
+              htmlFor="email"
               className="text-sm font-semibold text-white flex items-center gap-1"
             >
               Email Address
@@ -48,11 +48,9 @@ const ContactForm = () => {
 
         {/* Company Field */}
         <div className="space-y-3">
-          <Label 
-            htmlFor="company" 
-            className="text-sm font-semibold text-white"
-          >
-            Company <span className="text-gray-400 font-normal">(Optional)</span>
+          <Label htmlFor="company" className="text-sm font-semibold text-white">
+            Company{" "}
+            <span className="text-gray-400 font-normal">(Optional)</span>
           </Label>
           <Input
             id="company"
@@ -64,8 +62,8 @@ const ContactForm = () => {
 
         {/* Message Field */}
         <div className="space-y-3">
-          <Label 
-            htmlFor="message" 
+          <Label
+            htmlFor="message"
             className="text-sm font-semibold text-white flex items-center gap-1"
           >
             Message
@@ -79,24 +77,20 @@ const ContactForm = () => {
             rows={5}
           />
           <p className="text-xs text-slate-300 mt-2">
-            Please provide as much detail as possible about your project requirements.
+            Please provide as much detail as possible about your project
+            requirements.
           </p>
         </div>
 
         {/* Submit Button */}
         <div className="pt-2">
-          <Button
-            type="submit"
-            variant="default"
-            size="lg"
-            className="w-full"
-          >
+          <Button type="submit" variant="default" size="lg" className="w-full">
             <span className="flex items-center justify-center gap-3">
               Send Message
               <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
             </span>
           </Button>
-          
+
           <p className="text-xs text-slate-300 text-center mt-4">
             We typically respond within 24 hours on business days.
           </p>

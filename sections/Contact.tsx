@@ -1,5 +1,5 @@
 import ContactCard from "@/card-components/ContactCard";
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "@/forms/ContactForm";
 import { contactInfo } from "@/lib/data";
 
 const Contact = () => {

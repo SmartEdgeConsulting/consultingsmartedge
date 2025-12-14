@@ -1,4 +1,4 @@
-import ConsultationForm from '@/sections/ConsultationForm'
+import ConsultationForm from '@/forms/ConsultationForm'
 import React from 'react'
 
 const ConsultationPage = () => {

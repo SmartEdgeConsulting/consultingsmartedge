@@ -8,34 +8,13 @@ import { File, FileSpreadsheet, X, Loader2 } from "lucide-react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useUploadThing } from "@/lib/utils/uploadthing";
 import { useParams } from "next/navigation";
+import { ApplicationFormData, applicationSchema } from "@/src/zod/schema";
 
-// Zod schema
-const applicationSchema = z.object({
-  careerId: z.string().min(1, "Career ID is required"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
-  experience: z
-    .number()
-    .min(0, "Experience cannot be negative")
-    .max(50, "Experience cannot exceed 50 years"),
-  skills: z
-    .string()
-    .min(10, "Please provide at least 10 characters about your skills"),
-  portfolio: z
-    .string()
-    .url("Please enter a valid URL")
-    .optional()
-    .or(z.literal("")),
-  resumeUrl: z.string().url("Resume is required"),
-});
 
-type ApplicationFormData = z.infer<typeof applicationSchema>;
 
 interface ApplicationFormProps {
   careerId?: string; 

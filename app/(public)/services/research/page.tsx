@@ -1,5 +1,5 @@
 import Research from "@/sections/Research";
-import ResearchForm from "@/sections/ResearchForm";
+import ResearchForm from "@/forms/ResearchForm";
 import React from "react";
 
 const page = () => {

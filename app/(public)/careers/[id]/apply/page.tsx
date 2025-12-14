@@ -1,4 +1,4 @@
-import ApplicationForm from "@/components/ApplicationForm";
+import ApplicationForm from "@/forms/ApplicationForm";
 import React from "react";
 
 const ApplicationPage = async ({ params }: { params: Promise<{ id: string }> }) => {
