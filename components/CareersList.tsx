@@ -13,8 +13,8 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import SelectDepartment from "./Select";
-import { Search, Briefcase } from "lucide-react"; 
-import CareerCard from "@/card-components/CareerCard";
+import { Search, Briefcase } from "lucide-react";
+import CareerCard from "@/cards/CareerCard";
 import { departmentProps, jobProps } from "@/types";
 
 const CareersList = ({
@@ -27,7 +27,7 @@ const CareersList = ({
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [jobSearch, setJobSearch] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("all"); 
+  const [selectedDepartment, setSelectedDepartment] = useState("all");
   const [jobs, setJobs] = useState(availableJobs);
 
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
@@ -64,7 +64,7 @@ const CareersList = ({
   };
 
   const onSelectChange = (value: string) => {
-    setSelectedDepartment(value); 
+    setSelectedDepartment(value);
     if (value === "all") {
       setJobs(availableJobs);
     } else {

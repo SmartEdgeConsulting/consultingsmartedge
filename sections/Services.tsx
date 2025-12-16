@@ -1,4 +1,4 @@
-import ServiceCard from "@/card-components/ServiceCard";
+import ServiceCard from "@/cards/ServiceCard";
 import { services } from "@/lib/data";
 
 const Services = () => {

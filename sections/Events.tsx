@@ -1,4 +1,4 @@
-import EventCard from "@/card-components/EventCard";
+import EventCard from "@/cards/EventCard";
 import Heading from "@/components/Heading";
 import { client } from "@/src/sanity/client";
 import { getEvents } from "@/src/sanity/queries";

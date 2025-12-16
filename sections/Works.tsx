@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading";
-import ProcessCard from "@/card-components/ProcessCard";
+import ProcessCard from "@/cards/ProcessCard";
 import { Button } from "@/components/ui/button";
 import { process } from "@/lib/data";
 import { Gpu } from "lucide-react";

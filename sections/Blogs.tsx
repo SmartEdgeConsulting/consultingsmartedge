@@ -1,4 +1,4 @@
-import BlogCard from "@/card-components/BlogCard";
+import BlogCard from "@/cards/BlogCard";
 import BlogsSkeleton from "@/components/BlogsSkeleton";
 import { Suspense } from "react";
 import { client } from "@/src/sanity/client";

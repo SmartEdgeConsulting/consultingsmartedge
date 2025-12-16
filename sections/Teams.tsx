@@ -1,4 +1,4 @@
-import TeamsCard from "@/card-components/TeamsCard";
+import TeamsCard from "@/cards/TeamsCard";
 import { teams } from "@/lib/data";
 import { getTeams } from "@/src/sanity/queries";
 import { client } from "@/src/sanity/client";
@@ -43,7 +43,8 @@ const Teams = async () => {
 
         <div className="my-10 text-center max-w-3xl mx-auto">
           <h5 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-6">
-            Want to work with our <span className="text-gradient-primary">Team?</span>
+            Want to work with our{" "}
+            <span className="text-gradient-primary">Team?</span>
           </h5>
           <p className="text-sm sm:text-base text-slate-800 mb-6">
             Our experts are ready to help you unlock the full potential of your
