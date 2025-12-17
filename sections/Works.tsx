@@ -1,7 +1,6 @@
 import Heading from "@/components/Heading";
 import ProcessCard from "@/cards/ProcessCard";
-import { Button } from "@/components/ui/button";
-import { process } from "@/lib/data";
+import { processes } from "@/lib/data";
 import { Gpu } from "lucide-react";
 
 const Works = () => {
@@ -15,18 +14,25 @@ const Works = () => {
           </h2>
         </div>
 
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-4 text-slate-800 text-center gap-6 mb-6">
-          {process.map((process) => (
-            <ProcessCard key={process.id} {...process} />
-          ))}
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-slate-800 text-center gap-6 mb-6">
+          {processes.map((process, index) => {
+            return (
+              <div
+                key={process.id}
+                className="relative group"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ProcessCard {...process} />
+                {/* Connector Arrow (Desktop only) */}
+                {index < processes.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-white text-3xl opacity-60 animate-pulse">
+                    →
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-        {/**<Button
-          variant="default"
-          className="mt-6"
-          aria-label="Book A Discovery Session with SmartEdge Consulting "
-        >
-          Book A Discovery Session
-        </Button>*/}
       </div>
     </section>
   );

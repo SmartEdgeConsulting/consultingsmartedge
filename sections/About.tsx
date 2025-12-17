@@ -18,11 +18,12 @@ const About = () => {
           <Heading title="Who We Are" icon={<Users size={18} />} />
           <h2
             id="about-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6 leading-tight"
           >
-            We turn raw data into <span className="text-gradient-primary">business clarity</span>
+            We turn raw <span className="text-gradient-primary">data</span> into
+            business clarity
           </h2>
-          <p className="text-base sm:text-lg leading-7 text-slate-800 max-w-3xl mb-8">
+          <p className="text-base sm:text-lg leading-relaxed text-gray-600 max-w-3xl mb-8">
             SmartEdge Consulting & Analytics is a data-driven consulting firm
             helping organizations make smarter decisions through Research,
             Analytics, and Technology. We don&apos;t just analyze data we help
@@ -30,7 +31,7 @@ const About = () => {
           </p>
           <Button
             asChild
-            className="text-md font-bold"
+            className="text-sm font-semibold"
             aria-label="Learn more about SmartEdge Consulting "
           >
             <Link href="/about" prefetch={false}>
@@ -43,10 +44,10 @@ const About = () => {
             src="/about.webp"
             width={600}
             height={400}
-            alt="About image"
+            alt="Data analysts working on a laptop"
             className="rounded-lg"
             priority
-            quality={85}
+            quality={90}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           />
         </div>

@@ -135,7 +135,7 @@ main {
 }
 
 @utility hero-paragraph {
-  @apply text-sm sm:text-lg leading-relaxed text-slate-800 max-w-3xl mx-auto mb-8;
+  @apply text-sm sm:text-lg leading-relaxed text-gray-600 max-w-3xl mx-auto mb-8;
 }
 
 @utility bg-gradient-primary {

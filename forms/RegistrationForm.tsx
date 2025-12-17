@@ -55,7 +55,6 @@ export default function MultiStepForm() {
     getValues,
     setValue,
     watch,
-    control,
   } = useForm<BootcampData>({
     resolver: zodResolver(bootcampSchema),
     mode: "onChange",
@@ -231,7 +230,7 @@ export default function MultiStepForm() {
                 {/* Progress Line */}
                 <div className="absolute top-5 left-0 right-0 h-1 bg-gray-200">
                   <div
-                    className="h-full bg-linear-to-r from-primary to-accent transition-all duration-500 ease-out"
+                    className="h-full bg-primary  transition-all duration-500 ease-out"
                     style={{
                       width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
                     }}
@@ -247,9 +246,9 @@ export default function MultiStepForm() {
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                         stepItem.number < currentStep
-                          ? "bg-linear-to-r from-primary to-accent text-white shadow-lg"
+                          ? "bg-primary  text-white shadow-lg"
                           : stepItem.number === currentStep
-                            ? "bg-linear-to-r from-primary to-accent text-white shadow-lg ring-4 ring-blue-200"
+                            ? "bg-primary text-white shadow-lg ring-4 ring-blue-200"
                             : "bg-white border-2 border-gray-300 text-gray-400"
                       }`}
                     >

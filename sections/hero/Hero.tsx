@@ -19,7 +19,7 @@ const Hero = () => {
           Data. Intelligence. Growth Powered by{" "}
           <span className="text-accent">SmartEdge</span>
         </h1>
-        <p className="text-base sm:text-xl text-slate-300 leading-8 max-w-3xl mb-8">
+        <p className="text-base sm:text-xl text-slate-300 leading-relaxed max-w-3xl mb-8">
           We help businesses uncover clarity and accelerate growth through data
           analytics, research, and intelligent automation.
         </p>

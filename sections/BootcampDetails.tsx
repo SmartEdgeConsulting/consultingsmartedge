@@ -13,6 +13,7 @@ import {
   Zap,
   ChevronRight,
 } from "lucide-react";
+import Heading from "@/components/Heading";
 
 const BootcampDetails = () => {
   const curriculumModules = [
@@ -146,10 +147,8 @@ const BootcampDetails = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
-          <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary mb-4">
-            <BookOpen className="w-4 h-4 mr-2" />
-            CURRICULUM BREAKDOWN
-          </div>
+          <Heading title="Curriculum Breakdown" icon={<BookOpen size={18} />} />
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4">
             What You&apos;ll Learn in{" "}
             <span className="text-gradient-primary">8 Weeks</span>

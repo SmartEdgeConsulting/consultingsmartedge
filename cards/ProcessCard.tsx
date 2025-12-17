@@ -1,15 +1,24 @@
 import { processProps } from "@/types";
 
-const ProcessCard = ({ id, title, description, color }: processProps) => {
+const ProcessCard = ({
+  id,
+  title,
+  description,
+}: processProps) => {
+   
   return (
-    <div className="flex flex-col gap-2.5 items-center shadow-xl px-5 py-15 rounded-xl">
-      <div className={`${color} h-12 w-12 flex items-center justify-center rounded-full font-bold text-base mb-4`}>
-        {id}
+    <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-3 relative">
+      {/* Step Number Badge */}
+      <div className="absolute -top-5 left-8 w-10 h-10 bg-linear-to-br from-primary/40 to-primary/30 rounded-full flex items-center justify-center shadow-lg">
+        <span className="text-lg font-bold text-white">{id}</span>
       </div>
-      <div>
-        <h3 className="font-bold text-base sm:text-lg text-primary">{title}</h3>
-        <p className="leading-6 text-sm sm:text-base">{description}</p>
-      </div>
+
+
+      {/* Content */}
+      <h3 className="text-lg font-bold text-primary mb-4 text-center">
+        {title}
+      </h3>
+      <p className="text-gray-600 text-center text-sm leading-relaxed">{description}</p>
     </div>
   );
 };
