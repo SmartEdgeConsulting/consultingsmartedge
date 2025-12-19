@@ -35,7 +35,24 @@ export const getTeams = `*[_type == "teams"] | order(order asc) {
   email
 }`;
 
-export const getEvents = `*[_type == "events"] {
+export const getEvents = `*[_type == "events"] | order(order desc) {
+  _id,
+  name,
+  "slug": slug.current,
+  time,
+  publishedAt,
+  coverImage {
+    asset->,
+    caption
+  },
+  ctaButton {
+    text,
+    url
+  },
+  description
+}`;
+
+export const getUpcomingEvents = `*[_type == "events" && time != "Concluded"] {
   _id,
   name,
   "slug": slug.current,

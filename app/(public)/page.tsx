@@ -1,5 +1,5 @@
 import About from "@/sections/About";
-import Events from "@/sections/Events";
+import UpcomingEvents from "@/sections/UpcomingEvents";
 import Featured from "@/sections/Featured";
 import Hero from "@/sections/hero/Hero";
 import ServicesOverview from "@/sections/ServicesOverview";
@@ -13,8 +13,7 @@ const Home = () => {
       <ServicesOverview />
       <Works />
       <Featured />
-      <Events />
-
+      <UpcomingEvents />
     </main>
   );
 };

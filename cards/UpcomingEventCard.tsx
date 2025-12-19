@@ -1,12 +1,11 @@
 import { urlFor } from "@/lib/utils/image-builder";
 import { eventProps } from "@/types";
+import { ClipboardCheck, Clock5, Tag } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-
-const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
+const UpcomingEventCard = ({ event }: { event: eventProps }) => {
   const { name, time, description, coverImage, ctaButton } = event;
-  const isEven = index % 2 === 0;
 
   const getUrl = (text: string) => {
     if (text.toLowerCase().includes("bootcamp")) {
@@ -17,11 +16,9 @@ const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
   };
 
   return (
-    <article
-      className={`${isEven ? "self-start left" : "self-end right"} group w-full max-w-md bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-primary/20`}
-    >
+    <article className={`group w-full max-w-sm bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-primary/20`}>
       {/* Image Container */}
-      <div className="relative h-60 w-full overflow-hidden">
+      <div className="relative h-56 w-full overflow-hidden">
         <Image
           src={urlFor(coverImage?.asset).url()}
           alt={`Cover image for ${name}`}
@@ -38,6 +35,9 @@ const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
       <div className="p-6">
         {/* Event Name */}
         <div className="flex items-start gap-3 mb-4">
+          <div className="p-2 bg-primary/10 rounded-lg shrink-0">
+            <Tag className="w-5 h-5 text-primary" />
+          </div>
           <h3 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
             {name}
           </h3>
@@ -45,19 +45,23 @@ const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
 
         {/* Description */}
         <div className="flex gap-3 mb-4 items-start">
+          <div className="p-2 bg-blue-50 rounded-lg shrink-0">
+            <ClipboardCheck className="w-5 h-5 text-blue-600" />
+          </div>
           <p className="text-gray-600 text-sm line-clamp-3 flex-1">
             {description}
           </p>
         </div>
 
         {/* Time */}
-        {time !== "Concluded" && (
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-sm font-medium text-gray-700">
-              {time || "Date TBA"}
-            </span>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-amber-50 rounded-lg">
+            <Clock5 className="w-5 h-5 text-amber-600" />
           </div>
-        )}
+          <span className="text-sm font-medium text-gray-700">
+            {time || "Date TBA"}
+          </span>
+        </div>
 
         {/* CTA Button */}
         {ctaButton?.text && (
@@ -73,4 +77,4 @@ const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
   );
 };
 
-export default EventCard;
+export default UpcomingEventCard;

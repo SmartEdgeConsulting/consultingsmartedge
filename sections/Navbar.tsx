@@ -44,6 +44,7 @@ const Navbar = () => {
       children: [
         { label: "Our Services", href: "/services" },
         { label: "Careers", href: "/careers" },
+        { label: "Events", href: "/events" },
       ],
     },
     { label: "Contact Us", href: "/contact" },
