@@ -149,3 +149,37 @@ main {
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
+
+@keyframes canopy-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 12px));
+  }
+}
+
+@keyframes canopy-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - 12px));
+  }
+}
+
+.animate-canopy-horizontal {
+  animation: canopy-x var(--duration, 30s) infinite linear;
+}
+
+.animate-canopy-vertical {
+  animation: canopy-y var(--duration, 30s) linear infinite;
+}
+
+.pause-animation {
+  animation-play-state: paused;
+}
+
+.group:hover .group-hover\:pause-animation {
+  animation-play-state: paused;
+}

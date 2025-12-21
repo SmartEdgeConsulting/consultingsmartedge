@@ -162,6 +162,7 @@ interface button {
   text: string;
   url: string | null;
 }
+
 export type eventProps = {
   _id: string;
   name: string;
@@ -171,4 +172,13 @@ export type eventProps = {
   coverImage: SanityImage;
   ctaButton: button;
   publishedAt: string;
+};
+
+export type testimonialProps = {
+  _id: string;
+  name: string;
+  slug: string;
+  title: string;
+  profilePicture: SanityImage;
+  testimony: string;
 };

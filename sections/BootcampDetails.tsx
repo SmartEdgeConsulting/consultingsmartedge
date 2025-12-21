@@ -14,6 +14,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Heading from "@/components/Heading";
+import Image from "next/image";
+
 
 const BootcampDetails = () => {
   const curriculumModules = [
@@ -111,9 +113,9 @@ const BootcampDetails = () => {
   ];
 
   const toolsTechnologies = [
-    { name: "Microsoft Excel", level: "Professional", icon: "📊" },
-    { name: "Power BI", level: "Advanced", icon: "📈" },
-    { name: "Tableau", level: "Intermediate+", icon: "🎨" },
+    { name: "Microsoft Excel", level: "Professional", img: "/msexcel.png" },
+    { name: "Power BI", level: "Advanced", img: "/pbi.png" },
+    { name: "Tableau", level: "Intermediate+", img: "/tab.png" },
   ];
 
   const learningOutcomes = [
@@ -243,9 +245,9 @@ const BootcampDetails = () => {
             {toolsTechnologies.map((tool, index) => (
               <div
                 key={index}
-                className="group bg-white rounded-xl p-4 text-center border border-gray-200 hover:border-primary hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-xl p-4 flex justify-center items-center flex-col border border-gray-200 hover:border-primary hover:shadow-md transition-all duration-300"
               >
-                <div className="text-3xl mb-3">{tool.icon}</div>
+                <Image src={tool.img} alt={tool.name} width={48} height={48} />
                 <h4 className="font-semibold text-gray-900 mb-1">
                   {tool.name}
                 </h4>
@@ -258,7 +260,7 @@ const BootcampDetails = () => {
         </div>
 
         {/* Learning Outcomes */}
-        <div className="bg-linear-to-r from-primary/5 to-blue-500/5 rounded-3xl p-8 lg:p-12">
+        <div className="bg-linear-to-r from-primary/5 to-primary/15 rounded-3xl p-8 lg:p-12">
           <div className="text-center mb-10">
             <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
               What You&apos;ll Achieve

@@ -35,6 +35,17 @@ export const getTeams = `*[_type == "teams"] | order(order asc) {
   email
 }`;
 
+export const getTestimonials = `*[_type == "testimonials"] {
+  _id,
+  name,
+  slug,
+  title,
+  profilePicture {
+  asset->,
+  caption},
+  testimony
+}`;
+
 export const getEvents = `*[_type == "events"] | order(order desc) {
   _id,
   name,
