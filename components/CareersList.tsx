@@ -31,11 +31,9 @@ const CareersList = ({
   const [jobs, setJobs] = useState(availableJobs);
 
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
-
-  const currentItems = jobs.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = jobs.slice(startIndex, endIndex);
 
   const searchJobs = () => {
     const searchTerm = jobSearch.trim().toLowerCase();

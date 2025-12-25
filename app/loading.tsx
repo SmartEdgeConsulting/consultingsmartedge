@@ -1,11 +1,10 @@
-import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 const loading = () => {
   return (
-    <main className="min-h-screen flex justify-center items-center px-4">
-      <Image src="/loading.svg" alt="Loading" width={100} height={100} />
-      Loading...
+    <main className="min-h-screen flex justify-center items-center px-4 h-64">
+      <Loader2 className="h-8 w-8 animate-spin" />
     </main>
   );
 };

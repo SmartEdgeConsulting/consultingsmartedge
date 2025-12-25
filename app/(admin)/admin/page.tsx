@@ -1,11 +1,15 @@
-import React from 'react'
+//admin/page.tsx
+"use client";
+import React from "react";
 
-const page = () => {
+const AdminPage = () => {
   return (
-    <div>
-      Admin page
-    </div>
-  )
-}
+    <main>
+      <div>
+        <h2>Overview</h2>
+      </div>
+    </main>
+  );
+};
 
-export default page
+export default AdminPage;

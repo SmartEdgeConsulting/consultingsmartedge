@@ -4,10 +4,33 @@ import { Send } from "lucide-react";
 import { Textarea } from "../components/ui/textarea";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ContactFormData, contactSchema } from "@/src/zod/schema";
 
 const ContactForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+    watch,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      company: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = (data: ContactFormData) => {
+      console.log("Form submitted:", data);
+    };
+
   return (
-    <form className="my-8">
+    <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full flex flex-col gap-8">
         {/* Name & Email Row */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
@@ -23,6 +46,7 @@ const ContactForm = () => {
               id="name"
               type="text"
               placeholder="John Doe"
+              {...register("name")}
               required
               className="h-11 border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 px-4"
             />
@@ -40,6 +64,7 @@ const ContactForm = () => {
               id="email"
               type="email"
               placeholder="john@example.com"
+              {...register("email")}
               required
               className="h-11 border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 px-4"
             />
@@ -56,6 +81,7 @@ const ContactForm = () => {
             id="company"
             type="text"
             placeholder="Acme Inc."
+            {...register("company")}
             className="h-11 border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 px-4"
           />
         </div>
@@ -72,6 +98,7 @@ const ContactForm = () => {
           <Textarea
             id="message"
             placeholder="Tell us about your project, goals, and how we can help..."
+            {...register("message")}
             required
             className="resize-none border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 min-h-[100px] p-4"
             rows={5}

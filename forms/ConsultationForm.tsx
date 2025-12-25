@@ -1,12 +1,64 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Send } from "lucide-react";
+import { ConsultationFormData, consultationSchema } from "@/src/zod/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Send } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const ConsultationForm = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+    reset,
+  } = useForm<ConsultationFormData>({
+    resolver: zodResolver(consultationSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      company: "",
+      challenge: "",
+    },
+  });
+
+  const onSubmit = async (data: ConsultationFormData) => {
+    try {
+      console.log("Form submitted:", data);
+      const res = await fetch("/api/consultations/new", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+
+      if (result.success) {
+        toast.success("Consultation Submitted Successfully!");
+        reset();
+        router.push("/");
+      } else {
+        toast.error("Error submitting consultation: " + result.error);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("Failed to submit consultation. Please try again.");
+    }
+  };
+
   return (
     <section className="py-8 sm:py-12 lg:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,7 +89,7 @@ const ConsultationForm = () => {
               </p>
             </header>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-2">
                 <Label
                   htmlFor="name"
@@ -49,9 +101,13 @@ const ConsultationForm = () => {
                   id="name"
                   type="text"
                   placeholder="Your full name"
+                  {...register("name")}
                   required
                   className="h-11"
                 />
+                {errors.name && (
+                  <p className="text-xs text-red-500">{errors.name.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -65,9 +121,13 @@ const ConsultationForm = () => {
                   id="email"
                   type="email"
                   placeholder="janedoe@example.com"
+                  {...register("email")}
                   required
                   className="h-11"
                 />
+                {errors.email && (
+                  <p className="text-xs text-red-500">{errors.email.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -81,8 +141,14 @@ const ConsultationForm = () => {
                   id="company"
                   type="text"
                   placeholder="Your company name"
+                  {...register("company")}
                   className="h-11"
                 />
+                {errors.company && (
+                  <p className="text-xs text-red-500">
+                    {errors.company.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -95,19 +161,36 @@ const ConsultationForm = () => {
                 <Textarea
                   id="challenge"
                   placeholder="Tell us about your challenge and let's help..."
+                  {...register("challenge")}
                   required
                   rows={5}
                   className="resize-none"
                 />
+                {errors.challenge && (
+                  <p className="text-xs text-red-500">
+                    {errors.challenge.message}
+                  </p>
+                )}
               </div>
 
               <Button
                 type="submit"
                 variant="default"
+                disabled={!isValid || isSubmitting}
                 size="lg"
                 className="w-full sm:w-auto font-semibold gap-2 transition-all hover:gap-3"
               >
-                Send Message <Send className="h-4 w-4" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send className="h-4 w-4" />
+                  </>
+                )}
               </Button>
             </form>
           </div>

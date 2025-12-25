@@ -1,15 +1,15 @@
 import * as z from "zod";
 
-const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+const phoneRegex = /^\+?[0-9]\d{1,14}$/;
 export const genderEnum = z.enum(["Male", "Female", "Other", ""]);
 export const occupationEnum = z.enum([
   "Student",
   "Job-Seeker",
   "Working Professional",
   "Other",
-  ""
+  "",
 ]);
-export const answerEnum = z.enum(["Yes", "No",""]);
+export const answerEnum = z.enum(["Yes", "No", ""]);
 export const skillEnum = z.enum([
   "Excel",
   "SQL",
@@ -17,8 +17,30 @@ export const skillEnum = z.enum([
   "Tableau",
   "Data Storytelling",
   "Other",
-  ""
+  "",
 ]);
+
+export const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  company: z.string().min(2, "Company Name must be at least 2 characters"),
+  message: z.string().min(2, "Your Message must be at least 20 characters"),
+});
+
+export type ContactFormData = z.infer<typeof contactSchema>;
+
+export const consultationSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  company: z
+    .string()
+    .min(2, "Company Name must be at least 2 characters")
+    .or(z.literal(""))
+    .optional(),
+  challenge: z.string().min(2, "Your Message must be at least 20 characters"),
+});
+
+export type ConsultationFormData = z.infer<typeof consultationSchema>;
 
 export const applicationSchema = z.object({
   careerId: z.string().min(1, "Career ID is required"),

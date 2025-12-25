@@ -47,7 +47,7 @@ const ProofOfPayment = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="proofOfPayment">Proof of Payment *</Label>
+        <Label htmlFor="proofOfPayment">Proof of Payment <span className="text-red-500">*</span></Label>
         <div className="w-full bg-white p-5 rounded-lg">
           <div
             {...getRootProps()}

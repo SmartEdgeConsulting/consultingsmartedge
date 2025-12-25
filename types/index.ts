@@ -1,3 +1,9 @@
+export type Params = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
 export type serviceProps = {
   id?: number;
   icon: string;
@@ -182,3 +188,28 @@ export type testimonialProps = {
   profilePicture: SanityImage;
   testimony: string;
 };
+
+export type Registration = {
+  id: string;
+  name: string;
+  email: string;
+  phoneNo: string;
+  gender: string;
+  country?: string;
+  occupation?: string;
+  education?: string;
+  experience?: string;
+  interest?: string;
+  skillOfInterest?: string[];
+  sessionAttendance?: string;
+  classHolding?: string;
+  classTiming?: string;
+  connection?: string;
+  device?: string;
+  heardAboutUs?: string;
+  additionalInfo?: string;
+  proofOfPayment: string;
+  status: "pending" | "accepted" | "rejected";
+  createdAt: string;
+  updatedAt?: string;
+}

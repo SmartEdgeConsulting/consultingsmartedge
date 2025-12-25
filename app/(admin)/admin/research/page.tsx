@@ -1,11 +1,11 @@
 import React from 'react'
 
-const AdminNav = () => {
+const ResearchPage = () => {
   return (
     <div>
-      adminnav
+      
     </div>
   )
 }
 
-export default AdminNav
+export default ResearchPage;

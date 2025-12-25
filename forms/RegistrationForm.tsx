@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { CheckCircle2, ArrowRight, ArrowLeft, Check, Loader2 } from "lucide-react";
 import { BootcampData, bootcampSchema } from "@/src/zod/schema";
 import PersonalInfo from "@/forms/PeronalInfoForm";
 import EducationaInfo from "@/forms/EducationaInfoForm";
@@ -14,11 +14,14 @@ import ProofOfPayment from "@/components/ProofOfPayment";
 import { useUploadThing } from "@/lib/utils/uploadthing";
 import { toast } from "sonner";
 import { FileRejection, useDropzone } from "react-dropzone";
+import { useRouter } from "next/navigation";
 
 export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadedUrl, setUploadedUrl] = useState<string>("");
+  const router = useRouter();
 
   const steps = [
     { number: 1, label: "Personal Info" },
@@ -32,6 +35,7 @@ export default function MultiStepForm() {
     onClientUploadComplete: (res) => {
       if (res && res[0]) {
         const fileUrl = res[0].ufsUrl;
+        setUploadedUrl(fileUrl);
         setValue("proofOfPayment", fileUrl, { shouldValidate: true });
         toast.success("Payment proof uploaded successfully!");
       }
@@ -40,6 +44,7 @@ export default function MultiStepForm() {
       console.error("Upload error:", error);
       toast.error(`Upload failed: ${error.message}`);
       setUploadedFile(null);
+      setUploadedUrl("");
       setValue("proofOfPayment", "", { shouldValidate: true });
     },
     onUploadBegin: (fileName: string) => {
@@ -54,6 +59,7 @@ export default function MultiStepForm() {
     formState: { errors, isValid, isSubmitting },
     getValues,
     setValue,
+    reset,
     watch,
   } = useForm<BootcampData>({
     resolver: zodResolver(bootcampSchema),
@@ -79,8 +85,7 @@ export default function MultiStepForm() {
       proofOfPayment: "",
     },
   });
-
-  // Watch the proofOfPayment field
+  // Watch for proofOfPayment changes
   const proofOfPayment = watch("proofOfPayment");
 
   const onDrop = useCallback(
@@ -109,6 +114,7 @@ export default function MultiStepForm() {
         } catch (error) {
           console.error("Upload error:", error);
           setUploadedFile(null);
+          setUploadedUrl("");
           setValue("proofOfPayment", "", { shouldValidate: true });
         }
       }
@@ -126,58 +132,120 @@ export default function MultiStepForm() {
     maxSize: 4 * 1024 * 1024, // 4MB
     multiple: false,
     disabled: isUploading,
+    onDropRejected: (rejectedFiles) => {
+      const error = rejectedFiles[0]?.errors[0];
+      if (error?.code === "file-too-large") {
+        toast.error("File is too large. Maximum size is 4MB.");
+      } else if (error?.code === "file-invalid-type") {
+        toast.error(
+          "Invalid file type. Please upload PDF, PNG, or JPEG files only."
+        );
+      }
+    },
   });
 
   // Function to remove selected file
   const removeFile = () => {
     setUploadedFile(null);
+    setUploadedUrl("");
     setValue("proofOfPayment", "", { shouldValidate: true });
   };
 
-  const onSubmit = (data: BootcampData) => {
-    console.log("Form submitted:", data);
-    setIsSubmitted(true);
+  const onSubmit = async (data: BootcampData) => {
+    try {
+      console.log("Form submitted:", data);
+      // Validate one more time before submission
+      const isStep4Valid = await trigger(["proofOfPayment"]);
+      if (!isStep4Valid) {
+        toast.error("Please complete the payment proof upload");
+        return;
+      }
+
+      const res = await fetch("/api/registrations/new", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        reset();
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      } else {
+        toast.error("Error submitting registration: " + result.error);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to submit registration. Please try again."
+      );
+    }
   };
 
   const nextStep = async () => {
     let isValid = false;
 
-    if (currentStep === 1) {
-      isValid = await trigger([
-        "name",
-        "email",
-        "phoneNo",
-        "gender",
-        "country",
-      ]);
-    } else if (currentStep === 2) {
-      isValid = await trigger([
-        "occupation",
-        "education",
-        "experience",
-        "interest",
-        "skillOfInterest",
-      ]);
-    } else if (currentStep === 3) {
-      isValid = await trigger([
-        "sessionAttendance",
-        "classHolding",
-        "classTiming",
-        "connection",
-        "device",
-        "heardAboutUs",
-      ]);
-    } else if (currentStep === 4) {
-      isValid = await trigger(["additionalInfo", "proofOfPayment"]);
+    switch (currentStep) {
+      case 1:
+        isValid = await trigger([
+          "name",
+          "email",
+          "phoneNo",
+          "gender",
+          "country",
+        ]);
+        break;
+      case 2:
+        isValid = await trigger([
+          "occupation",
+          "education",
+          "experience",
+          "interest",
+          "skillOfInterest",
+        ]);
+        break;
+      case 3:
+        isValid = await trigger([
+          "sessionAttendance",
+          "classHolding",
+          "classTiming",
+          "connection",
+          "device",
+          "heardAboutUs",
+        ]);
+        break;
+      case 4:
+        // Validate payment proof before moving to submission
+        isValid = await trigger(["proofOfPayment"]);
+        if (!isValid) {
+          toast.error("Please upload payment proof before submitting");
+        }
+        break;
     }
 
     if (isValid) {
-      setCurrentStep(currentStep + 1);
+      if (currentStep < 4) {
+        setCurrentStep(currentStep + 1);
+      }
+    } else {
+      toast.error("Please complete all required fields correctly");
     }
   };
 
   const prevStep = () => {
-    setCurrentStep(currentStep - 1);
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   // Check if submit button should be disabled
@@ -208,6 +276,9 @@ export default function MultiStepForm() {
                 onClick={() => {
                   setIsSubmitted(false);
                   setCurrentStep(1);
+                  reset();
+                  setUploadedFile(null);
+                  setUploadedUrl("");
                 }}
               >
                 Submit Another Registration
@@ -290,7 +361,10 @@ export default function MultiStepForm() {
 
                 {/* Step 3: Bootcamp-Specific Information */}
                 {currentStep === 3 && (
-                  <BootcampInfo register={register} errors={errors} />
+                  <BootcampInfo
+                    register={register}
+                    errors={errors}
+                  />
                 )}
 
                 {/* Step 4: Proof of Payment */}
@@ -325,11 +399,14 @@ export default function MultiStepForm() {
                     </Button>
                   ) : (
                     <Button type="submit" disabled={isSubmitDisabled}>
-                      {isSubmitting
-                        ? "Submitting..."
-                        : isUploading
-                          ? "Uploading..."
-                          : "Submit Registration"}
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        "Submit Registration"
+                      )}
                     </Button>
                   )}
                 </div>

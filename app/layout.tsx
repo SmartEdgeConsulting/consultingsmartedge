@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/sonner";
+import Navbar from "@/sections/Navbar";
 
 const poppins = localFont({
   src: [
@@ -43,6 +44,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${poppins.className} w-full mr-0 pr-0`}>
+          <Navbar />
           {children}
           <Toaster />
         </body>

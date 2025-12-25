@@ -52,7 +52,7 @@ const VerifyEmailPage = () => {
           toast.success("Email verified successfully!");
 
           setTimeout(() => {
-            router.push("/dashboard");
+            router.push("/");
           }, 1500);
           return;
         }
@@ -76,7 +76,7 @@ const VerifyEmailPage = () => {
             toast.success("Email verified successfully!");
 
             setTimeout(() => {
-              router.push("/dashboard");
+              router.push("/");
             }, 1500);
           } else {
             setVerificationStatus("error");
@@ -104,7 +104,7 @@ const VerifyEmailPage = () => {
                 toast.success("Email verified successfully!");
 
                 setTimeout(() => {
-                  router.push("/dashboard");
+                  router.push("/");
                 }, 1500);
               } else {
                 setVerificationStatus("error");
@@ -134,7 +134,7 @@ const VerifyEmailPage = () => {
             toast.success("Already verified! Redirecting...");
 
             setTimeout(() => {
-              router.push("/dashboard");
+              router.push("/");
             }, 1500);
           } else {
             setVerificationStatus("error");
