@@ -1,19 +1,29 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, ArrowRight, ArrowLeft, Check, Loader2 } from "lucide-react";
+import {
+  CheckCircle2,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  Loader2,
+} from "lucide-react";
 import { BootcampData, bootcampSchema } from "@/src/zod/schema";
 import PersonalInfo from "@/forms/PeronalInfoForm";
 import EducationaInfo from "@/forms/EducationaInfoForm";
 import BootcampInfo from "@/forms/BootcampInfoForm";
 import ProofOfPayment from "@/components/ProofOfPayment";
-import { useUploadThing } from "@/lib/utils/uploadthing";
 import { toast } from "sonner";
-import { FileRejection, useDropzone } from "react-dropzone";
+import { useDropzone } from "@uploadthing/react";
+import { useUploadThing } from "@/lib/utils/uploadthing";
+import {
+  generateClientDropzoneAccept,
+  generatePermittedFileTypes,
+} from "uploadthing/client";
 import { useRouter } from "next/navigation";
 
 export default function MultiStepForm() {
@@ -21,6 +31,9 @@ export default function MultiStepForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploadedUrl, setUploadedUrl] = useState<string>("");
+  const [uploadStatus, setUploadStatus] = useState<
+    "idle" | "uploading" | "success" | "error"
+  >("idle");
   const router = useRouter();
 
   const steps = [
@@ -30,34 +43,11 @@ export default function MultiStepForm() {
     { number: 4, label: "Payment" },
   ];
 
-  // Initialize UploadThing hook
-  const { startUpload, isUploading } = useUploadThing("paymentProofUploader", {
-    onClientUploadComplete: (res) => {
-      if (res && res[0]) {
-        const fileUrl = res[0].ufsUrl;
-        setUploadedUrl(fileUrl);
-        setValue("proofOfPayment", fileUrl, { shouldValidate: true });
-        toast.success("Payment proof uploaded successfully!");
-      }
-    },
-    onUploadError: (error: Error) => {
-      console.error("Upload error:", error);
-      toast.error(`Upload failed: ${error.message}`);
-      setUploadedFile(null);
-      setUploadedUrl("");
-      setValue("proofOfPayment", "", { shouldValidate: true });
-    },
-    onUploadBegin: (fileName: string) => {
-      console.log("Upload started for:", fileName);
-    },
-  });
-
   const {
     register,
     handleSubmit,
     trigger,
-    formState: { errors, isValid, isSubmitting },
-    getValues,
+    formState: { errors, isSubmitting },
     setValue,
     reset,
     watch,
@@ -85,76 +75,112 @@ export default function MultiStepForm() {
       proofOfPayment: "",
     },
   });
+
+  const { startUpload, routeConfig, isUploading } = useUploadThing(
+    "paymentProofUploader",
+    {
+      onClientUploadComplete: (res) => {
+        console.log("Upload complete:", res);
+        if (res && res[0]) {
+          const url = res[0].ufsUrl;
+          console.log("📎 File URL:", url);
+
+          if (url) {
+            setUploadedUrl(url);
+            setValue("proofOfPayment", url, { shouldValidate: true });
+            setUploadStatus("success");
+            toast.success("Proof of payment uploaded successfully!");
+          } else {
+            console.error("No URL found in response:", res[0]);
+            setUploadStatus("error");
+            toast.error("Upload completed but no URL received");
+          }
+        }
+      },
+      onUploadError: (error: Error) => {
+        console.error("Upload error:", error);
+        setUploadStatus("error");
+        toast.error(`Upload failed: ${error.message}`);
+        setUploadedFile(null);
+        setValue("proofOfPayment", "", { shouldValidate: true });
+      },
+      onUploadBegin: (fileName: string) => {
+        console.log("Upload begin:", fileName);
+        setUploadStatus("uploading");
+      },
+    }
+  );
+
+  const acceptedFileTypes = routeConfig
+    ? generateClientDropzoneAccept(
+        generatePermittedFileTypes(routeConfig).fileTypes
+      )
+    : {
+        "application/pdf": [".pdf"],
+        "image/png": [".png"],
+        "image/jpeg": [".jpg", ".jpeg"],
+      };
+
+  // Use UploadThing's dropzone hook
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: useCallback(
+      async (acceptedFiles: File[]) => {
+        if (acceptedFiles.length > 0) {
+          const file = acceptedFiles[0];
+
+          setUploadedFile(file);
+          setUploadedUrl("");
+          setValue("proofOfPayment", "", { shouldValidate: false });
+          setUploadStatus("uploading");
+
+          try {
+            // Start the upload
+            await startUpload([file]);
+          } catch (error) {
+            console.error("Upload error:", error);
+            setUploadStatus("error");
+            toast.error("Upload failed. Please try again.");
+            setUploadedFile(null);
+            setUploadedUrl("");
+            setValue("proofOfPayment", "", { shouldValidate: true });
+          }
+        }
+      },
+      [startUpload, setValue]
+    ),
+    accept: acceptedFileTypes,
+    maxFiles: 1,
+    maxSize: 4 * 1024 * 1024, // 4MB
+    multiple: false,
+  });
+
   // Watch for proofOfPayment changes
   const proofOfPayment = watch("proofOfPayment");
 
-  const onDrop = useCallback(
-    async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-      // Handle rejected files
-      if (rejectedFiles.length > 0) {
-        const rejection = rejectedFiles[0];
-        if (rejection.errors[0].code === "file-too-large") {
-          toast.error("File is too large. Maximum size is 4MB.");
-        } else if (rejection.errors[0].code === "file-invalid-type") {
-          toast.error(
-            "Invalid file type. Please upload PDF, PNG, or JPEG files only."
-          );
-        }
-        return;
-      }
-
-      // Handle accepted files
-      if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0];
-        setUploadedFile(file);
-
-        try {
-          // Start upload with UploadThing
-          await startUpload([file]);
-        } catch (error) {
-          console.error("Upload error:", error);
-          setUploadedFile(null);
-          setUploadedUrl("");
-          setValue("proofOfPayment", "", { shouldValidate: true });
-        }
-      }
-    },
-    [startUpload, setValue]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "application/pdf": [".pdf"],
-      "image/png": [".png"],
-      "image/jpeg": [".jpg", ".jpeg"],
-    },
-    maxSize: 4 * 1024 * 1024, // 4MB
-    multiple: false,
-    disabled: isUploading,
-    onDropRejected: (rejectedFiles) => {
-      const error = rejectedFiles[0]?.errors[0];
-      if (error?.code === "file-too-large") {
-        toast.error("File is too large. Maximum size is 4MB.");
-      } else if (error?.code === "file-invalid-type") {
-        toast.error(
-          "Invalid file type. Please upload PDF, PNG, or JPEG files only."
-        );
-      }
-    },
-  });
-
   // Function to remove selected file
-  const removeFile = () => {
+  const removeFile = useCallback(() => {
     setUploadedFile(null);
     setUploadedUrl("");
     setValue("proofOfPayment", "", { shouldValidate: true });
-  };
+    setUploadStatus("idle");
+    toast.info("File removed");
+  }, [setValue]);
+
+  // Trigger validation when resumeUrl changes
+  useEffect(() => {
+    if (proofOfPayment) {
+      trigger("proofOfPayment");
+    }
+  }, [proofOfPayment, trigger]);
 
   const onSubmit = async (data: BootcampData) => {
     try {
-      console.log("Form submitted:", data);
-      // Validate one more time before submission
+      console.log(
+        "📤 Form submitted with proofOfPayment:",
+        data.proofOfPayment
+      );
+
+      // Force validation one more time
       const isStep4Valid = await trigger(["proofOfPayment"]);
       if (!isStep4Valid) {
         toast.error("Please complete the payment proof upload");
@@ -176,6 +202,9 @@ export default function MultiStepForm() {
       if (result.success) {
         setIsSubmitted(true);
         reset();
+        setUploadedFile(null);
+        setUploadedUrl("");
+        setUploadStatus("idle");
         setTimeout(() => {
           router.push("/");
         }, 2000);
@@ -225,7 +254,8 @@ export default function MultiStepForm() {
         ]);
         break;
       case 4:
-        // Validate payment proof before moving to submission
+        // Small delay to ensure form state is updated
+        await new Promise((resolve) => setTimeout(resolve, 100));
         isValid = await trigger(["proofOfPayment"]);
         if (!isValid) {
           toast.error("Please upload payment proof before submitting");
@@ -251,9 +281,11 @@ export default function MultiStepForm() {
   // Check if submit button should be disabled
   const isSubmitDisabled =
     isSubmitting ||
-    isUploading ||
+    isUploading || // Use UploadThing's isUploading state
     !proofOfPayment ||
     Object.keys(errors).length > 0;
+
+  console.log("🔍 Checking if submit should be disabled:", isSubmitDisabled);
 
   if (isSubmitted) {
     return (
@@ -266,23 +298,6 @@ export default function MultiStepForm() {
               <p className="text-gray-600">
                 Your registration has been submitted successfully.
               </p>
-              <div className="bg-gray-50 p-4 rounded-lg text-left mt-6">
-                <h3 className="font-semibold mb-2">Submitted Data:</h3>
-                <pre className="text-xs overflow-auto">
-                  {JSON.stringify(getValues(), null, 2)}
-                </pre>
-              </div>
-              <Button
-                onClick={() => {
-                  setIsSubmitted(false);
-                  setCurrentStep(1);
-                  reset();
-                  setUploadedFile(null);
-                  setUploadedUrl("");
-                }}
-              >
-                Submit Another Registration
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -295,20 +310,17 @@ export default function MultiStepForm() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="shadow-lg rounded-2xl overflow-hidden bg-white border border-gray-200">
           <header className="bg-linear-to-r from-primary/10 to-primary/5 p-6 border-b border-gray-100">
-            {/* Progress Indicator - Steps with Labels */}
             <div className="mb-4">
               <div className="flex items-center justify-between relative">
-                {/* Progress Line */}
                 <div className="absolute top-5 left-0 right-0 h-1 bg-gray-200">
                   <div
-                    className="h-full bg-primary  transition-all duration-500 ease-out"
+                    className="h-full bg-primary transition-all duration-500 ease-out"
                     style={{
                       width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
                     }}
                   />
                 </div>
 
-                {/* Step Circles */}
                 {steps.map((stepItem) => (
                   <div
                     key={stepItem.number}
@@ -317,7 +329,7 @@ export default function MultiStepForm() {
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                         stepItem.number < currentStep
-                          ? "bg-primary  text-white shadow-lg"
+                          ? "bg-primary text-white shadow-lg"
                           : stepItem.number === currentStep
                             ? "bg-primary text-white shadow-lg ring-4 ring-blue-200"
                             : "bg-white border-2 border-gray-300 text-gray-400"
@@ -349,25 +361,18 @@ export default function MultiStepForm() {
           <div className="w-full p-6 sm:p-8 lg:p-10">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-6">
-                {/* Step 1: Personal Information */}
                 {currentStep === 1 && (
                   <PersonalInfo register={register} errors={errors} />
                 )}
 
-                {/* Step 2: Educational & Professional Background */}
                 {currentStep === 2 && (
                   <EducationaInfo register={register} errors={errors} />
                 )}
 
-                {/* Step 3: Bootcamp-Specific Information */}
                 {currentStep === 3 && (
-                  <BootcampInfo
-                    register={register}
-                    errors={errors}
-                  />
+                  <BootcampInfo register={register} errors={errors} />
                 )}
 
-                {/* Step 4: Proof of Payment */}
                 {currentStep === 4 && (
                   <ProofOfPayment
                     register={register}
@@ -376,8 +381,10 @@ export default function MultiStepForm() {
                     getInputProps={getInputProps}
                     isDragActive={isDragActive}
                     uploadedFile={uploadedFile}
-                    isUploading={isUploading}
+                    uploading={isUploading}
                     removeFile={removeFile}
+                    uploadedUrl={uploadedUrl} 
+                    uploadStatus={uploadStatus}
                   />
                 )}
 

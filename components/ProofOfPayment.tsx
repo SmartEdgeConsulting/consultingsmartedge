@@ -3,17 +3,19 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { File, FileSpreadsheet, X, Loader2 } from "lucide-react";
+import { File, FileSpreadsheet, X, Loader2, CheckCircle } from "lucide-react";
 import { FormProps } from "@/src/zod/constant/formOptions";
-import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone";
+import { useDropzone } from "@uploadthing/react";
 
 interface ProofOfPaymentProps extends FormProps {
-  getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
-  getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
+  getRootProps: ReturnType<typeof useDropzone>["getRootProps"];
+  getInputProps: ReturnType<typeof useDropzone>["getInputProps"];
   isDragActive: boolean;
   uploadedFile: File | null;
-  isUploading: boolean;
+  uploading: boolean;
+  uploadedUrl: string;
   removeFile: () => void;
+  uploadStatus: "idle" | "uploading" | "success" | "error";
 }
 
 const ProofOfPayment = ({
@@ -23,8 +25,10 @@ const ProofOfPayment = ({
   getInputProps,
   isDragActive,
   uploadedFile,
-  isUploading,
+  uploading,
+  uploadedUrl,
   removeFile,
+  uploadStatus,
 }: ProofOfPaymentProps) => {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -47,7 +51,9 @@ const ProofOfPayment = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="proofOfPayment">Proof of Payment <span className="text-red-500">*</span></Label>
+        <Label htmlFor="proofOfPayment">
+          Proof of Payment <span className="text-red-500">*</span>
+        </Label>
         <div className="w-full bg-white p-5 rounded-lg">
           <div
             {...getRootProps()}
@@ -57,7 +63,7 @@ const ProofOfPayment = ({
                 : isDragActive
                   ? "border-primary bg-primary/10"
                   : "border-gray-300 hover:border-primary hover:bg-gray-50"
-            } ${isUploading ? "opacity-50 cursor-not-allowed" : ""}`}
+            } ${uploading || uploadStatus === "uploading" ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <input {...getInputProps()} />
             <div>
@@ -71,21 +77,31 @@ const ProofOfPayment = ({
                       </span>
                     </div>
                   </div>
-                  {isUploading ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeFile();
-                      }}
-                      className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
-                      aria-label="Remove file"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {uploadStatus === "uploading" && (
+                      <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                    )}
+                    {uploadStatus === "success" && (
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                    )}
+                    {uploadStatus === "error" && (
+                      <span className="text-red-500 text-sm">Error</span>
+                    )}
+                    {uploadStatus !== "uploading" &&
+                      uploadStatus !== "success" && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeFile();
+                          }}
+                          className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
+                          aria-label="Remove file"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
+                  </div>
                 </div>
               ) : isDragActive ? (
                 <div className="flex flex-col items-center gap-2">

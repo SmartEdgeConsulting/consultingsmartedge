@@ -18,7 +18,6 @@ const ApplicationPage = async ({
     .limit(1);
 
   const career = result[0];
-  console.log("Career found:", career);
 
   if (!career) {
     notFound();

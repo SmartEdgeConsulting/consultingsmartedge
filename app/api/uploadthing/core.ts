@@ -3,7 +3,6 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
-// Fake auth function
 
 export const ourFileRouter = {
   resumeUploader: f({
@@ -15,16 +14,16 @@ export const ourFileRouter = {
     },
   })
     .middleware(async ({ req }) => {
-      const user = await auth();
-      if (!user) throw new UploadThingError("Unauthorized");
+      const { userId } = await auth();
+      if (!userId) throw new UploadThingError("Unauthorized");
 
-      // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.userId };
+      //What is returned is used in the metadata of onUploadComplete
+      return { userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log("Upload complete for userId:", metadata.userId);
-      console.log("file url", file.ufsUrl);
-      return { uploadedBy: metadata.userId, fileUrl: file.ufsUrl };
+      console.log("Resume upload complete for userId:", metadata.userId);
+      console.log("file url", file);
+      return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
   paymentProofUploader: f({
     // PDF support
@@ -33,17 +32,17 @@ export const ourFileRouter = {
     image: { maxFileSize: "4MB", maxFileCount: 1 },
   })
     .middleware(async ({ req }) => {
-      const user = await auth();
-      if (!user) throw new UploadThingError("Unauthorized");
-      return { userId: user.userId, uploadType: "payment_proof" };
+      const { userId } = await auth();
+      if (!userId) throw new UploadThingError("Unauthorized");
+      return { userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("Payment proof upload complete for userId:", metadata.userId);
       console.log("file url", file.ufsUrl);
       return {
         uploadedBy: metadata.userId,
-        fileUrl: file.ufsUrl,
-        fileName: file.name,
+        url: file.ufsUrl,
+        name: file.name,
       };
     }),
 } satisfies FileRouter;
