@@ -50,7 +50,8 @@
     "svix": "^1.81.0",
     "tailwind-merge": "^3.4.0",
     "uploadthing": "^7.7.4",
-    "zod": "^4.1.13"
+    "zod": "^4.1.13",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
