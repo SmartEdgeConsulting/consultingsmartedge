@@ -23,16 +23,14 @@ export const getJobs = `*[_type == "careers" && available == true] | order(publi
   publishedAt
 }`;
 
-export const getTeams = `*[_type == "teams"] | order(order asc) {
+export const getTeams = `*[_type == "teams"] {
   _id,
   name,
   slug,
-  title,
-  profilePicture,
-  bio,
-  "techStack": techStack[].stack,
-  linkedin,
-  email
+  profilePicture {
+  asset->,
+  caption},
+  skill,
 }`;
 
 export const getTestimonials = `*[_type == "testimonials"] {

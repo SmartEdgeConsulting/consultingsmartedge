@@ -21,12 +21,10 @@ export type processProps = {
 };
 
 export type teamsProps = {
-  id: number;
+  _id: string;
   name: string;
-  role: string;
-  bio: string;
-  skills: string[];
-  avatar: string;
+  skill: string;
+  profilePicture: SanityImage;
 };
 
 export type contactInfoProps = {

@@ -1,61 +1,53 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Linkedin, Mail } from "lucide-react";
 import { teamsProps } from "@/types";
-
 import { cn } from "@/lib/utils";
-import { CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { urlFor } from "@/lib/utils/image-builder";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        "bg-primary text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-md",
-        className
-      )}
+      className={cn("bg-primary/10 p-1 rounded-full", className)}
       {...props}
     />
   );
 }
-const TeamsCard = ({ id, name, role, bio, skills, avatar }: teamsProps) => {
-  return (
-    <Card className="w-full max-w-md flex flex-col ">
-      <CardHeader className="flex justify-center space-x-4 pb-4">
-        <Avatar className="size-30">
-          <AvatarImage src={avatar} alt={`${name} avatar`} />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </CardHeader>
 
-      <CardContent className="flex items-center flex-col">
-        <h3 className="text-lg font-bold text-white mb-3.5">{name}</h3>
-        <h5 className="text-base text-slate-300 mb-5">{role}</h5>
-        <p className="text-center text-slate-300 leading-6 text-sm mb-5">
-          {bio}
-        </p>
-        <ul className="flex flex-wrap justify-center gap-1.5 mb-4">
-          {skills.map((skill, index) => {
-            return (
-              <li
-                key={index}
-                className="inline-flex items-center px-2 py-1 rounded-full border border-accent bg-accent/30 text-accent text-xs"
-              >
-                {skill}
-              </li>
-            );
-          })}
-        </ul>
-        <div className="flex gap-5">
-          <Button variant="icon" size="xs">
-            <Mail />
-          </Button>
-          <Button variant="icon" size="xs">
-            <Linkedin />
-          </Button>
+const TeamsCard = ({ _id, name, skill, profilePicture }: teamsProps) => {
+  const imageSrc = profilePicture?.asset
+    ? urlFor(profilePicture.asset).url()
+    : undefined;
+
+  const getInitials = (fullName: string) => {
+    const names = fullName?.trim().split(" ") || [];
+    if (names.length === 0) return "?";
+    if (names.length === 1) return names[0].charAt(0).toUpperCase();
+    return (
+      names[0].charAt(0).toUpperCase() +
+      names[names.length - 1].charAt(0).toUpperCase()
+    );
+  };
+
+  return (
+    <Card className="w-full group">
+      <div className="bg-white flex items-center gap-3 rounded-full pr-6">
+        <Avatar className="w-24 h-24 ring-4 ring-transparent transition-all duration-300 shrink-0">
+          <AvatarImage
+            src={imageSrc}
+            alt={`${name} avatar`}
+            className="object-cover"
+          />
+          <AvatarFallback className="w-24 h-24 text-2xl font-bold bg-linear-to-br from-gray-200 to-gray-300 text-black">
+            {getInitials(name)}
+          </AvatarFallback>
+        </Avatar>
+
+        <div className="flex flex-col justify-center text-left flex-1 min-w-0">
+          <h3 className="text-base font-bold text-primary truncate">{name}</h3>
+          <p className="text-sm text-slate-800 font-normal truncate">{skill}</p>
         </div>
-      </CardContent>
+      </div>
     </Card>
   );
 };
