@@ -1,9 +1,4 @@
-import {
-  contactInfoProps,
-  processProps,
-  serviceProps,
-  teamsProps,
-} from "../types";
+import { contactInfoProps, processProps, serviceProps } from "../types";
 import {
   FacebookIcon,
   InstagramIcon,
@@ -172,41 +167,6 @@ export const values = [
     id: 3,
     icon: "Users",
     title: "Collaboration and Growth",
-  },
-];
-
-export const teams: teamsProps[] = [
-  {
-    id: 1,
-    name: "Dr. Sarah Chen",
-    role: "Chief Data Scientist",
-    bio: "PhD in Machine Learning with 12+ years experience in predictive analytics and AI solutions.",
-    skills: ["Machine Learning", "Predictive Analytics", "AI Solutions"],
-    avatar: "",
-  },
-  {
-    id: 2,
-    name: "Dr. Sarah Chen",
-    role: "Chief Data Scientist",
-    bio: "PhD in Machine Learning with 12+ years experience in predictive analytics and AI solutions.",
-    skills: ["Machine Learning", "Predictive Analytics", "Cloud Architecture"],
-    avatar: "",
-  },
-  {
-    id: 3,
-    name: "David Kim",
-    role: "Analytics Consultant",
-    bio: "Expert in building scalable data infrastructures and real-time analytics pipelines.",
-    skills: ["Dashboard Design", "Change Management", "AI Solutions"],
-    avatar: "",
-  },
-  {
-    id: 4,
-    name: "Emily Thompson",
-    role: "Business Intelligence Analyst",
-    bio: "PhD in Machine Learning with 12+ years experience in predictive analytics and AI solutions.",
-    skills: ["Machine Learning", "Dashboard Design", "AI Solutions"],
-    avatar: "",
   },
 ];
 
