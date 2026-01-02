@@ -10,9 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type VerificationStatus = "loading" | "success" | "error";
 
@@ -26,10 +28,58 @@ const VerifyEmailPage = () => {
     useState<VerificationStatus>("loading");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [debugInfo, setDebugInfo] = useState<string[]>([]);
+  const [showResendForm, setShowResendForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isResending, setIsResending] = useState(false);
 
   const addDebug = (message: string) => {
     console.log(message);
     setDebugInfo((prev) => [...prev, message]);
+  };
+
+  // resend email verification link 
+  const handleResendVerification = async () => {
+    if (!email) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    setIsResending(true);
+    try {
+      // Create a new sign-up attempt with the email
+      const newSignUp = await client.signUp.create({
+        emailAddress: email,
+      });
+
+      // Send the verification email
+      await newSignUp.prepareEmailAddressVerification({
+        strategy: "email_link",
+        redirectUrl: `${window.location.origin}/sign-up/verify`,
+      });
+
+      toast.success("Verification email sent! Please check your inbox.");
+      setShowResendForm(false);
+    } catch (err) {
+      console.error("Resend error:", err);
+      const clerkError = err as {
+        errors?: Array<{
+          message: string;
+          code?: string;
+        }>;
+      };
+
+      const errorCode = clerkError.errors?.[0]?.code;
+      const errorMsg = clerkError.errors?.[0]?.message || "Failed to resend email";
+
+      if (errorCode === "form_identifier_exists") {
+        toast.info("Account already exists. Try logging in instead.");
+        setTimeout(() => router.push("/login"), 2000);
+      } else {
+        toast.error(errorMsg);
+      }
+    } finally {
+      setIsResending(false);
+    }
   };
 
   useEffect(() => {
@@ -42,11 +92,15 @@ const VerifyEmailPage = () => {
       addDebug(
         `Verification status: ${signUp.verifications?.emailAddress?.status}`
       );
+      // Pre-fill email if available
+      if (signUp.emailAddress) {
+        setEmail(signUp.emailAddress);
+      }
     }
 
     const handleVerification = async () => {
       try {
-        // Case 1: user is already signed in (i.e verification happened automatically)
+        // Case 1: user is already signed in
         if (isSignedIn) {
           setVerificationStatus("success");
           toast.success("Email verified successfully!");
@@ -69,7 +123,6 @@ const VerifyEmailPage = () => {
 
         // If already verified, just create session
         if (emailVerification?.status === "verified") {
-
           if (signUp.createdSessionId) {
             await setActive({ session: signUp.createdSessionId });
             setVerificationStatus("success");
@@ -90,7 +143,6 @@ const VerifyEmailPage = () => {
           signUp.status === "missing_requirements" ||
           signUp.status === "abandoned"
         ) {
-
           try {
             const result = await signUp.attemptEmailAddressVerification({
               code: "",
@@ -127,7 +179,6 @@ const VerifyEmailPage = () => {
 
         // Case 5: Sign-up already complete
         if (signUp.status === "complete") {
-
           if (signUp.createdSessionId) {
             await setActive({ session: signUp.createdSessionId });
             setVerificationStatus("success");
@@ -194,7 +245,6 @@ const VerifyEmailPage = () => {
     handleVerification();
   }, [signUpLoaded, userLoaded, isSignedIn, signUp, setActive, router, client]);
 
-  // Show debug info in development
   const isDev = process.env.NODE_ENV === "development";
 
   if (!signUpLoaded || !userLoaded || verificationStatus === "loading") {
@@ -241,9 +291,7 @@ const VerifyEmailPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Redirecting to dashboard...
-            </p>
+            <p className="text-sm text-muted-foreground">Redirecting...</p>
           </CardContent>
         </Card>
       </div>
@@ -263,28 +311,84 @@ const VerifyEmailPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {errorMessage && (
-            <div className="bg-destructive/10 p-3 rounded-md">
-              <p className="text-sm text-destructive">{errorMessage}</p>
-            </div>
+          {!showResendForm ? (
+            <>
+              <p className="text-sm text-muted-foreground">
+                {errorMessage ||
+                  "The verification link may have expired or is invalid."}
+              </p>
+
+              <div className="space-y-2">
+                <Button
+                  onClick={() => setShowResendForm(true)}
+                  className="w-full"
+                  variant="default"
+                >
+                  <Mail className="h-4 w-4 mr-2" />
+                  Resend Verification Email
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => router.push("/sign-up")}
+                  className="w-full"
+                >
+                  Back to Sign Up
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => router.push("/login")}
+                  className="w-full"
+                >
+                  Try Logging In
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isResending}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Enter the email you used to sign up
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Button
+                  onClick={handleResendVerification}
+                  className="w-full"
+                  disabled={isResending}
+                >
+                  {isResending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Verification Email
+                    </>
+                  )}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowResendForm(false)}
+                  className="w-full"
+                  disabled={isResending}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </>
           )}
-
-          <p className="text-sm text-muted-foreground">
-            The verification link may have expired or is invalid.
-          </p>
-
-          <div className="space-y-2">
-            <Button onClick={() => router.push("/sign-up")} className="w-full">
-              Back to Sign Up
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => router.push("/login")}
-              className="w-full"
-            >
-              Try Logging In
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </div>

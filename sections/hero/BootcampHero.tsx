@@ -57,7 +57,7 @@ const BootcampHero = () => {
             <div className="relative mx-auto max-w-md lg:max-w-lg">
               <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                 <Image
-                  src="/dataedge.png"
+                  src="/bootcamp.jpg"
                   width={600}
                   height={400}
                   alt="DataEdge Analytics Bootcamp - Students learning data analytics"

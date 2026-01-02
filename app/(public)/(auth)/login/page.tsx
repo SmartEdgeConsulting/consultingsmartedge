@@ -38,7 +38,7 @@ const LoginPage = () => {
   useEffect(() => {
     // If user is already signed in, redirect to dashboard
     if (isSignedIn) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }, [isSignedIn, router]);
 
@@ -63,7 +63,7 @@ const LoginPage = () => {
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         toast.success("Welcome back!");
-        router.push("/dashboard");
+        router.push("/");
       } else {
         console.log("Additional steps required:", result);
         toast.error("Additional verification required");

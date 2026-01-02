@@ -13,7 +13,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 //Enum types
-export const genderEnum = pgEnum("gender_enum", ["male", "female", "other"]);
+export const genderEnum = pgEnum("gender_enum", ["Male", "Female", "other"]);
 export const occupationEnum = pgEnum("occupation_enum", [
   "Student",
   "Job-Seeker",
@@ -21,7 +21,7 @@ export const occupationEnum = pgEnum("occupation_enum", [
   "Other",
   "",
 ]);
-export const answerEnum = pgEnum("answer_enum", ["yes", "no"]);
+export const answerEnum = pgEnum("answer_enum", ["Yes", "No"]);
 export const skillEnum = pgEnum("skill_enum", [
   "Excel",
   "SQL",
@@ -88,8 +88,8 @@ export const applications = pgTable(
     careerId: uuid("career_id")
       .references(() => careers.id)
       .notNull(),
-    userId: uuid("user_id")
-      .references(() => users.id)
+    userId: text("user_id")
+      .references(() => users.clerkId)
       .notNull(),
     name: text("name").notNull(),
     email: text("email").notNull(),
@@ -119,15 +119,32 @@ export const consultations = pgTable("consultations", {
   challenge: text("challenge").notNull(),
   status: varchar("status", { length: 50 }).notNull().default("pending"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+export const researchs = pgTable("researchs", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id")
+    .references(() => users.clerkId)
+    .notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  business: varchar("business", { length: 255 }).default(""),
+  budget: varchar("budget", { length: 50 }),
+  research: text("need").notNull(),
+  timeline: varchar("timeline", { length: 50 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const registrations = pgTable(
   "registrations",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    userId: uuid("user_id")
-      .references(() => users.id)
-      .notNull(),
 
     // Step 1: Personal Information
     name: varchar("name", { length: 100 }).notNull(),
@@ -166,7 +183,6 @@ export const registrations = pgTable(
   (table) => ({
     // Indexes
     emailIdx: index("registrations_email_idx").on(table.email),
-    userIdIdx: index("registrations_user_id_idx").on(table.userId),
     statusIdx: index("registrations_status_idx").on(table.status),
     createdAtIdx: index("registrations_created_at_idx").on(table.createdAt),
   })
@@ -205,10 +221,10 @@ export const consultationsRelations = relations(consultations, ({ one }) => ({
   }),
 }));
 
-export const registrationsRelations = relations(registrations, ({ one }) => ({
-  // each registration belongs to one user
+export const researchsRelations = relations(researchs, ({ one }) => ({
+  // a consultation belongs to one user
   user: one(users, {
-    fields: [registrations.userId],
+    fields: [researchs.userId],
     references: [users.id],
   }),
 }));

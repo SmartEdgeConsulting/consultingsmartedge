@@ -33,7 +33,6 @@ const ConsultationForm = () => {
 
   const onSubmit = async (data: ConsultationFormData) => {
     try {
-      console.log("Form submitted:", data);
       const res = await fetch("/api/consultations/new", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,7 +102,7 @@ const ConsultationForm = () => {
                   placeholder="Your full name"
                   {...register("name")}
                   required
-                  className="h-11"
+                  className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                 />
                 {errors.name && (
                   <p className="text-xs text-red-500">{errors.name.message}</p>
@@ -123,7 +122,7 @@ const ConsultationForm = () => {
                   placeholder="janedoe@example.com"
                   {...register("email")}
                   required
-                  className="h-11"
+                  className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                 />
                 {errors.email && (
                   <p className="text-xs text-red-500">{errors.email.message}</p>
@@ -142,7 +141,7 @@ const ConsultationForm = () => {
                   type="text"
                   placeholder="Your company name"
                   {...register("company")}
-                  className="h-11"
+                  className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                 />
                 {errors.company && (
                   <p className="text-xs text-red-500">
@@ -164,7 +163,7 @@ const ConsultationForm = () => {
                   {...register("challenge")}
                   required
                   rows={5}
-                  className="resize-none"
+                  className="resize-none border-gray-300 focus:border-primary focus:ring-primary min-h-[120px]"
                 />
                 {errors.challenge && (
                   <p className="text-xs text-red-500">

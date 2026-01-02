@@ -39,8 +39,18 @@ export const consultationSchema = z.object({
     .optional(),
   challenge: z.string().min(2, "Your Message must be at least 20 characters"),
 });
-
 export type ConsultationFormData = z.infer<typeof consultationSchema>;
+
+export const researchSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  business: z.string().optional().or(z.literal("")),
+  budget: z.string().optional().or(z.literal("")),
+  research: z.string().min(20, "Research needs must be at least 20 characters"),
+  timeline: z.string().optional().or(z.literal("")),
+});
+
+export type ResearchFormData = z.infer<typeof researchSchema>;
 
 export const applicationSchema = z.object({
   careerId: z.string().min(1, "Career ID is required"),

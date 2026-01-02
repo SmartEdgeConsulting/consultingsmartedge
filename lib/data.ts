@@ -125,6 +125,24 @@ export const offers = [
   },
 ];
 
+export const action = [
+  {
+    id: 1,
+    icon: "FileText",
+    title: "PDF reports",
+  },
+  {
+    id: 2,
+    icon: "LayoutDashboard",
+    title: "Dashboard",
+  },
+  {
+    id: 3,
+    icon: "Presentation",
+    title: "Presentation decks",
+  },
+];
+
 export const processes: processProps[] = [
   {
     id: 1,

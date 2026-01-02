@@ -3,27 +3,17 @@ import { db } from "@/lib/database";
 import { registrations } from "@/lib/database/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { auth } from "@clerk/nextjs/server";
 import { pusherServer } from "@/lib/pusher-server";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const { userId } = await auth();
-
-    if (!userId) {
-      return NextResponse.json(
-        { error: "Unauthorized. Please sign in to register." },
-        { status: 401 }
-      );
-    }
-
     // Check for existing registration
     const existingRegistration = await db
       .select()
       .from(registrations)
-      .where(eq(registrations.userId, userId))
+      .where(eq(registrations.email, body.email))
       .limit(1);
 
     if (existingRegistration.length > 0) {
@@ -40,7 +30,6 @@ export async function POST(request: NextRequest) {
     const result = await db
       .insert(registrations)
       .values({
-        userId,
         name: body.name,
         email: body.email,
         phoneNo: body.phoneNo,

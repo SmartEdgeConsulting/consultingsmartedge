@@ -175,10 +175,6 @@ export default function MultiStepForm() {
 
   const onSubmit = async (data: BootcampData) => {
     try {
-      console.log(
-        "📤 Form submitted with proofOfPayment:",
-        data.proofOfPayment
-      );
 
       // Force validation one more time
       const isStep4Valid = await trigger(["proofOfPayment"]);

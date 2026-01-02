@@ -3,8 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import AppSidebar from "@/components/app-sidebar";
+import Loading from "../loading";
 
 export default function AdminLayout({
   children,
@@ -22,21 +21,14 @@ export default function AdminLayout({
   if (!isLoaded) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div>Loading...</div>
+        <Loading />
       </div>
     );
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <div className="flex-1 flex flex-col">
-        <header className="sticky top-16 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 lg:px-6">
-          <SidebarTrigger />
-          <h1 className="text-lg font-semibold">Admin Dashboard</h1>
-        </header>
-        <main className="flex-1 p-4 lg:p-6">{children}</main>
-      </div>
-    </SidebarProvider>
+    <>
+      <main className="w-full mr-0 pr-0">{children}</main>
+    </>
   );
 }

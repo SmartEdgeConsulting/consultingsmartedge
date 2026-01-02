@@ -1,5 +1,6 @@
 // app/(public)/layout.tsx
 import Footer from "@/sections/Footer";
+import Navbar from "@/sections/Navbar";
 
 export default function PublicLayout({
   children,
@@ -8,8 +9,9 @@ export default function PublicLayout({
 }) {
   return (
     <>
-      <main>{children}</main>
-      <Footer /> 
+      <Navbar />
+      <main className="mt-16 w-full mr-0 pr-0">{children}</main>
+      <Footer />
     </>
   );
 }

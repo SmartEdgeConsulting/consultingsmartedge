@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ApplicationFormData, applicationSchema } from "@/src/zod/schema";
 import { useDropzone } from "@uploadthing/react";
 import { useUploadThing } from "@/lib/utils/uploadthing";
@@ -34,6 +34,7 @@ const ApplicationForm = ({
   const [uploadStatus, setUploadStatus] = useState<
     "idle" | "uploading" | "success" | "error"
   >("idle");
+  const router = useRouter();
 
   const params = useParams();
   const careerId = propCareerId || (params.id as string);
@@ -200,6 +201,7 @@ const ApplicationForm = ({
       setUploadedFile(null);
       setFileUrl("");
       setUploadStatus("idle");
+      router.push("/careers");
     } catch (error) {
       console.error("Submission error:", error);
       toast.error("Failed to submit application. Please try again.");
@@ -245,7 +247,7 @@ const ApplicationForm = ({
               <Input
                 id="email"
                 type="email"
-                placeholder="JaneDoe@gmail.com"
+                placeholder="janeDoe@gmail.com"
                 {...register("email")}
                 className={errors.email ? "border-red-500" : ""}
               />
@@ -369,19 +371,20 @@ const ApplicationForm = ({
                                 Error
                               </span>
                             )}
-                            {uploadStatus !== "uploading" && uploadStatus !== "success" && (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeFile();
-                                }}
-                                className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
-                                aria-label="Remove file"
-                              >
-                                <X className="w-4 h-4" />
-                              </button>
-                            )}
+                            {uploadStatus !== "uploading" &&
+                              uploadStatus !== "success" && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeFile();
+                                  }}
+                                  className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
+                                  aria-label="Remove file"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              )}
                           </div>
                         </div>
                       </div>
