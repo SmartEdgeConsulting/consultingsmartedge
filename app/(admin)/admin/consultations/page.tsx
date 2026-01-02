@@ -1,8 +1,7 @@
 "use client";
 
-import { getPusherClient } from "@/lib/pusher-client";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -22,6 +21,10 @@ import {
 } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  useConsultationsStore,
+  usePusherInit,
+} from "@/store/consultationsStore";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -44,88 +47,28 @@ import {
   CheckCircle2,
   Clock,
 } from "lucide-react";
-
-interface Consultation {
-  id: string;
-  name: string;
-  email: string;
-  company?: string;
-  challenge: string;
-  status: "pending" | "attended";
-  userId: string;
-  createdAt: string;
-}
+import { formatDateTime } from "@/lib/utils/format-date";
 
 const ITEMS_PER_PAGE = 10;
 
 const ConsultationPage = () => {
-  const [consultations, setConsultations] = useState<Consultation[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [exporting, setExporting] = useState(false);
-  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    consultations,
+    currentPage,
+    isLoading,
+    exporting,
+    updatingStatus,
+    fetchConsultations,
+    exportConsultations,
+    updateConsultationStatus,
+    setCurrentPage,
+  } = useConsultationsStore();
 
-  // Set up Pusher subscription
+  // Global setup
+  usePusherInit();
   useEffect(() => {
-    const pusher = getPusherClient();
-    if (!pusher) {
-      console.error("Pusher client not initialized");
-      return;
-    }
-
-    const channel = pusher.subscribe("admin-dashboard");
-
-    channel.bind("pusher:subscription_succeeded", () => {
-      console.log("Successfully subscribed to admin-dashboard");
-    });
-
-    channel.bind("new-consultation", (data: Consultation) => {
-      console.log("New Consultation received:", data);
-      setConsultations((prev) => [data, ...prev]);
-      toast.success("New consultation received!");
-    });
-
-    return () => {
-      console.log("Cleaning up Pusher subscription");
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-  }, []);
-
-  // Fetch initial consultations
-  useEffect(() => {
-    const fetchConsultations = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/consultations");
-        const data = await response.json();
-
-        if (data.success) {
-          setConsultations(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching consultations:", error);
-        toast.error("Failed to load consultations");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchConsultations();
-  }, []);
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
+  }, [fetchConsultations]);
   // Pagination calculations
   const totalPages = Math.ceil(consultations.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -203,61 +146,6 @@ const ConsultationPage = () => {
     }
   };
 
-  // Export to CSV
-  const handleExport = async () => {
-    setExporting(true);
-    try {
-      const response = await fetch("/api/consultations/export");
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `consultations-${new Date().toISOString()}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      toast.success("Consultations exported successfully");
-    } catch (error) {
-      console.error("Error exporting consultations:", error);
-      toast.error("Failed to export consultations");
-    } finally {
-      setExporting(false);
-    }
-  };
-
-  const changeStatus = async (
-    id: string,
-    newStatus: "pending" | "attended"
-  ) => {
-    try {
-      setUpdatingStatus(id);
-      const res = await fetch(`/api/consultations/${id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: newStatus,
-        }),
-      });
-      const result = await res.json();
-      if (result.success) {
-        setConsultations((prev) =>
-          prev.map((con) =>
-            con.id === id ? { ...con, status: newStatus } : con
-          )
-        );
-        toast.success("Status updated successfully!");
-      } else {
-        throw new Error(result.error || "Something went wrong");
-      }
-    } catch (error) {
-      console.error("Error changing status:", error);
-      toast.error("Failed to update status");
-    } finally {
-      setUpdatingStatus(null);
-    }
-  };
-
   // Stats
   const stats = [
     {
@@ -293,7 +181,7 @@ const ConsultationPage = () => {
           </p>
         </div>
         <Button
-          onClick={handleExport}
+          onClick={exportConsultations}
           disabled={exporting || consultations.length === 0}
           className="w-full sm:w-auto"
         >
@@ -339,7 +227,7 @@ const ConsultationPage = () => {
 
       {/* Loading State */}
       {isLoading ? (
-        <div className="bg-white rounded-xl border border-gray-200 p-12">
+        <div className="p-12">
           <div className="flex flex-col items-center justify-center">
             <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
             <p className="text-lg font-semibold text-gray-900">
@@ -421,7 +309,7 @@ const ConsultationPage = () => {
                     </TableCell>
                     <TableCell>{getStatusBadge(con.status)}</TableCell>
                     <TableCell className="text-gray-600 text-sm">
-                      {formatDate(con.createdAt)}
+                      {formatDateTime(con.createdAt)}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
@@ -443,14 +331,18 @@ const ConsultationPage = () => {
                           <DropdownMenuLabel>Change Status</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                            onClick={() => changeStatus(con.id, "attended")}
+                            onClick={() =>
+                              updateConsultationStatus(con.id, "attended")
+                            }
                             disabled={con.status === "attended"}
                           >
                             <CheckCircle2 className="h-4 w-4 mr-2" />
                             Mark as Attended
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => changeStatus(con.id, "pending")}
+                            onClick={() =>
+                              updateConsultationStatus(con.id, "pending")
+                            }
                             disabled={con.status === "pending"}
                           >
                             <Clock className="h-4 w-4 mr-2" />
@@ -498,14 +390,18 @@ const ConsultationPage = () => {
                       <DropdownMenuLabel>Change Status</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
-                        onClick={() => changeStatus(con.id, "attended")}
+                        onClick={() =>
+                          updateConsultationStatus(con.id, "attended")
+                        }
                         disabled={con.status === "attended"}
                       >
                         <CheckCircle2 className="h-4 w-4 mr-2" />
                         Mark as Attended
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={() => changeStatus(con.id, "pending")}
+                        onClick={() =>
+                          updateConsultationStatus(con.id, "pending")
+                        }
                         disabled={con.status === "pending"}
                       >
                         <Clock className="h-4 w-4 mr-2" />
@@ -527,7 +423,7 @@ const ConsultationPage = () => {
                   <div className="flex items-center justify-between pt-2">
                     <div className="flex items-center text-sm text-gray-600">
                       <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                      {formatDate(con.createdAt)}
+                      {formatDateTime(con.createdAt)}
                     </div>
                     {getStatusBadge(con.status)}
                   </div>
@@ -556,7 +452,7 @@ const ConsultationPage = () => {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage((prev) => Math.max(prev - 1, 1));
+                        setCurrentPage(Math.max(currentPage - 1, 1));
                       }}
                       className={
                         currentPage === 1
@@ -592,9 +488,7 @@ const ConsultationPage = () => {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage((prev) =>
-                          Math.min(prev + 1, totalPages)
-                        );
+                        setCurrentPage(Math.max(currentPage - 1, 1));
                       }}
                       className={
                         currentPage === totalPages

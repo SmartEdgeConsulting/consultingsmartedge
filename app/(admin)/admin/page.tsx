@@ -16,6 +16,7 @@ import ApplicationDashboardPage from "./applications/page";
 import ConsultationPage from "./consultations/page";
 import RegistrationsPage from "./registrations/page";
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -202,10 +203,12 @@ export default function Dashboard() {
       {/* Sidebar - Desktop */}
       <aside className="hidden md:flex md:flex-col w-64 bg-primary text-white">
         <div className="p-5">
-          <h3 className="text-base sm:text-2xl text-white mb-2 font-bold">
-            SmartEdge
-          </h3>
-          <p className="text-sm">Consulting & Analytics</p>
+          <Link href="/">
+            <h3 className="text-base sm:text-2xl text-white mb-2 font-bold">
+              SmartEdge
+            </h3>
+            <p className="text-sm">Consulting & Analytics</p>
+          </Link>
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
@@ -216,7 +219,7 @@ export default function Dashboard() {
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activePage === item.id
                   ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-800"
+                  : "text-gray-300 hover:bg-blue-500"
               }`}
             >
               <item.icon size={20} />

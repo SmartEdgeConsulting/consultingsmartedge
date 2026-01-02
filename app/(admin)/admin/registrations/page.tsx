@@ -1,8 +1,11 @@
 // app/(admin)/admin/registration/page.tsx
 "use client";
 
-import { useEffect, useState } from "react";
-import { getPusherClient } from "@/lib/pusher-client";
+import { useEffect } from "react";
+import {
+  useRegistrationsStore,
+  usePusherInit,
+} from "@/store/registrationsStore";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,100 +41,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Registration } from "@/types";
 import { toast } from "sonner";
+import { formatDateTime } from "@/lib/utils/format-date";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function RegistrationsPage() {
-  const [registrations, setRegistrations] = useState<Registration[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [exporting, setExporting] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+  const {
+    registrations,
+    currentPage,
+    loading,
+    exporting,
+    updatingStatus,
+    fetchRegistrations,
+    setCurrentPage,
+    exportRegistrations,
+    setExporting,
+    setUpdatingStatus,
+    updateRegistrationStatus,
+  } = useRegistrationsStore();
 
-  // Set up Pusher subscription
+  usePusherInit();
   useEffect(() => {
-    const pusher = getPusherClient();
-    if (!pusher) {
-      console.error("Pusher client not initialized");
-      return;
-    }
-
-    const channel = pusher.subscribe("admin-dashboard");
-
-    channel.bind("pusher:subscription_succeeded", () => {
-      console.log("Successfully subscribed to admin-dashboard");
-    });
-
-    channel.bind("new-registration", (data: Registration) => {
-      console.log("New Registration received:", data);
-      setRegistrations((prev) => [data, ...prev]);
-      toast.success("New registration received!");
-    });
-
-    return () => {
-      console.log("Cleaning up Pusher subscription");
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-  }, []);
-
-  // Fetch initial registrations
-  useEffect(() => {
-    const fetchRegistrations = async () => {
-      try {
-        const response = await fetch("/api/registrations");
-        const data = await response.json();
-
-        if (data.success) {
-          setRegistrations(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching registrations:", error);
-        toast.error("Failed to load registrations");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchRegistrations();
-  }, []);
+  }, [fetchRegistrations]);
 
-  // Export to CSV
-  const handleExport = async () => {
-    setExporting(true);
-    try {
-      const response = await fetch("/api/registrations/export");
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `registrations-${new Date().toISOString()}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      toast.success("Registrations exported successfully");
-    } catch (error) {
-      console.error("Error exporting registrations:", error);
-      toast.error("Failed to export registrations");
-    } finally {
-      setExporting(false);
-    }
-  };
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
 
   // Pagination
   const totalPages = Math.ceil(registrations.length / ITEMS_PER_PAGE);
@@ -179,28 +113,40 @@ export default function RegistrationsPage() {
     switch (status) {
       case "pending":
         return (
-          <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 font-medium">
+          <Badge
+            variant="outline"
+            className="bg-amber-50 text-amber-700 border-amber-200 font-medium"
+          >
             <Clock className="w-3 h-3 mr-1" />
             Pending
           </Badge>
         );
       case "accepted":
         return (
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 font-medium">
+          <Badge
+            variant="outline"
+            className="bg-green-50 text-green-700 border-green-200 font-medium"
+          >
             <CheckCircle2 className="w-3 h-3 mr-1" />
             Accepted
           </Badge>
         );
       case "rejected":
         return (
-          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 font-medium">
+          <Badge
+            variant="outline"
+            className="bg-red-50 text-red-700 border-red-200 font-medium"
+          >
             <XCircle className="w-3 h-3 mr-1" />
             Rejected
           </Badge>
         );
       default:
         return (
-          <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+          <Badge
+            variant="outline"
+            className="bg-gray-50 text-gray-700 border-gray-200"
+          >
             {status}
           </Badge>
         );
@@ -216,17 +162,12 @@ export default function RegistrationsPage() {
       const res = await fetch(`/api/registrations/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: newStatus,
-        }),
+        body: JSON.stringify({ data: newStatus }),
       });
       const result = await res.json();
+
       if (result.success) {
-        setRegistrations((prev) =>
-          prev.map((reg) =>
-            reg.id === id ? { ...reg, status: newStatus } : reg
-          )
-        );
+        updateRegistrationStatus(id, newStatus); // Store updates instantly
         toast.success("Status updated successfully!");
       } else {
         throw new Error(result.error || "Something went wrong");
@@ -269,7 +210,7 @@ export default function RegistrationsPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 p-12">
+      <div className="p-12">
         <div className="flex flex-col items-center justify-center">
           <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
           <p className="text-lg font-semibold text-gray-900">
@@ -296,7 +237,7 @@ export default function RegistrationsPage() {
           </p>
         </div>
         <Button
-          onClick={handleExport}
+          onClick={exportRegistrations}
           disabled={exporting || registrations.length === 0}
           className="w-full sm:w-auto"
         >
@@ -315,7 +256,7 @@ export default function RegistrationsPage() {
       </div>
 
       {/* Stats Cards */}
-      {registrations.length > 0 && (
+      {!loading && registrations.length > 0 && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
             <div
@@ -342,7 +283,7 @@ export default function RegistrationsPage() {
 
       {/* Empty State */}
       {registrations.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-200 p-12">
+        <div className="p-12">
           <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto">
             <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
               <FileText className="h-8 w-8 text-gray-400" />
@@ -351,7 +292,8 @@ export default function RegistrationsPage() {
               No registrations yet
             </h3>
             <p className="text-gray-600">
-              Registrations will appear here once users sign up for the bootcamp.
+              Registrations will appear here once users sign up for the
+              bootcamp.
             </p>
           </div>
         </div>
@@ -408,7 +350,10 @@ export default function RegistrationsPage() {
                   {paginatedRegistrations.map((reg, index) => {
                     const globalIndex = startIndex + index + 1;
                     return (
-                      <tr key={reg.id} className="hover:bg-gray-50 transition-colors">
+                      <tr
+                        key={reg.id}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">
                             {globalIndex.toString().padStart(3, "0")}
@@ -420,14 +365,18 @@ export default function RegistrationsPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-600">{reg.email}</div>
+                          <div className="text-sm text-gray-600">
+                            {reg.email}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-600">{reg.phoneNo}</div>
+                          <div className="text-sm text-gray-600">
+                            {reg.phoneNo}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-600 capitalize">
-                            {reg.gender === "Female" ? "F" : "M"  }
+                            {reg.gender === "Female" ? "F" : "M"}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -445,7 +394,7 @@ export default function RegistrationsPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-600">
-                            {formatDate(reg.createdAt)}
+                            {formatDateTime(reg.createdAt)}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -465,7 +414,9 @@ export default function RegistrationsPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Change Status</DropdownMenuLabel>
+                              <DropdownMenuLabel>
+                                Change Status
+                              </DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
                                 onClick={() => changeStatus(reg.id, "accepted")}
@@ -585,7 +536,7 @@ export default function RegistrationsPage() {
                     </div>
                     <div className="flex items-center text-sm text-gray-600 pt-2 border-t border-gray-100">
                       <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                      {formatDate(reg.createdAt)}
+                      {formatDateTime(reg.createdAt)}
                     </div>
                   </div>
                 </div>
@@ -613,10 +564,12 @@ export default function RegistrationsPage() {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage((prev) => Math.max(prev - 1, 1));
+                        setCurrentPage(Math.max(currentPage - 1, 1));
                       }}
                       className={
-                        currentPage === 1 ? "pointer-events-none opacity-50" : ""
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : ""
                       }
                     />
                   </PaginationItem>
@@ -647,7 +600,7 @@ export default function RegistrationsPage() {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                        setCurrentPage(Math.max(currentPage - 1, 1));
                       }}
                       className={
                         currentPage === totalPages

@@ -1,7 +1,6 @@
 "use client";
 
-import { getPusherClient } from "@/lib/pusher-client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -24,79 +23,26 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { jobProps } from "@/types";
-
-interface Application {
-  id: string;
-  careerId: string;
-  name: string;
-  email: string;
-  skills: string;
-  portfolio?: string;
-  resumeUrl: string;
-  career: jobProps;
-  phoneNumber: string;
-  experience: string;
-  userId: string;
-  createdAt: string;
-}
+import { formatDateTime } from "@/lib/utils/format-date";
+import { useApplicationsStore, usePusherInit } from "@/store/applicationsStore";
 
 const ITEMS_PER_PAGE = 10;
 
 const ApplicationDashboardPage = () => {
-  const [applications, setApplications] = useState<Application[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [exporting, setExporting] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    applications,
+    currentPage,
+    isLoading,
+    exporting,
+    fetchApplications,
+    setCurrentPage,
+    setExporting,
+  } = useApplicationsStore();
 
-  // Set up Pusher subscription
+  usePusherInit();
   useEffect(() => {
-    const pusher = getPusherClient();
-    if (!pusher) {
-      console.error("Pusher client not initialized");
-      return;
-    }
-
-    const channel = pusher.subscribe("admin-dashboard");
-
-    channel.bind("pusher:subscription_succeeded", () => {
-      console.log("Successfully subscribed to admin-dashboard");
-    });
-
-    channel.bind("new-consultation", (data: Application) => {
-      console.log("New Consultation received:", data);
-      setApplications((prev) => [data, ...prev]);
-    });
-
-    return () => {
-      console.log("Cleaning up Pusher subscription");
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-  }, []);
-
-  // Fetch initial applications
-  useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/applications");
-        const data = await response.json();
-
-        if (data.success) {
-          setApplications(data.data);
-          console.log("Fetched applications:", data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching applications:", error);
-        toast.error("Failed to load applications");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchApplications();
-  }, []);
+  }, [fetchApplications]);
 
   // Pagination calculations
   const totalPages = Math.ceil(applications.length / ITEMS_PER_PAGE);
@@ -139,16 +85,6 @@ const ApplicationDashboardPage = () => {
     }
 
     return pages;
-  };
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    }).format(date);
   };
 
   // Export to CSV
@@ -314,7 +250,7 @@ const ApplicationDashboardPage = () => {
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
                         <div className="text-sm text-gray-600">
-                          {formatDate(app.createdAt)}
+                          {formatDateTime(app.createdAt)}
                         </div>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
@@ -373,7 +309,7 @@ const ApplicationDashboardPage = () => {
                     </div>
                     <div className="flex items-center text-sm text-gray-700">
                       <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                      Applied {formatDate(app.createdAt)}
+                      Applied {formatDateTime(app.createdAt)}
                     </div>
                     <div className="pt-2">
                       <Button
@@ -422,7 +358,7 @@ const ApplicationDashboardPage = () => {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage((prev) => Math.max(prev - 1, 1));
+                        setCurrentPage(Math.max(currentPage - 1, 1));
                       }}
                       className={
                         currentPage === 1
@@ -463,9 +399,7 @@ const ApplicationDashboardPage = () => {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage((prev) =>
-                          Math.min(prev + 1, totalPages)
-                        );
+                        setCurrentPage(Math.max(currentPage - 1, 1));
                       }}
                       className={
                         currentPage === totalPages

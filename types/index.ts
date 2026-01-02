@@ -187,6 +187,17 @@ export type testimonialProps = {
   testimony: string;
 };
 
+export interface videotestimonialProps {
+  _id: string;
+  video: {
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+  };
+}
+
+
 export type Registration = {
   id: string;
   name: string;
@@ -210,4 +221,30 @@ export type Registration = {
   status: "pending" | "accepted" | "rejected";
   createdAt: string;
   updatedAt?: string;
+}
+
+export type Application = {
+  id: string;
+  careerId: string;
+  name: string;
+  email: string;
+  skills: string;
+  portfolio?: string;
+  resumeUrl: string;
+  career: jobProps;
+  phoneNumber: string;
+  experience: string;
+  userId: string;
+  createdAt: string;
+}
+
+export type Consultation = {
+  id: string;
+  name: string;
+  email: string;
+  company?: string;
+  challenge: string;
+  status: "pending" | "attended";
+  userId: string;
+  createdAt: string;
 }

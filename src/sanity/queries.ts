@@ -44,6 +44,13 @@ export const getTestimonials = `*[_type == "testimonials"] {
   testimony
 }`;
 
+export const getVideoTestimonials = `*[_type == "videoTestimonials"] {
+    _id,
+    video {
+      asset
+    }
+}`;
+
 export const getEvents = `*[_type == "events"] | order(order desc) {
   _id,
   name,
