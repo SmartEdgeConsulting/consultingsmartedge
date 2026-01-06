@@ -17,7 +17,7 @@ const ResearchForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<ResearchFormData>({
     resolver: zodResolver(researchSchema),
@@ -48,7 +48,7 @@ const ResearchForm = () => {
       const result = await res.json();
 
       if (result.success) {
-        toast.success("Consultation Submitted Successfully!");
+        toast.success("Research request Submitted Successfully!");
         reset();
         router.push("/");
       } else {

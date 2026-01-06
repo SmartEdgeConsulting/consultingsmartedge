@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         business: business || null,
         budget: budget || null,
         research,
-        timeline 
+        timeline: timeline && timeline.trim() !== "" ? timeline : null, 
       })
       .returning();
 

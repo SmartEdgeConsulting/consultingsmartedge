@@ -13,7 +13,7 @@ const DashboardPage = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Dashboard Content goes here
+              Coming Soon
             </p>
 
           </CardContent>

@@ -14,6 +14,8 @@ interface ConsultationsState {
   exporting: boolean;
   updatingStatus: string | null;
   error: string | null;
+  unreadConsultationCount: number;
+  markConsultationRead: () => void;
 
   // Actions
   fetchConsultations: () => Promise<void>;
@@ -39,6 +41,7 @@ export const useConsultationsStore = create<ConsultationsState>()(
         exporting: false,
         updatingStatus: null,
         error: null,
+        unreadConsultationCount: 0,
 
         fetchConsultations: async () => {
           set({ isLoading: true, error: null });
@@ -60,6 +63,7 @@ export const useConsultationsStore = create<ConsultationsState>()(
         addConsultation: (consultation: Consultation) => {
           set((state) => ({
             consultations: [consultation, ...state.consultations],
+            unreadConsultationCount: state.unreadConsultationCount + 1, // NEW
           }));
         },
 
@@ -85,7 +89,10 @@ export const useConsultationsStore = create<ConsultationsState>()(
           }
         },
 
-        updateConsultationStatus: async (id: string, status: "pending" | "attended") => {
+        updateConsultationStatus: async (
+          id: string,
+          status: "pending" | "attended"
+        ) => {
           const currentUpdatingStatus = get().updatingStatus;
           set({ updatingStatus: id });
 
@@ -119,6 +126,7 @@ export const useConsultationsStore = create<ConsultationsState>()(
         setExporting: (exporting: boolean) => set({ exporting }),
         setUpdatingStatus: (id: string | null) => set({ updatingStatus: id }),
         setError: (error: string | null) => set({ error }),
+        markConsultationRead: () => set({ unreadConsultationCount: 0 }),
       }),
       { name: "consultations-store" }
     ),

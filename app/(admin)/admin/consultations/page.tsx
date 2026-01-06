@@ -25,7 +25,6 @@ import {
   useConsultationsStore,
   usePusherInit,
 } from "@/store/consultationsStore";
-import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,8 +36,6 @@ import {
 import {
   Download,
   Loader2,
-  User,
-  Mail,
   FileText,
   Calendar,
   MoreVertical,
@@ -48,6 +45,8 @@ import {
   Clock,
 } from "lucide-react";
 import { formatDateTime } from "@/lib/utils/format-date";
+import NoList from "@/components/NoList";
+import AdminLoader from "@/components/AdminLoader";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -62,13 +61,22 @@ const ConsultationPage = () => {
     exportConsultations,
     updateConsultationStatus,
     setCurrentPage,
+    markConsultationRead,
   } = useConsultationsStore();
 
-  // Global setup
   usePusherInit();
   useEffect(() => {
     fetchConsultations();
   }, [fetchConsultations]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      markConsultationRead();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Pagination calculations
   const totalPages = Math.ceil(consultations.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -118,9 +126,8 @@ const ConsultationPage = () => {
         return (
           <Badge
             variant="outline"
-            className="bg-amber-50 text-amber-700 border-amber-200 font-medium"
+            className="bg-amber-100 text-amber-700 border-amber-200 font-medium"
           >
-            <Clock className="w-3 h-3 mr-1" />
             Pending
           </Badge>
         );
@@ -130,7 +137,6 @@ const ConsultationPage = () => {
             variant="outline"
             className="bg-green-50 text-green-700 border-green-200 font-medium"
           >
-            <CheckCircle2 className="w-3 h-3 mr-1" />
             Attended
           </Badge>
         );
@@ -227,32 +233,12 @@ const ConsultationPage = () => {
 
       {/* Loading State */}
       {isLoading ? (
-        <div className="p-12">
-          <div className="flex flex-col items-center justify-center">
-            <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
-            <p className="text-lg font-semibold text-gray-900">
-              Loading consultations...
-            </p>
-            <p className="text-sm text-gray-500 mt-1">
-              Please wait while we fetch your data
-            </p>
-          </div>
-        </div>
+        <AdminLoader title="consultations" />
       ) : consultations.length === 0 ? (
-        /* Empty State */
-        <div className="bg-white rounded-xl border border-gray-200 p-12">
-          <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto">
-            <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-              <FileText className="h-8 w-8 text-gray-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No consultations yet
-            </h3>
-            <p className="text-gray-600">
-              Consultations will appear here once users submit requests.
-            </p>
-          </div>
-        </div>
+        <NoList
+          title="consultations"
+          description="Consultations will appear here once users submit requests."
+        />
       ) : (
         <>
           {/* Desktop Table */}
@@ -260,37 +246,12 @@ const ConsultationPage = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50 hover:bg-gray-50">
-                  <TableHead className="font-semibold">
-                    <div className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-gray-500" />
-                      Client
-                    </div>
-                  </TableHead>
-                  <TableHead className="font-semibold">
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-gray-500" />
-                      Email
-                    </div>
-                  </TableHead>
-                  <TableHead className="font-semibold">
-                    <div className="flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-gray-500" />
-                      Company
-                    </div>
-                  </TableHead>
-                  <TableHead className="font-semibold">
-                    <div className="flex items-center gap-2">
-                      <Target className="h-4 w-4 text-gray-500" />
-                      Challenge
-                    </div>
-                  </TableHead>
+                  <TableHead className="font-semibold">Client</TableHead>
+                  <TableHead className="font-semibold">Email</TableHead>
+                  <TableHead className="font-semibold">Company</TableHead>
+                  <TableHead className="font-semibold">Challenge</TableHead>
                   <TableHead className="font-semibold">Status</TableHead>
-                  <TableHead className="font-semibold">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-gray-500" />
-                      Date
-                    </div>
-                  </TableHead>
+                  <TableHead className="font-semibold">Date</TableHead>
                   <TableHead className="font-semibold text-right">
                     Actions
                   </TableHead>

@@ -1,35 +1,34 @@
-// store/applicationsStore.ts - CORRECT VERSION
 "use client";
 
-import { create } from 'zustand';
-import { persist, devtools } from 'zustand/middleware';
-import { getPusherClient } from '@/lib/pusher-client';
-import { Application } from '@/types';
-import { useEffect } from 'react';
+import { create } from "zustand";
+import { persist, devtools } from "zustand/middleware";
+import { getPusherClient } from "@/lib/pusher-client";
+import { Application } from "@/types";
+import { useEffect } from "react";
 
 interface ApplicationsState {
   applications: Application[];
   currentPage: number;
   isLoading: boolean;
-  exporting: boolean;
   error: string | null;
+  unreadApplicationCount: number;
+  markApplicationRead: () => void;
 
   fetchApplications: () => Promise<void>;
   addApplication: (app: Application) => void;
   setCurrentPage: (page: number) => void;
-  setExporting: (exporting: boolean) => void;
   setError: (error: string | null) => void;
 }
 
 export const useApplicationsStore = create<ApplicationsState>()(
   persist(
     devtools(
-      (set) => ({  
+      (set) => ({
         applications: [],
         currentPage: 1,
         isLoading: true,
-        exporting: false,
         error: null,
+        unreadApplicationCount: 0,
 
         fetchApplications: async () => {
           set({ isLoading: true, error: null });
@@ -42,31 +41,31 @@ export const useApplicationsStore = create<ApplicationsState>()(
               set({ applications: data.data, isLoading: false });
               console.log("Fetched applications:", data.data);
             } else {
-              set({ error: 'Failed to load applications', isLoading: false });
+              set({ error: "Failed to load applications", isLoading: false });
             }
           } catch (error) {
             console.error("Error fetching applications:", error);
-            set({ error: 'Failed to load applications', isLoading: false });
+            set({ error: "Failed to load applications", isLoading: false });
           }
         },
 
         addApplication: (app: Application) => {
           set((state) => ({
-            applications: [app, ...state.applications]
+            applications: [app, ...state.applications],
+            unreadApplicationCount: state.unreadApplicationCount + 1,
           }));
         },
 
         setCurrentPage: (page: number) => set({ currentPage: page }),
-        setExporting: (exporting: boolean) => set({ exporting }),
-        setError: (error: string | null) => set({ error })
+        setError: (error: string | null) => set({ error }),
+        markApplicationRead: () => set({ unreadApplicationCount: 0 }),
       }),
-      { name: 'applications-store' }
+      { name: "applications-store" }
     ),
-    { name: 'applications-storage' }
+    { name: "applications-storage" }
   )
 );
 
-// Pusher singleton - UNCHANGED
 class ApplicationsPusher {
   private static instance: ApplicationsPusher;
   private initialized = false;

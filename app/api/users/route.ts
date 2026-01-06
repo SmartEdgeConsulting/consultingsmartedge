@@ -1,20 +1,20 @@
-// api/researchs/route.ts
+// api/users/route.ts
 import { db } from "@/lib/database";
-import { researchs } from "@/lib/database/schema";
+import { users } from "@/lib/database/schema";
 import { NextResponse } from "next/server";
 import { desc } from "drizzle-orm";
 
 export async function GET() {
   try {
-    const researchList = await db
+    const usersList = await db
       .select()
-      .from(researchs)
-      .orderBy(desc(researchs.createdAt));
+      .from(users)
+      .orderBy(desc(users.createdAt));
 
     return NextResponse.json({
       success: true,
-      data: researchList,
-      count: researchList.length,
+      data: usersList,
+      count: usersList.length,
     });
     
   } catch (error) {
@@ -23,7 +23,7 @@ export async function GET() {
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch researchs. Please try again.",
+        error: "Failed to fetch registrations. Please try again.",
         details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }

@@ -14,6 +14,8 @@ interface RegistrationsState {
   exporting: boolean;
   updatingStatus: string | null;
   error: string | null;
+  unreadRegistrationCount: number;
+  markRegistrationRead: () => void;
 
   // Actions
   fetchRegistrations: () => Promise<void>;
@@ -39,6 +41,7 @@ export const useRegistrationsStore = create<RegistrationsState>()(
         exporting: false,
         updatingStatus: null,
         error: null,
+        unreadRegistrationCount: 0,
 
         fetchRegistrations: async () => {
           set({ loading: true, error: null });
@@ -61,15 +64,16 @@ export const useRegistrationsStore = create<RegistrationsState>()(
         addRegistration: (reg: Registration) => {
           set((state) => ({
             registrations: [reg, ...state.registrations],
+            unreadRegistrationCount: state.unreadRegistrationCount + 1, // NEW
           }));
         },
 
         exportRegistrations: async () => {
-          const state = get(); 
+          const state = get();
           set({ exporting: true });
 
           try {
-            const response = await fetch("/api/registrations/export"); 
+            const response = await fetch("/api/registrations/export");
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -103,6 +107,7 @@ export const useRegistrationsStore = create<RegistrationsState>()(
         setExporting: (exporting: boolean) => set({ exporting }),
         setUpdatingStatus: (id: string | null) => set({ updatingStatus: id }),
         setError: (error: string | null) => set({ error }),
+        markRegistrationRead: () => set({ unreadRegistrationCount: 0 }),
       }),
       { name: "registrations-store" }
     ),

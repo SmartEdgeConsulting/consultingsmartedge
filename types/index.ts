@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 export type Params = {
   params: Promise<{
     id: string;
@@ -197,7 +199,6 @@ export interface videotestimonialProps {
   };
 }
 
-
 export type Registration = {
   id: string;
   name: string;
@@ -221,7 +222,7 @@ export type Registration = {
   status: "pending" | "accepted" | "rejected";
   createdAt: string;
   updatedAt?: string;
-}
+};
 
 export type Application = {
   id: string;
@@ -236,7 +237,7 @@ export type Application = {
   experience: string;
   userId: string;
   createdAt: string;
-}
+};
 
 export type Consultation = {
   id: string;
@@ -247,4 +248,24 @@ export type Consultation = {
   status: "pending" | "attended";
   userId: string;
   createdAt: string;
+};
+
+export type Research = {
+  id: string;
+  name: string;
+  email: string;
+  business: string;
+  budget?: string;
+  research: string;
+  timeline?: string;
+  userId: string;
+  createdAt: string;
+};
+
+export type Statistics = {
+  index: number;
+  label: string;
+  value: number;
+  color: string;
+  icon: LucideIcon;
 }

@@ -5,6 +5,7 @@ import { applications } from "@/lib/database/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@clerk/nextjs/server";
+import { pusherServer } from "@/lib/pusher-server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -60,21 +61,38 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert new application
-    await db.insert(applications).values({
-      careerId,
-      userId,
-      name,
-      email,
-      phoneNumber,
-      experience,
-      skills,
-      portfolio,
-      resumeUrl,
+    const result = await db
+      .insert(applications)
+      .values({
+        careerId,
+        userId,
+        name,
+        email,
+        phoneNumber,
+        experience,
+        skills,
+        portfolio,
+        resumeUrl,
+      })
+      .returning();
+    const newApplication = result[0];
+    // 3. Trigger real-time event to admin dashboard
+    await pusherServer.trigger("admin-dashboard", "new-application", {
+      id: newApplication.id,
+      name: newApplication.name,
+      email: newApplication.email,
+      phoneNumber: newApplication.phoneNumber,
+      experience: newApplication.experience,
+      skills: newApplication.skills,
+      portfolio: newApplication.portfolio,
+      resumeUrl: newApplication.resumeUrl,
+      createdAt: newApplication.createdAt,
     });
 
     return NextResponse.json({
       success: true,
       message: "Application submitted successfully",
+      data: newApplication,
     });
   } catch (error) {
     console.error("Application submission error:", error);

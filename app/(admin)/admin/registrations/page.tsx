@@ -16,7 +16,6 @@ import {
   Mail,
   Phone,
   Calendar,
-  FileText,
   CheckCircle2,
   XCircle,
   Clock,
@@ -43,6 +42,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { formatDateTime } from "@/lib/utils/format-date";
+import NoList from "@/components/NoList";
+import AdminLoader from "@/components/AdminLoader";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -58,6 +59,7 @@ export default function RegistrationsPage() {
     exportRegistrations,
     setExporting,
     setUpdatingStatus,
+    markRegistrationRead,
     updateRegistrationStatus,
   } = useRegistrationsStore();
 
@@ -66,6 +68,13 @@ export default function RegistrationsPage() {
     fetchRegistrations();
   }, [fetchRegistrations]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      markRegistrationRead();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Pagination
   const totalPages = Math.ceil(registrations.length / ITEMS_PER_PAGE);
@@ -208,22 +217,6 @@ export default function RegistrationsPage() {
     },
   ];
 
-  if (loading) {
-    return (
-      <div className="p-12">
-        <div className="flex flex-col items-center justify-center">
-          <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
-          <p className="text-lg font-semibold text-gray-900">
-            Loading registrations...
-          </p>
-          <p className="text-sm text-gray-500 mt-1">
-            Please wait while we fetch your data
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -282,21 +275,14 @@ export default function RegistrationsPage() {
       )}
 
       {/* Empty State */}
-      {registrations.length === 0 ? (
-        <div className="p-12">
-          <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto">
-            <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-              <FileText className="h-8 w-8 text-gray-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No registrations yet
-            </h3>
-            <p className="text-gray-600">
-              Registrations will appear here once users sign up for the
-              bootcamp.
-            </p>
-          </div>
-        </div>
+      {loading ? (
+        <AdminLoader title="registrations" />
+      ) : registrations.length === 0 ? (
+        <NoList
+          title="registrations"
+          description="Registrations will appear here once users sign up for the
+              bootcamp."
+        />
       ) : (
         <>
           {/* Desktop Table */}
@@ -600,7 +586,7 @@ export default function RegistrationsPage() {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage(Math.max(currentPage - 1, 1));
+                        setCurrentPage(Math.max(currentPage + 1, 1));
                       }}
                       className={
                         currentPage === totalPages
