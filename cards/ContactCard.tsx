@@ -17,7 +17,6 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 const ContactCard = ({
-  id,
   icon: iconName,
   label,
   info,

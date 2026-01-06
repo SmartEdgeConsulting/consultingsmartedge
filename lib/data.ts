@@ -193,7 +193,7 @@ export const contactInfo: contactInfoProps[] = [
     id: 1,
     icon: "Mail",
     label: "Email",
-    info: "consultingsmartedge@gmail.com",
+    info: "contact@consultingsmartedge.com",
     description: "Get in touch with our support team",
   },
   {

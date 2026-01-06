@@ -62,7 +62,7 @@ export async function POST(
         const emailContent = getEmailContent(newStatus, registration.name);
 
         await resend.emails.send({
-          from: process.env.EMAIL_FROM || "noreply@yourdomain.com",
+          from: "SmartEdge Consulting <noreply@consultingsmartedge.com>",
           to: registration.email,
           subject: emailContent.subject,
           html: emailContent.html,

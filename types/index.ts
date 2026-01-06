@@ -30,7 +30,7 @@ export type teamsProps = {
 };
 
 export type contactInfoProps = {
-  id: number;
+  id?: number;
   icon: string;
   label: string;
   info: string;
