@@ -23,7 +23,11 @@ export const skillEnum = z.enum([
 export const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  company: z.string().min(2, "Company Name must be at least 2 characters"),
+  company: z
+    .string()
+    .min(2, "Company Name must be at least 2 characters")
+    .or(z.literal(""))
+    .optional(),
   message: z.string().min(2, "Your Message must be at least 20 characters"),
 });
 

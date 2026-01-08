@@ -267,5 +267,6 @@ export type Statistics = {
   label: string;
   value: number;
   color: string;
+  change?: number;
   icon: LucideIcon;
 }

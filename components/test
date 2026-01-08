@@ -88,18 +88,5 @@ const newsletterHTML = `
 
 sendNewsletterWithResend('Weekly Update - March 2024', newsletterHTML);
 
-// Install: npm install @getbrevo/brevo
-import { TransactionalEmailsApi, SendSmtpEmail } from '@getbrevo/brevo';
 
-const brevo = new TransactionalEmailsApi();
-brevo.setApiKey(0, process.env.BREVO_API_KEY);
 
-await brevo.sendTransacEmail({
-  subject: "Welcome to Our Newsletter!",
-  sender: { email: "noreply@smartedge.com", name: "SmartEdge" },
-  to: [{ email }],
-  htmlContent: `
-    <h1>Thanks for subscribing!</h1>
-    <p>We're excited to have you on board.</p>
-  `
-});

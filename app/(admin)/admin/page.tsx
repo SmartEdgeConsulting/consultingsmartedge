@@ -209,7 +209,7 @@ export default function Dashboard() {
               <button className="p-2 hover:bg-gray-100 rounded-lg relative transition-colors">
                 <Bell size={20} className="text-gray-600" />
                 {totalUnread > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full">
+                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full flex items-center justify-center text-white ">
                     {totalUnread}
                   </span>
                 )}

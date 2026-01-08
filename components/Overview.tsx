@@ -1,28 +1,51 @@
 import StatsCard from "@/cards/StatsCard";
-import React, { useEffect } from "react";
-import { Users, FileText, FileSearch, Clock } from "lucide-react";
+import React, { useEffect, useCallback } from "react";
+import { Users, FileText, FileSearch, Clock, RefreshCw } from "lucide-react";
 import { Statistics } from "@/types";
 import { useResearchsStore } from "@/store/researchsStore";
 import { useRegistrationsStore } from "@/store/registrationsStore";
 import { useConsultationsStore } from "@/store/consultationsStore";
 import { useUsersStore } from "@/store/usersStore";
 import { formatDate } from "@/lib/utils/format-date";
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 const Overview = () => {
   const researchUnread = useResearchsStore(
     (state) => state.unreadResearchCount ?? 0
   );
-  const { users, userCount, fetchUsers } = useUsersStore();
-  const { consultations } = useConsultationsStore();
+  const {
+    users,
+    userCount,
+    weeklyChange,
+    fetchUsers,
+    fetchUserGrowth,
+    isLoading: usersLoading,
+  } = useUsersStore();
+
+  const { consultations, fetchConsultations } = useConsultationsStore();
   const { registrations, fetchRegistrations } = useRegistrationsStore();
+  const { fetchResearchs } = useResearchsStore();
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
-
-  useEffect(() => {
+    fetchUserGrowth();
     fetchRegistrations();
-  }, [fetchRegistrations]);
+    fetchConsultations?.();
+    fetchResearchs?.();
+  }, [
+    fetchUsers,
+    fetchUserGrowth,
+    fetchRegistrations,
+    fetchConsultations,
+    fetchResearchs,
+  ]);
+
+  // 🔥 PERF: Debounced refresh
+  const handleRefresh = useCallback(() => {
+    fetchUsers();
+    fetchUserGrowth();
+  }, [fetchUsers, fetchUserGrowth]);
 
   const stats: Statistics[] = [
     {
@@ -30,6 +53,7 @@ const Overview = () => {
       label: "Total Users",
       value: Number(userCount || users.length || 0),
       color: "bg-blue-500",
+      change: weeklyChange,
       icon: Users,
     },
     {
@@ -56,6 +80,20 @@ const Overview = () => {
   ];
   return (
     <>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900">Overview</h2>
+        <Button
+          onClick={handleRefresh}
+          disabled={usersLoading}
+          title="Refresh data"
+        >
+          <RefreshCw
+            className={`w-4 h-4 ${usersLoading ? "animate-spin" : ""}`}
+          />
+          Refresh
+        </Button>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {stats.map((stat) => {
           return <StatsCard key={stat.index} stat={stat} />;
@@ -63,8 +101,14 @@ const Overview = () => {
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-800">Recent Users</h3>
+        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-gray-900">Recent Users</h3>
+          <Link
+            href="/admin/users"
+            className="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors flex items-center gap-1"
+          >
+            See all users →
+          </Link>
         </div>
 
         <div className="hidden md:block overflow-x-auto">
@@ -86,7 +130,7 @@ const Overview = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {users.map((user) => (
+              {users.slice(0, 7).map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {user?.firstName} {user?.lastName}
@@ -107,7 +151,7 @@ const Overview = () => {
         </div>
 
         <div className="md:hidden divide-y divide-gray-200">
-          {users.map((user) => (
+          {users.slice(0, 7).map((user) => (
             <div key={user.id} className="p-4 hover:bg-gray-50">
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -126,6 +170,7 @@ const Overview = () => {
             </div>
           ))}
         </div>
+
       </div>
     </>
   );

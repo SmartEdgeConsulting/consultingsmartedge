@@ -53,14 +53,8 @@ export async function POST(request: Request) {
 
     // Send welcome email via Resend with proper error handling
     try {
-      console.log("Attempting to send email to:", email);
-      console.log(
-        "Using API key:",
-        process.env.RESEND_API_KEY ? "Key exists" : "KEY MISSING!"
-      );
-
       const emailResult = await resend.emails.send({
-        from: "onboarding@resend.dev", // Use this for testing, or your verified domain
+        from: "<noreply@consultingsmartedge.com>", 
         to: email,
         subject: "Welcome to Our Newsletter!",
         html: `

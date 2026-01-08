@@ -15,16 +15,18 @@ interface Users {
   createdAt: string;
   updatedAt: string;
 }
-
 interface UsersState {
   users: Users[];
-  userCount: number;  
+  userCount: number;
+  unreadUserCount: number;  // ✅ Added
+  weeklyChange: number;
   isLoading: boolean;
-  error: string | null; 
+  error: string | null;
 
-  fetchUsers: () => Promise<void>;  
-  setUsers: (users: Users[]) => void; 
-  addUser: (user: Users) => void; 
+  fetchUsers: () => Promise<void>;
+  fetchUserGrowth: () => Promise<void>;  // ✅ Fixed
+  setUsers: (users: Users[]) => void;
+  addUser: (user: Users) => void;
 }
 
 export const useUsersStore = create<UsersState>()(
@@ -32,24 +34,26 @@ export const useUsersStore = create<UsersState>()(
     devtools(
       (set) => ({
         users: [],
-        userCount: 0,      
+        userCount: 0,
+        unreadUserCount: 0,  // ✅ Added
+        weeklyChange: 0,
         isLoading: false,
         error: null,
 
         fetchUsers: async () => {
           set({ isLoading: true, error: null });
           try {
-            const response = await fetch("/api/users"); // ✅ Fixed endpoint
+            const response = await fetch("/api/users");
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
+
             const data = await response.json();
             console.log("Fetched users:", data.data);
 
             if (data.success) {
-              set({ 
-                users: data.data, 
-                userCount: data.count || data.data.length,  // ✅ Use API count
-                isLoading: false 
+              set({
+                users: data.data,
+                userCount: data.count || data.data.length,
+                isLoading: false,
               });
             } else {
               set({ error: "Failed to load users", isLoading: false });
@@ -60,10 +64,29 @@ export const useUsersStore = create<UsersState>()(
           }
         },
 
+        // ✅ FIXED: Proper error handling + unread count
+        fetchUserGrowth: async () => {
+          try {
+            const response = await fetch("/api/users/growth");
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            const data = await response.json();
+            if (data.success) {
+              set({
+                userCount: data.data.totalCount,
+                unreadUserCount: data.data.newThisWeek,  // ✅ Use new users
+                weeklyChange: data.data.weeklyChange,
+              });
+            }
+          } catch (error) {
+            console.error("Growth fetch failed:", error);
+          }
+        },
+
         setUsers: (users: Users[]) => {
-          set({ 
-            users, 
-            userCount: users.length 
+          set({
+            users,
+            userCount: users.length,
           });
         },
 
@@ -71,6 +94,7 @@ export const useUsersStore = create<UsersState>()(
           set((state) => ({
             users: [user, ...state.users],
             userCount: state.userCount + 1,
+            unreadUserCount: state.unreadUserCount + 1,  // ✅ Count as unread
           }));
         },
       }),
