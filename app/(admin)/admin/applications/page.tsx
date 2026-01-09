@@ -14,6 +14,7 @@ import { useApplicationsStore, usePusherInit } from "@/store/applicationsStore";
 import ApplicationTable from "@/tables/ApplicationTable";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
+import { getPageNumbers } from "@/lib/utils/page-numbers";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -45,42 +46,6 @@ const ApplicationDashboardPage = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  // Generate page numbers for pagination
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, "ellipsis", totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(
-          1,
-          "ellipsis",
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        );
-      } else {
-        pages.push(
-          1,
-          "ellipsis",
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          "ellipsis",
-          totalPages
-        );
-      }
-    }
-
-    return pages;
-  };
 
   return (
     <div className="space-y-6 py-2">
@@ -143,7 +108,7 @@ const ApplicationDashboardPage = () => {
                     />
                   </PaginationItem>
 
-                  {getPageNumbers().map((page, index) =>
+                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
                     page === "ellipsis" ? (
                       <PaginationItem key={`ellipsis-${index}`}>
                         <PaginationEllipsis className="text-gray-400" />

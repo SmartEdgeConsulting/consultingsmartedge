@@ -54,13 +54,21 @@ export async function POST(request: Request) {
     // Send welcome email via Resend with proper error handling
     try {
       const emailResult = await resend.emails.send({
-        from: "<noreply@consultingsmartedge.com>", 
+        from: "SmartEdge Newsletter <noreply@consultingsmartedge.com>",
         to: email,
-        subject: "Welcome to Our Newsletter!",
+        subject: "Welcome to SmartEdge Newsletter!",
         html: `
-          <h1>Thanks for subscribing!</h1>
+        <div><h1>Thanks for subscribing!</h1>
           <p>We're excited to have you on board.</p>
-          <p>You'll receive our latest updates and news directly to your inbox.</p>
+          <p>We're excited to have you on board. You'll receive our latest updates, insights, and news directly to your inbox.</p></div>
+        <div style="text-align: center; margin-top: 20px; padding: 20px; color: #999; font-size: 12px;">
+                <p>© ${new Date().getFullYear()} SmartEdge Consulting & Analytics. All rights reserved.</p>
+                <p>
+                  You received this email because you subscribed to our newsletter.<br>
+                  <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #667eea; text-decoration: none;">Unsubscribe</a>
+                </p>
+              </div>
+          
         `,
       });
 

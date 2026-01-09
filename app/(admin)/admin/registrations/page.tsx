@@ -44,6 +44,9 @@ import { toast } from "sonner";
 import { formatDateTime } from "@/lib/utils/format-date";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
+import StatsCard from "@/cards/StatsCard";
+import { getStatusBadge } from "@/lib/utils/status-badge";
+import { getPageNumbers } from "@/lib/utils/page-numbers";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -82,86 +85,6 @@ export default function RegistrationsPage() {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const paginatedRegistrations = registrations.slice(startIndex, endIndex);
 
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, "ellipsis", totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(
-          1,
-          "ellipsis",
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        );
-      } else {
-        pages.push(
-          1,
-          "ellipsis",
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          "ellipsis",
-          totalPages
-        );
-      }
-    }
-
-    return pages;
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "pending":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-amber-50 text-amber-700 border-amber-200 font-medium"
-          >
-            <Clock className="w-3 h-3 mr-1" />
-            Pending
-          </Badge>
-        );
-      case "accepted":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-green-50 text-green-700 border-green-200 font-medium"
-          >
-            <CheckCircle2 className="w-3 h-3 mr-1" />
-            Accepted
-          </Badge>
-        );
-      case "rejected":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-red-50 text-red-700 border-red-200 font-medium"
-          >
-            <XCircle className="w-3 h-3 mr-1" />
-            Rejected
-          </Badge>
-        );
-      default:
-        return (
-          <Badge
-            variant="outline"
-            className="bg-gray-50 text-gray-700 border-gray-200"
-          >
-            {status}
-          </Badge>
-        );
-    }
-  };
-
   const changeStatus = async (
     id: string,
     newStatus: "pending" | "rejected" | "accepted"
@@ -176,7 +99,7 @@ export default function RegistrationsPage() {
       const result = await res.json();
 
       if (result.success) {
-        updateRegistrationStatus(id, newStatus); // Store updates instantly
+        updateRegistrationStatus(id, newStatus); 
         toast.success("Status updated successfully!");
       } else {
         throw new Error(result.error || "Something went wrong");
@@ -251,26 +174,9 @@ export default function RegistrationsPage() {
       {/* Stats Cards */}
       {!loading && registrations.length > 0 && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">
-                    {stat.label}
-                  </p>
-                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">
-                    {stat.value}
-                  </p>
-                </div>
-                <div className={`${stat.color} p-2 sm:p-3 rounded-lg`}>
-                  <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </div>
-              </div>
-            </div>
-          ))}
+          {stats.map((stat, index) => {
+            return <StatsCard key={index} stat={stat} />;
+          })}
         </div>
       )}
 
@@ -560,7 +466,7 @@ export default function RegistrationsPage() {
                     />
                   </PaginationItem>
 
-                  {getPageNumbers().map((page, index) =>
+                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
                     page === "ellipsis" ? (
                       <PaginationItem key={`ellipsis-${index}`}>
                         <PaginationEllipsis />

@@ -18,13 +18,13 @@ interface Users {
 interface UsersState {
   users: Users[];
   userCount: number;
-  unreadUserCount: number;  // ✅ Added
+  unreadUserCount: number;
   weeklyChange: number;
   isLoading: boolean;
   error: string | null;
 
   fetchUsers: () => Promise<void>;
-  fetchUserGrowth: () => Promise<void>;  // ✅ Fixed
+  fetchUserGrowth: () => Promise<void>;  
   setUsers: (users: Users[]) => void;
   addUser: (user: Users) => void;
 }
@@ -35,7 +35,7 @@ export const useUsersStore = create<UsersState>()(
       (set) => ({
         users: [],
         userCount: 0,
-        unreadUserCount: 0,  // ✅ Added
+        unreadUserCount: 0,  
         weeklyChange: 0,
         isLoading: false,
         error: null,

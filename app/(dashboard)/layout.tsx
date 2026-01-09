@@ -1,10 +1,10 @@
 // app/(dashboard)/layout.tsx
 "use client";
 
-import DashboardNav from "@/sections/DashboardNav";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import Loading from "../loading";
 
 export default function DashboardLayout({
   children,
@@ -19,12 +19,17 @@ export default function DashboardLayout({
     }
   }, [isLoaded, isSignedIn]);
 
-  if (!isLoaded) return <div>Loading...</div>;
-
+if (!isLoaded) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+  
   return (
     <>
-      <DashboardNav /> {/* Dashboard navbar */}
-      <main className="min-h-screen bg-gray-50 pt-16">
+      <main className="">
         {children}
       </main>
     </>

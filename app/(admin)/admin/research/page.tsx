@@ -6,13 +6,12 @@ import {
   Download,
   Loader2,
   Mail,
-  Phone,
   Calendar,
   Users,
   DollarSign,
   FileText,
   Clock,
-  Building, // Added for business icon
+  Building,
 } from "lucide-react";
 import {
   Pagination,
@@ -27,6 +26,8 @@ import { formatDateTime } from "@/lib/utils/format-date";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
 import { usePusherInit, useResearchsStore } from "@/store/researchsStore";
+import StatsCard from "@/cards/StatsCard";
+import { getPageNumbers } from "@/lib/utils/page-numbers";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -51,56 +52,21 @@ export default function ResearchPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       markResearchRead();
-    }, 1000); 
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, []); 
-  
+  }, []);
+
   // Pagination
   const totalPages = Math.ceil(research.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const paginatedResearch = research.slice(startIndex, endIndex);
 
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, "ellipsis", totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(
-          1,
-          "ellipsis",
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        );
-      } else {
-        pages.push(
-          1,
-          "ellipsis",
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          "ellipsis",
-          totalPages
-        );
-      }
-    }
-
-    return pages;
-  };
-
   // Stats
   const stats = [
     {
+      index:1,
       label: "Total Research",
       value: research.length,
       icon: Users,
@@ -148,26 +114,9 @@ export default function ResearchPage() {
       {/* Stats Cards */}
       {!isLoading && research.length > 0 && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">
-                    {stat.label}
-                  </p>
-                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">
-                    {stat.value}
-                  </p>
-                </div>
-                <div className={`${stat.color} p-2 sm:p-3 rounded-lg`}>
-                  <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </div>
-              </div>
-            </div>
-          ))}
+          {stats.map((stat) => {
+            return <StatsCard key={stat.index} stat={stat} />;
+          })}
         </div>
       )}
 
@@ -355,7 +304,7 @@ export default function ResearchPage() {
                     />
                   </PaginationItem>
 
-                  {getPageNumbers().map((page, index) =>
+                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
                     page === "ellipsis" ? (
                       <PaginationItem key={`ellipsis-${index}`}>
                         <PaginationEllipsis />
@@ -371,7 +320,6 @@ export default function ResearchPage() {
                           isActive={currentPage === page}
                         >
                           <span>{page}</span>{" "}
-                          {/* ✅ Fixed: Single React element child */}
                         </PaginationLink>
                       </PaginationItem>
                     )

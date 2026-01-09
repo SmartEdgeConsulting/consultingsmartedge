@@ -19,7 +19,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   useConsultationsStore,
@@ -47,6 +46,9 @@ import {
 import { formatDateTime } from "@/lib/utils/format-date";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
+import { getPageNumbers } from "@/lib/utils/page-numbers";
+import { getStatusBadge } from "@/lib/utils/status-badge";
+import StatsCard from "@/cards/StatsCard";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -82,75 +84,6 @@ const ConsultationPage = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const paginatedConsultations = consultations.slice(startIndex, endIndex);
-
-  // Generate page numbers for pagination
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, "ellipsis", totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(
-          1,
-          "ellipsis",
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        );
-      } else {
-        pages.push(
-          1,
-          "ellipsis",
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          "ellipsis",
-          totalPages
-        );
-      }
-    }
-
-    return pages;
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "pending":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-amber-100 text-amber-700 border-amber-200 font-medium"
-          >
-            Pending
-          </Badge>
-        );
-      case "attended":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-green-50 text-green-700 border-green-200 font-medium"
-          >
-            Attended
-          </Badge>
-        );
-      default:
-        return (
-          <Badge
-            variant="outline"
-            className="bg-gray-50 text-gray-700 border-gray-200"
-          >
-            {status}
-          </Badge>
-        );
-    }
-  };
 
   // Stats
   const stats = [
@@ -208,26 +141,9 @@ const ConsultationPage = () => {
       {/* Stats Cards */}
       {!isLoading && consultations.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
-                    {stat.label}
-                  </p>
-                  <p className="text-3xl font-bold text-gray-900 mt-2">
-                    {stat.value}
-                  </p>
-                </div>
-                <div className={`${stat.color} p-3 rounded-lg`}>
-                  <stat.icon className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </div>
-          ))}
+          {stats.map((stat, index) => {
+            return <StatsCard key={index} stat={stat} />;
+          })}
         </div>
       )}
 
@@ -423,7 +339,7 @@ const ConsultationPage = () => {
                     />
                   </PaginationItem>
 
-                  {getPageNumbers().map((page, index) =>
+                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
                     page === "ellipsis" ? (
                       <PaginationItem key={`ellipsis-${index}`}>
                         <PaginationEllipsis />

@@ -263,7 +263,7 @@ export type Research = {
 };
 
 export type Statistics = {
-  index: number;
+  index?: number;
   label: string;
   value: number;
   color: string;
