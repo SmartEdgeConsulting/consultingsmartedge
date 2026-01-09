@@ -1,5 +1,3 @@
-// app/api/applications/route.ts
-
 import { db } from "@/lib/database";
 import { applications } from "@/lib/database/schema";
 import { NextRequest, NextResponse } from "next/server";
@@ -76,6 +74,7 @@ export async function POST(req: NextRequest) {
       })
       .returning();
     const newApplication = result[0];
+    
     // 3. Trigger real-time event to admin dashboard
     await pusherServer.trigger("admin-dashboard", "new-application", {
       id: newApplication.id,

@@ -20,33 +20,39 @@ import React, { useState } from "react";
 import { useSignUp } from "@clerk/nextjs";
 import { toast } from "sonner";
 import Link from "next/link";
-import { getClerkErrorMessage } from "@/types/clerk"; 
-
-interface SignUpFormData {
-  name: string;
-  email: string;
-  phoneNo: string;
-  password: string;
-  confirmPassword: string;
-}
+import { useRouter } from "next/navigation";
+import { getClerkErrorMessage } from "@/types/clerk";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignUpData, signUpSchema } from "@/src/zod/schema";
+import Verification from "@/components/Verification";
 
 const SignUpPage = () => {
-  const { isLoaded, signUp } = useSignUp();
-
-  // Form State
-  const [userData, setUserData] = useState<SignUpFormData>({
-    name: "",
-    email: "",
-    phoneNo: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const router = useRouter();
 
   // UI state
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [emailForVerification, setEmailForVerification] = useState(""); 
+
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpData>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      phoneNo: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   if (!isLoaded) {
     return (
@@ -56,60 +62,43 @@ const SignUpPage = () => {
     );
   }
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const onSubmit = async (data: SignUpData) => {
     if (!isLoaded || !signUp) {
       toast.error("Authentication service not ready");
-      setLoading(false);
-      return;
-    }
-
-    // Client-side validations
-    if (userData.password !== userData.confirmPassword) {
-      toast.error("Passwords do not match");
-      setLoading(false);
-      return;
-    }
-
-    if (userData.password.length < 8) {
-      toast.error("Password must be at least 8 characters long");
-      setLoading(false);
       return;
     }
 
     try {
-      // Split name into first and last name
-      const nameParts = userData.name.trim().split(" ");
+      console.log("Form submitted:", data);
+      const nameParts = data.name.trim().split(" ");
       const firstName = nameParts[0] || "";
       const lastName = nameParts.slice(1).join(" ") || "";
 
-      // Create sign-up with Clerk
       await signUp.create({
-        emailAddress: userData.email,
-        password: userData.password,
+        emailAddress: data.email,
+        password: data.password,
         firstName: firstName,
         lastName: lastName,
         unsafeMetadata: {
-          phoneNo: userData.phoneNo,
+          phoneNo: data.phoneNo,
         },
       });
 
       console.log("Sign-up created, status:", signUp.status);
 
-      // Prepare email verification
+      // Prepare email verification with CODE strategy
       if (signUp.status === "missing_requirements") {
         await signUp.prepareEmailAddressVerification({
-          strategy: "email_link",
-          redirectUrl: `${window.location.origin}/sign-up/verify`,
+          strategy: "email_code",
         });
+        setEmailForVerification(data.email); // Store email for verification
 
         setVerifying(true);
-        toast.success("Check your email for the verification link");
+        toast.success("Verification code sent to your email");
       } else if (signUp.status === "complete") {
         toast.success("Registration completed!");
-        // Handle immediate completion if needed
+        await setActive({ session: signUp.createdSessionId });
+        router.push("/");
       } else {
         console.warn("Unexpected sign-up status:", signUp.status);
         toast.warning("Please complete the verification process");
@@ -118,42 +107,15 @@ const SignUpPage = () => {
       console.error("Registration error:", err);
       const errorMessage = getClerkErrorMessage(err);
       toast.error(errorMessage);
-    } finally {
-      setLoading(false);
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
   if (verifying) {
     return (
-      <main className="min-h-screen flex justify-center items-center px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Check your email</CardTitle>
-            <CardDescription>
-              We&apos;ve sent a verification link to{" "}
-              <strong>{userData.email}</strong>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Click the link in the email to verify your account. The link
-              expires in 10 mins.
-            </p>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => setVerifying(false)}
-            >
-              Back to Sign Up
-            </Button>
-          </CardContent>
-        </Card>
-      </main>
+      <Verification
+        email={emailForVerification}
+        onBack={() => setVerifying(false)}
+      />
     );
   }
 
@@ -167,20 +129,22 @@ const SignUpPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleRegister}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="name">Full Name</FieldLabel>
                 <Input
                   id="name"
                   type="text"
-                  name="name"
+                  {...register("name")}
                   placeholder="John Doe"
-                  required
-                  disabled={loading}
-                  value={userData.name}
-                  onChange={handleChange}
+                  disabled={isSubmitting}
                 />
+                {errors.name && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
               </Field>
 
               <Field>
@@ -188,13 +152,15 @@ const SignUpPage = () => {
                 <Input
                   id="email"
                   type="email"
-                  name="email"
+                  {...register("email")}
                   placeholder="m@example.com"
-                  required
-                  disabled={loading}
-                  value={userData.email}
-                  onChange={handleChange}
+                  disabled={isSubmitting}
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </Field>
 
               <Field>
@@ -202,13 +168,15 @@ const SignUpPage = () => {
                 <Input
                   id="phoneNo"
                   type="tel"
-                  name="phoneNo"
-                  required
-                  disabled={loading}
+                  {...register("phoneNo")}
+                  disabled={isSubmitting}
                   placeholder="+ (234) *** *** ***"
-                  value={userData.phoneNo}
-                  onChange={handleChange}
                 />
+                {errors.phoneNo && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.phoneNo.message}
+                  </p>
+                )}
               </Field>
 
               <Field>
@@ -216,19 +184,16 @@ const SignUpPage = () => {
                 <div className="relative">
                   <Input
                     id="password"
-                    name="password"
                     type={showPassword ? "text" : "password"}
-                    required
-                    disabled={loading}
+                    {...register("password")}
+                    disabled={isSubmitting}
                     className="pr-10"
                     placeholder="Min. 8 characters"
-                    value={userData.password}
-                    onChange={handleChange}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    disabled={loading}
+                    disabled={isSubmitting}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 disabled:opacity-50"
                   >
                     {showPassword ? (
@@ -238,6 +203,11 @@ const SignUpPage = () => {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
               </Field>
 
               <Field>
@@ -247,21 +217,16 @@ const SignUpPage = () => {
                 <div className="relative">
                   <Input
                     id="confirmPassword"
-                    name="confirmPassword"
+                    {...register("confirmPassword")}
                     type={showConfirmPassword ? "text" : "password"}
-                    required
-                    disabled={loading}
+                    disabled={isSubmitting}
                     className="pr-10"
                     placeholder="Re-enter password"
-                    value={userData.confirmPassword}
-                    onChange={handleChange}
                   />
                   <button
                     type="button"
-                    onClick={() =>
-                      setShowConfirmPassword(!showConfirmPassword)
-                    }
-                    disabled={loading}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    disabled={isSubmitting}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 disabled:opacity-50"
                   >
                     {showConfirmPassword ? (
@@ -271,6 +236,11 @@ const SignUpPage = () => {
                     )}
                   </button>
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </Field>
 
               {/* CAPTCHA container */}
@@ -278,8 +248,12 @@ const SignUpPage = () => {
 
               <FieldGroup>
                 <Field>
-                  <Button type="submit" disabled={loading} className="w-full">
-                    {loading ? (
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full"
+                  >
+                    {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Creating account...
