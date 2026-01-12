@@ -41,7 +41,7 @@ export async function GET() {
 
     for (const reg of registrationsList) {
       const row = [
-        reg.id,
+        `"${reg.id}"`,
         `"${reg.name}"`,
         reg.email,
         reg.phoneNo,

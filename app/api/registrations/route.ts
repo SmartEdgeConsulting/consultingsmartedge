@@ -1,4 +1,3 @@
-// api/registrations/route.ts
 import { db } from "@/lib/database";
 import { registrations } from "@/lib/database/schema";
 import { NextResponse } from "next/server";

@@ -64,7 +64,6 @@ export const useUsersStore = create<UsersState>()(
           }
         },
 
-        // ✅ FIXED: Proper error handling + unread count
         fetchUserGrowth: async () => {
           try {
             const response = await fetch("/api/users/growth");
@@ -74,7 +73,7 @@ export const useUsersStore = create<UsersState>()(
             if (data.success) {
               set({
                 userCount: data.data.totalCount,
-                unreadUserCount: data.data.newThisWeek,  // ✅ Use new users
+                unreadUserCount: data.data.newThisWeek, 
                 weeklyChange: data.data.weeklyChange,
               });
             }

@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    // 2. Send confirmation email to the sender (branded HTML)
+    // 2. Send confirmation email to the sender
     await resend.emails.send({
       from: "SmartEdge Consulting <contact@consultingsmartedge.com>",
-      to: email, //  user who filled the form
+      to: email,
       replyTo: "contact@consultingsmartedge.com",
       subject: "Thanks for reaching out to SmartEdge Consulting & Analytics!",
       html: `
-    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.5; padding: 20px; background-color: #09007d;">
+   <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.5; padding: 20px;;">
       <table width="100%" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
         <tr>
           <td style="padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
@@ -49,12 +49,12 @@ export async function POST(req: NextRequest) {
             <p style="font-size: 16px; text-transform: capitalize;">Hi <strong>${name}</strong>,</p>
             <p style="margin-top: 10px;">Thank you for reaching out to us. We’ve received your message and our team will get back to you shortly.</p>
             <p>Here’s a copy of what you sent:</p>
-            <blockquote style="border-left: 4px solid #00bfa6; margin: 10px 0; padding-left: 10px; color: #555;">
+            <blockquote style="border-left: 4px solid #00f2ff; margin: 10px 0; padding-left: 10px; color: #555;">
               ${message}
             </blockquote>
             <p>If this wasn’t you, please ignore this email.</p>
             <p style="margin-top: 20px;">Best regards,</p>
-            <p><strong>SmartEdge Consulting & Analytics Team</strong></p>
+            <p style="color: #09007d;"><strong>SmartEdge Consulting & Analytics Team</strong></p>
             <a
              href="https://www.consultingsmartedge.com"
              target="_blank"
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
           </td>
         </tr>
       </table>
-    </div>
+      </div>
   `,
     });
 

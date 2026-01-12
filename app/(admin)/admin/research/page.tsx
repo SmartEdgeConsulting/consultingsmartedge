@@ -13,21 +13,12 @@ import {
   Clock,
   Building,
 } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { formatDateTime } from "@/lib/utils/format-date";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
 import { usePusherInit, useResearchsStore } from "@/store/researchsStore";
 import StatsCard from "@/cards/StatsCard";
-import { getPageNumbers } from "@/lib/utils/page-numbers";
+import PaginationComponent from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -40,7 +31,6 @@ export default function ResearchPage() {
     fetchResearchs,
     setCurrentPage,
     exportResearchs,
-    setExporting,
     markResearchRead,
   } = useResearchsStore();
 
@@ -66,7 +56,7 @@ export default function ResearchPage() {
   // Stats
   const stats = [
     {
-      index:1,
+      index: 1,
       label: "Total Research",
       value: research.length,
       icon: Users,
@@ -275,74 +265,14 @@ export default function ResearchPage() {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4">
-              <div className="text-sm text-gray-600">
-                Showing <span className="font-semibold">{startIndex + 1}</span>{" "}
-                to{" "}
-                <span className="font-semibold">
-                  {Math.min(endIndex, research.length)}
-                </span>{" "}
-                of <span className="font-semibold">{research.length}</span>{" "}
-                requests
-              </div>
-
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage - 1, 1));
-                      }}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
-                    />
-                  </PaginationItem>
-
-                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
-                    page === "ellipsis" ? (
-                      <PaginationItem key={`ellipsis-${index}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    ) : (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(page as number);
-                          }}
-                          isActive={currentPage === page}
-                        >
-                          <span>{page}</span>{" "}
-                        </PaginationLink>
-                      </PaginationItem>
-                    )
-                  )}
-
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.min(currentPage + 1, totalPages));
-                      }}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          )}
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={research.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+            itemLabel="research requests"
+          />
         </>
       )}
     </div>

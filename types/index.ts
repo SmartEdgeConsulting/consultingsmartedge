@@ -44,10 +44,12 @@ export type departmentProps = {
 
 export type jobProps = {
   _id: string;
+  slug: string;
   jobTitle: string;
   department: departmentProps;
   jobType: string;
   jobDescription: string;
+  publishedAt: string;
   requirements: string[];
 };
 
@@ -269,4 +271,4 @@ export type Statistics = {
   color: string;
   change?: number;
   icon: LucideIcon;
-}
+};

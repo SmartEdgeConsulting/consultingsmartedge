@@ -48,23 +48,35 @@ export const useRegistrationsStore = create<RegistrationsState>()(
 
           try {
             const response = await fetch("/api/registrations");
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
 
             if (data.success) {
               set({ registrations: data.data, loading: false });
+              console.log("Fetched registrations:", data.data);
             } else {
-              set({ error: "Failed to load registrations", loading: false });
+              const errorMsg = data.error || "Failed to load registrations";
+              console.error("API Error:", data.details || errorMsg);
+              set({ error: errorMsg, loading: false });
+              toast.error(errorMsg);
             }
           } catch (error) {
             console.error("Error fetching registrations:", error);
-            set({ error: "Failed to load registrations", loading: false });
+            const errorMessage =
+              error instanceof Error
+                ? error.message
+                : "Failed to load registrations";
+            set({ error: errorMessage, loading: false });
+            toast.error(errorMessage);
           }
         },
 
         addRegistration: (reg: Registration) => {
           set((state) => ({
             registrations: [reg, ...state.registrations],
-            unreadRegistrationCount: state.unreadRegistrationCount + 1, // NEW
+            unreadRegistrationCount: state.unreadRegistrationCount + 1,
           }));
         },
 
@@ -74,6 +86,11 @@ export const useRegistrationsStore = create<RegistrationsState>()(
 
           try {
             const response = await fetch("/api/registrations/export");
+
+            if (!response.ok) {
+              throw new Error(`Export failed with status: ${response.status}`);
+            }
+
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");

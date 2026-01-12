@@ -26,9 +26,7 @@ export async function POST(request: Request) {
       .limit(1);
 
     if (existingSubscriber.length > 0) {
-      // Check if they previously unsubscribed
       if (existingSubscriber[0].status === "unsubscribed") {
-        // Reactivate subscription
         await db
           .update(subscribers)
           .set({
@@ -44,40 +42,89 @@ export async function POST(request: Request) {
         );
       }
     } else {
-      // Insert new subscriber
       await db.insert(subscribers).values({
         email: email.toLowerCase(),
         status: "active",
       });
     }
 
-    // Send welcome email via Resend with proper error handling
+    // Send welcome email with improved deliverability
     try {
+      const unsubscribeUrl = `${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
       const emailResult = await resend.emails.send({
         from: "SmartEdge Newsletter <noreply@consultingsmartedge.com>",
         to: email,
-        subject: "Welcome to SmartEdge Newsletter!",
+        subject: "Welcome to SmartEdge Newsletter",
+        text: `Welcome to SmartEdge Newsletter!
+Thanks for subscribing! We're excited to have you on board.
+You'll receive our latest updates, insights, and news directly to your inbox.
+---
+© ${new Date().getFullYear()} SmartEdge Consulting & Analytics. All rights reserved.
+You received this email because you subscribed to our newsletter.
+Unsubscribe: ${unsubscribeUrl}`,
         html: `
-        <div><h1>Thanks for subscribing!</h1>
-          <p>We're excited to have you on board.</p>
-          <p>We're excited to have you on board. You'll receive our latest updates, insights, and news directly to your inbox.</p></div>
-        <div style="text-align: center; margin-top: 20px; padding: 20px; color: #999; font-size: 12px;">
-                <p>© ${new Date().getFullYear()} SmartEdge Consulting & Analytics. All rights reserved.</p>
-                <p>
-                  You received this email because you subscribed to our newsletter.<br>
-                  <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #667eea; text-decoration: none;">Unsubscribe</a>
-                </p>
-              </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 0;">
+        <table role="presentation" style="width: 600px; max-width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 30px; text-align: center; background-color: #09007d;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">Welcome to SmartEdge!</h1>
+            </td>
+          </tr>
           
-        `,
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px;">
+              <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
+                Thanks for subscribing to our newsletter!
+              </p>
+              <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
+                We're excited to have you on board. You'll receive our latest updates, insights, and news directly to your inbox.
+              </p>
+              <p style="margin: 0; color: #333333; font-size: 16px; line-height: 1.6;">
+                Stay tuned for valuable content from the SmartEdge team!
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; background-color: #f8f9fa; border-top: 1px solid #e9ecef;">
+              <p style="margin: 0 0 10px; color: #6c757d; font-size: 12px; line-height: 1.5; text-align: center;">
+                © ${new Date().getFullYear()} SmartEdge Consulting & Analytics. All rights reserved.
+              </p>
+              <p style="margin: 0; color: #6c757d; font-size: 12px; line-height: 1.5; text-align: center;">
+                You received this email because you subscribed to our newsletter.
+              </p>
+              <p style="margin: 10px 0 0; text-align: center;">
+                <a href="${unsubscribeUrl}" style="color: #667eea; text-decoration: none; font-size: 12px;">Unsubscribe</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+        headers: {
+          "List-Unsubscribe": `<${unsubscribeUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
       });
 
       console.log("Email sent successfully:", emailResult);
     } catch (emailError) {
-      // Log the email error but don't fail the subscription
       console.error("Failed to send welcome email:", emailError);
-
-      // Return success anyway since subscriber was added to DB
       return NextResponse.json(
         {
           message: "Successfully subscribed! (Welcome email pending)",

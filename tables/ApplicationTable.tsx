@@ -1,7 +1,6 @@
 "use client";
 
-import { useApplicationsStore, usePusherInit } from "@/store/applicationsStore";
-import React, { useEffect } from "react";
+import { useApplicationsStore } from "@/store/applicationsStore";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/utils/format-date";
 import {
@@ -18,13 +17,7 @@ const ApplicationTable = () => {
   const {
     applications,
     currentPage,
-    fetchApplications,
   } = useApplicationsStore();
-
-  usePusherInit();
-  useEffect(() => {
-    fetchApplications();
-  }, [fetchApplications]);
 
   // Pagination calculations
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

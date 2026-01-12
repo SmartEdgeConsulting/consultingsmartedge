@@ -23,6 +23,7 @@ import { useRegistrationsStore } from "@/store/registrationsStore";
 import { useConsultationsStore } from "@/store/consultationsStore";
 import { useApplicationsStore } from "@/store/applicationsStore";
 import Overview from "@/components/Overview";
+import { Badge } from "@/components/ui/badge";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function Dashboard() {
     applicationUnread;
 
   const menuItems = [
-    { id: "dashboard", icon: Home, label: "Dashboard" },
+    { id: "overview", icon: Home, label: "Overview" },
     { id: "applications", icon: Users, label: "Applications" },
     { id: "consultations", icon: BarChart3, label: "Consultations" },
     { id: "registrations", icon: FileText, label: "Registrations" },
@@ -63,7 +64,7 @@ export default function Dashboard() {
 
   const renderPage = () => {
     switch (activePage) {
-      case "dashboard":
+      case "overview":
         return <Overview />;
       case "applications":
         return <ApplicationDashboardPage />;
@@ -206,14 +207,17 @@ export default function Dashboard() {
               </h2>
             </div>
             <div className="flex items-center gap-2">
-              <button className="p-2 hover:bg-gray-100 rounded-lg relative transition-colors">
+              <div className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell size={20} className="text-gray-600" />
                 {totalUnread > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full flex items-center justify-center text-white ">
-                    {totalUnread}
-                  </span>
+                  <Badge
+                    className="absolute -top-1 -right-1 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+                    variant="destructive"
+                  >
+                    {totalUnread > 99 ? "99+" : totalUnread}
+                  </Badge>
                 )}
-              </button>
+              </div>
             </div>
           </div>
         </header>

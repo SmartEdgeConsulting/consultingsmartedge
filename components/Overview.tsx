@@ -14,6 +14,7 @@ const Overview = () => {
   const researchUnread = useResearchsStore(
     (state) => state.unreadResearchCount ?? 0
   );
+
   const {
     users,
     userCount,
@@ -41,7 +42,6 @@ const Overview = () => {
     fetchResearchs,
   ]);
 
-  // 🔥 PERF: Debounced refresh
   const handleRefresh = useCallback(() => {
     fetchUsers();
     fetchUserGrowth();
@@ -78,10 +78,14 @@ const Overview = () => {
       icon: FileSearch,
     },
   ];
+
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Overview</h2>
+        <h2 className="text-2xl font-bold text-gray-900">
+          Welcome to SmartEdge{" "}
+          <span className="inline-block animate-wave">👋</span>
+        </h2>
         <Button
           onClick={handleRefresh}
           disabled={usersLoading}
@@ -170,7 +174,6 @@ const Overview = () => {
             </div>
           ))}
         </div>
-
       </div>
     </>
   );

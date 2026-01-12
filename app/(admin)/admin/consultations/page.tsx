@@ -10,15 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import {
   useConsultationsStore,
@@ -46,9 +37,9 @@ import {
 import { formatDateTime } from "@/lib/utils/format-date";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
-import { getPageNumbers } from "@/lib/utils/page-numbers";
 import { getStatusBadge } from "@/lib/utils/status-badge";
 import StatsCard from "@/cards/StatsCard";
+import PaginationComponent from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -310,74 +301,14 @@ const ConsultationPage = () => {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4">
-              <div className="text-sm text-gray-600">
-                Showing <span className="font-semibold">{startIndex + 1}</span>{" "}
-                to{" "}
-                <span className="font-semibold">
-                  {Math.min(endIndex, consultations.length)}
-                </span>{" "}
-                of <span className="font-semibold">{consultations.length}</span>{" "}
-                consultations
-              </div>
-
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage - 1, 1));
-                      }}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
-                    />
-                  </PaginationItem>
-
-                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
-                    page === "ellipsis" ? (
-                      <PaginationItem key={`ellipsis-${index}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    ) : (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(page as number);
-                          }}
-                          isActive={currentPage === page}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    )
-                  )}
-
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage - 1, 1));
-                      }}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          )}
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={consultations.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+            itemLabel="consultations"
+          />
         </>
       )}
     </div>

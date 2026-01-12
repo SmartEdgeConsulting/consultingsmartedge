@@ -55,7 +55,7 @@ export const subscribers = pgTable(
   {
     id: uuid("id").primaryKey().defaultRandom(),
     email: varchar("email", { length: 255 }).notNull().unique(),
-    status: varchar("status", { length: 20 }).notNull().default("active"), // active, unsubscribed
+    status: varchar("status", { length: 20 }).notNull().default("active"), 
     subscribedAt: timestamp("subscribed_at").notNull().defaultNow(),
     unsubscribedAt: timestamp("unsubscribed_at"),
   },

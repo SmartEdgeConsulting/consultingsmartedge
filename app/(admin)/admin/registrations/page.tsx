@@ -6,13 +6,11 @@ import {
   useRegistrationsStore,
   usePusherInit,
 } from "@/store/registrationsStore";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Download,
   MoreVertical,
   Loader2,
-  User,
   Mail,
   Phone,
   Calendar,
@@ -23,15 +21,6 @@ import {
   CheckCheck,
   UserX,
 } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,7 +35,8 @@ import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
 import StatsCard from "@/cards/StatsCard";
 import { getStatusBadge } from "@/lib/utils/status-badge";
-import { getPageNumbers } from "@/lib/utils/page-numbers";
+import RegistrationTable from "@/tables/RegistrationTable";
+import PaginationComponent from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -69,7 +59,8 @@ export default function RegistrationsPage() {
   usePusherInit();
   useEffect(() => {
     fetchRegistrations();
-  }, [fetchRegistrations]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -99,7 +90,7 @@ export default function RegistrationsPage() {
       const result = await res.json();
 
       if (result.success) {
-        updateRegistrationStatus(id, newStatus); 
+        updateRegistrationStatus(id, newStatus);
         toast.success("Status updated successfully!");
       } else {
         throw new Error(result.error || "Something went wrong");
@@ -194,151 +185,7 @@ export default function RegistrationsPage() {
           {/* Desktop Table */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hidden md:block">
             <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      S/N
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-gray-500" />
-                        Name
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-gray-500" />
-                        Email
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-gray-500" />
-                        Phone
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      Gender
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      Payment
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-gray-500" />
-                        Date
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {paginatedRegistrations.map((reg, index) => {
-                    const globalIndex = startIndex + index + 1;
-                    return (
-                      <tr
-                        key={reg.id}
-                        className="hover:bg-gray-50 transition-colors"
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
-                            {globalIndex.toString().padStart(3, "0")}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
-                            {reg.name}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-600">
-                            {reg.email}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-600">
-                            {reg.phoneNo}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-600 capitalize">
-                            {reg.gender === "Female" ? "F" : "M"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <a
-                            href={reg.proofOfPayment}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:text-blue-800 underline font-medium"
-                          >
-                            View Proof
-                          </a>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {getStatusBadge(reg.status)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-600">
-                            {formatDateTime(reg.createdAt)}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                disabled={updatingStatus === reg.id}
-                                className="h-8 w-8"
-                              >
-                                {updatingStatus === reg.id ? (
-                                  <Loader2 className="h-4 w-4 animate-spin" />
-                                ) : (
-                                  <MoreVertical className="h-4 w-4" />
-                                )}
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>
-                                Change Status
-                              </DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                onClick={() => changeStatus(reg.id, "accepted")}
-                                disabled={reg.status === "accepted"}
-                              >
-                                <CheckCircle2 className="h-4 w-4 mr-2" />
-                                Accept
-                              </DropdownMenuItem>
-                              <DropdownMenuItem
-                                onClick={() => changeStatus(reg.id, "rejected")}
-                                disabled={reg.status === "rejected"}
-                              >
-                                <XCircle className="h-4 w-4 mr-2" />
-                                Reject
-                              </DropdownMenuItem>
-                              <DropdownMenuItem
-                                onClick={() => changeStatus(reg.id, "pending")}
-                                disabled={reg.status === "pending"}
-                              >
-                                <Clock className="h-4 w-4 mr-2" />
-                                Mark as Pending
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <RegistrationTable />
             </div>
           </div>
 
@@ -437,74 +284,14 @@ export default function RegistrationsPage() {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4">
-              <div className="text-sm text-gray-600">
-                Showing <span className="font-semibold">{startIndex + 1}</span>{" "}
-                to{" "}
-                <span className="font-semibold">
-                  {Math.min(endIndex, registrations.length)}
-                </span>{" "}
-                of <span className="font-semibold">{registrations.length}</span>{" "}
-                registrations
-              </div>
-
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage - 1, 1));
-                      }}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
-                    />
-                  </PaginationItem>
-
-                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
-                    page === "ellipsis" ? (
-                      <PaginationItem key={`ellipsis-${index}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    ) : (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(page as number);
-                          }}
-                          isActive={currentPage === page}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    )
-                  )}
-
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage + 1, 1));
-                      }}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : ""
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          )}
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={registrations.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+            itemLabel="registrations"
+          />
         </>
       )}
     </div>

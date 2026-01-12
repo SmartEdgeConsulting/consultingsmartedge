@@ -28,7 +28,7 @@ interface ResearchsState {
 export const useResearchsStore = create<ResearchsState>()(
   persist(
     devtools(
-      (set, get) => ({
+      (set) => ({
         research: [],
         currentPage: 1,
         isLoading: true,
@@ -48,7 +48,7 @@ export const useResearchsStore = create<ResearchsState>()(
             if (data.success) {
               set({ research: data.data, isLoading: false });
             } else {
-              set({
+              set({ 
                 error: "Failed to load research requests",
                 isLoading: false,
               });

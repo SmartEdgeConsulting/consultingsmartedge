@@ -1,3 +1,15 @@
 User-agent: *
 Allow: /
-Sitemap: https://yourdomain.com/sitemap.xml
+
+# Block Next.js API routes
+Disallow: /api/
+
+# Block Next.js internal directories
+Disallow: /_next/static/
+Disallow: /_next/image*
+
+# Block common utility endpoints
+Disallow: /admin/
+Disallow: /preview/
+
+Sitemap: https://consultingsmartedge.com/sitemap.xml

@@ -1,8 +1,3 @@
-export const getAnnouncement = `*[_type == "announcement"]{
-  _id,
-  newAnnouncement,
-}`;
-
 export const getDepartments = `*[_type == "departments"] {
   _id,
   department,

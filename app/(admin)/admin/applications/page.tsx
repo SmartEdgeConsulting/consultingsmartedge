@@ -1,20 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useApplicationsStore, usePusherInit } from "@/store/applicationsStore";
 import ApplicationTable from "@/tables/ApplicationTable";
 import NoList from "@/components/NoList";
 import AdminLoader from "@/components/AdminLoader";
-import { getPageNumbers } from "@/lib/utils/page-numbers";
+import PaginationComponent from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -46,7 +37,6 @@ const ApplicationDashboardPage = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-
   return (
     <div className="space-y-6 py-2">
       {/* Header Section */}
@@ -75,83 +65,14 @@ const ApplicationDashboardPage = () => {
           <ApplicationTable />
 
           {/* Pagination and Summary */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-600 font-medium bg-gray-50 px-4 py-2.5 rounded-lg">
-              Showing{" "}
-              <span className="font-bold text-gray-900">{startIndex + 1}</span>{" "}
-              to{" "}
-              <span className="font-bold text-gray-900">
-                {Math.min(endIndex, applications.length)}
-              </span>{" "}
-              of{" "}
-              <span className="font-bold text-gray-900">
-                {applications.length}
-              </span>{" "}
-              applications
-            </div>
-
-            {totalPages > 1 && (
-              <Pagination className="mt-0">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage - 1, 1));
-                      }}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50 text-gray-400"
-                          : "text-gray-700 hover:text-gray-900"
-                      }
-                    />
-                  </PaginationItem>
-
-                  {getPageNumbers(totalPages, currentPage).map((page, index) =>
-                    page === "ellipsis" ? (
-                      <PaginationItem key={`ellipsis-${index}`}>
-                        <PaginationEllipsis className="text-gray-400" />
-                      </PaginationItem>
-                    ) : (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(page as number);
-                          }}
-                          isActive={currentPage === page}
-                          className={
-                            currentPage === page
-                              ? "bg-blue-600 text-white hover:bg-blue-700"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-                          }
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    )
-                  )}
-
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(Math.max(currentPage + 1, 1));
-                      }}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50 text-gray-400"
-                          : "text-gray-700 hover:text-gray-900"
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            )}
-          </div>
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={applications.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+            itemLabel="applications"
+          />
         </>
       )}
     </div>

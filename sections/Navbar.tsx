@@ -173,12 +173,13 @@ const Navbar = () => {
         <div className="hidden sm:flex items-center gap-4">
           {isSignedIn ? (
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="flex items-center gap-2 p-1 -m-1 rounded-md outline-none">
                 <Avatar className="size-10 cursor-pointer border-2 border-transparent hover:border-gray-300 transition-colors duration-200">
                   <AvatarFallback className="bg-blue-100 text-blue-800 font-semibold">
                     {getInitials()}
                   </AvatarFallback>
                 </Avatar>
+                <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:-rotate-180" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="">
@@ -201,7 +202,10 @@ const Navbar = () => {
                   </DropdownMenuItem>
                 ) : (
                   <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link href={`/dashboard/${user.id}`} className="flex items-center">
+                    <Link
+                      href={`/dashboard/${user.id}`}
+                      className="flex items-center"
+                    >
                       <User className="mr-2 h-4 w-4" />
                       <span>Dashboard</span>
                     </Link>
