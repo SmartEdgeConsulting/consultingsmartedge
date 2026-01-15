@@ -42,13 +42,15 @@ const About = () => {
         <div>
           <Image
             src="/about.webp"
-            width={600}
-            height={400}
+            width={672}
+            height={448}
             alt="Data analysts working on a laptop"
-            className="rounded-lg"
+            className="rounded-lg w-full h-auto"
             priority
-            quality={90}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+            quality={85}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            placeholder="blur"
+            blurDataURL="data:image/webp;base64,UklGRgwCAABXRUJQVlA4WAoAAAAgAAAAAQAAAgAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwMS...gAAAAA==" // Generic blue blur
           />
         </div>
       </div>

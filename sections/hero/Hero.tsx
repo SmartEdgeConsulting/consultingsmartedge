@@ -1,12 +1,22 @@
-import AnimatedBackground from "@/components/AnimatedBackground";
+"use client"; 
+
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+// Now dynamic works with ssr: false
+const AnimatedBackground = dynamic(
+  () => import("@/components/AnimatedBackground"),
+  {
+    ssr: false, // No SSR hydration mismatch
+  }
+);
 
 const Hero = () => {
   return (
     <AnimatedBackground
-      particleCount={90}
-      connectionDistance={180}
+      particleCount={80}
+      connectionDistance={150}
       primaryColor="59, 130, 246"
       backgroundColor="#09007D"
       className="min-h-screen"
@@ -31,16 +41,20 @@ const Hero = () => {
             aria-label="Book Consultation"
             aria-roledescription="navigation button"
           >
-            <Link href="/consultation" className="no-underline">Get a Free Data Consultation</Link>
+            <Link href="/consultation" className="no-underline">
+              Get a Free Data Consultation
+            </Link>
           </Button>
           <Button
             variant="outline"
-            size="default" 
+            size="default"
             className="font-bold"
             aria-label="Upload Data for Analysis"
             aria-roledescription="navigation button"
           >
-            <Link href="/automated-data-lab" className="no-underline"> Upload Your Data</Link>
+            <Link href="/automated-data-lab" className="no-underline">
+              Upload Your Data
+            </Link>
           </Button>
         </div>
       </header>

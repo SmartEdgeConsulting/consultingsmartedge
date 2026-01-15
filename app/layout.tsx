@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
+  description:
+    "SmartEdge is a data-driven consulting firm that helps businesses uncover clarity and accelerate growth through data analytics, research, and intelligent automation.",
 };
 
 export default function RootLayout({

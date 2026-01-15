@@ -39,8 +39,9 @@ const ServiceCard = ({
         </p>
 
         <Link
-          href={pathname === "/" ? "/services" : link || "/"}
+          href={pathname === "/" ? "/services" : link || "/services"}
           className="mt-auto"
+          prefetch={false}
         >
           <Button
             size="sm"
@@ -49,7 +50,7 @@ const ServiceCard = ({
             title={`${title}: ${description}`}
             aria-label={`Learn more about ${title}`}
           >
-            {pathname === "/" ? "Learn More" : button}
+            {button}
           </Button>
         </Link>
       </div>

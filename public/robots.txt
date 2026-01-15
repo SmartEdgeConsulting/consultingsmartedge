@@ -38,5 +38,5 @@ allow: /sign-up
 allow: /forgot-password
 allow: /unsubscribe
 
-# 📋 SITEMAP
+# SITEMAP
 Sitemap: https://consultingsmartedge.com/sitemap.xml
