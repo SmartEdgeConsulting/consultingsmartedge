@@ -1,15 +1,42 @@
 User-agent: *
 Allow: /
 
-# Block Next.js API routes
+# BLOCK PROTECTED ROUTES ONLY (Clerk auth required)
+Disallow: /admin/
+Disallow: /admin/applications
+Disallow: /admin/consultations
+Disallow: /admin/registrations
+Disallow: /admin/research
+Disallow: /dashboard/
+Disallow: /dashboard/[id]/
+Disallow: /dashboard/[id]/actions
+Disallow: /dashboard/[id]/insights
+Disallow: /dashboard/[id]/uploads
+Disallow: /automated-data-lab
+Disallow: /consultation
+
+
+# BLOCK APIs
 Disallow: /api/
 
-# Block Next.js internal directories
-Disallow: /_next/static/
-Disallow: /_next/image*
+# BLOCK TECHNICAL
+Disallow: /_next/
 
-# Block common utility endpoints
-Disallow: /admin/
-Disallow: /preview/
+# PUBLIC & INDEXABLE (viewable without auth)
+Allow: /
+Allow: /about
+Allow: /careers           
+Allow: /events
+Allow: /contact
+Allow: /services          
+Allow: /services/bootcamp
+Allow: /services/research
+Allow: /blog
+Allow: /blog/[slug]
+Allow: /login
+Allow: /sign-up
+Allow: /forgot-password
+Allow: /unsubscribe
 
+# 📋 SITEMAP
 Sitemap: https://consultingsmartedge.com/sitemap.xml

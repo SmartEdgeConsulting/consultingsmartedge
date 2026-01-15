@@ -3,7 +3,12 @@ import BootcampDetails from "@/sections/BootcampDetails";
 import BootcampHero from "@/sections/hero/BootcampHero";
 import { client } from "@/src/sanity/client";
 import { getVideoTestimonials } from "@/src/sanity/queries";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "DataEdge's Bootcamp - What We Offer",
+};
 
 const BootcampPage = async () => {
   let testimonials = [];

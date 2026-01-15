@@ -99,7 +99,7 @@ const ConsultationForm = () => {
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Your full name"
+                  placeholder="John Doe"
                   {...register("name")}
                   required
                   className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
@@ -119,7 +119,7 @@ const ConsultationForm = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="janedoe@example.com"
+                  placeholder="your.email@email.com"
                   {...register("email")}
                   required
                   className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
@@ -139,7 +139,7 @@ const ConsultationForm = () => {
                 <Input
                   id="company"
                   type="text"
-                  placeholder="Your company name"
+                  placeholder="e.g. Acme Technologies Ltd."
                   {...register("company")}
                   className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                 />
@@ -163,7 +163,7 @@ const ConsultationForm = () => {
                   {...register("challenge")}
                   required
                   rows={5}
-                  className="resize-none border-gray-300 focus:border-primary focus:ring-primary min-h-[120px]"
+                  className="resize-none border-gray-300 focus:border-primary focus:ring-primary min-h-30"
                 />
                 {errors.challenge && (
                   <p className="text-xs text-red-500">

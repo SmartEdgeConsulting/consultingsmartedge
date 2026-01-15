@@ -31,16 +31,22 @@ const ServiceCard = ({
 
       {/* Content */}
       <div className="flex flex-col grow text-center gap-4 mt-4">
-        <h3 className="text-base sm:text-lg font-semibold tracking-tight">{title}</h3>
+        <h3 className="text-base sm:text-lg font-semibold tracking-tight">
+          {title}
+        </h3>
         <p className="text-sm text-gray-600 leading-relaxed grow">
           {description}
         </p>
 
-        <Link href={pathname === "/" ? "/services" : link || "/"} className="mt-auto">
+        <Link
+          href={pathname === "/" ? "/services" : link || "/"}
+          className="mt-auto"
+        >
           <Button
             size="sm"
             variant="darkoutline"
             className="w-full"
+            title={`${title}: ${description}`}
             aria-label={`Learn more about ${title}`}
           >
             {pathname === "/" ? "Learn More" : button}

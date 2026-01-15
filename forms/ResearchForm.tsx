@@ -86,7 +86,7 @@ const ResearchForm = () => {
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Your full name"
+                    placeholder="John Doe"
                     {...register("name")}
                     className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                   />
@@ -104,7 +104,7 @@ const ResearchForm = () => {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@example.com"
+                    placeholder="your.email@email.com"
                     {...register("email")}
                     className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                   />
@@ -125,7 +125,7 @@ const ResearchForm = () => {
                   <Input
                     id="business"
                     type="text"
-                    placeholder="Your company name"
+                    placeholder="e.g. Acme Technologies Ltd."
                     {...register("business")}
                     className="h-12 border-gray-300 focus:border-primary focus:ring-primary"
                   />
@@ -168,7 +168,7 @@ const ResearchForm = () => {
                   placeholder="Tell us about your research project, objectives, and any specific requirements..."
                   rows={6}
                   {...register("research")}
-                  className="resize-none border-gray-300 focus:border-primary focus:ring-primary min-h-[120px]"
+                  className="resize-none border-gray-300 focus:border-primary focus:ring-primary min-h-30"
                 />
                 {errors.research && (
                   <p className="text-sm text-red-500">

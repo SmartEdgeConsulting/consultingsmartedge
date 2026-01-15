@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Button } from "../components/ui/button";
 import { Send } from "lucide-react";
@@ -94,7 +96,7 @@ const ContactForm = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="john@example.com"
+                placeholder="your.email@email.com"
                 {...register("email")}
                 className="h-11 border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 px-4"
               />
@@ -113,7 +115,7 @@ const ContactForm = () => {
             <Input
               id="company"
               type="text"
-              placeholder="Acme Inc."
+              placeholder="e.g. Acme Technologies Ltd."
               {...register("company")}
               className="h-11 border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 px-4"
             />
@@ -135,7 +137,7 @@ const ContactForm = () => {
               id="message"
               placeholder="Tell us about your project, goals, and how we can help"
               {...register("message")}
-              className="resize-none border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 min-h-[100px] p-4"
+              className="resize-none border-gray-300 focus:border-primary focus:ring-primary transition-all duration-300 hover:border-gray-400 min-h-25 p-4"
               rows={5}
             />
             {errors.message && (

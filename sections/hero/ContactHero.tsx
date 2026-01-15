@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const ContactHero = () => {
   return (
-    <header className="contact-animate py-12 sm:py-14 lg:py-16 scroll-mt-16">
+    <header className="py-12 sm:py-14 lg:py-16 scroll-mt-16">
       <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         <Heading title="Get in Touch" icon={<MessageSquareMore size={18} />} />
         <h1 className="hero-heading">

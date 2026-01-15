@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Menu, X, BarChart3, FileText, Bell } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import UploadsPage from "../../uploads/page";
-import InsightsPage from "../../insights/page";
-import ActionsPage from "../../actions/page";
+import UploadsPage from "./uploads/page";
+import InsightsPage from "./insights/page";
+import ActionsPage from "./actions/page";
+
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

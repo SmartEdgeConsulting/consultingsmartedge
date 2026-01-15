@@ -1,10 +1,13 @@
+"use client";
+
+import React from "react";
 import ContactCard from "@/cards/ContactCard";
 import ContactForm from "@/forms/ContactForm";
 import { contactInfo } from "@/lib/data";
 
 const Contact = () => {
   return (
-    <section className="contact-animate py-20">
+    <section className="py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-10 flex flex-col sm:flex-row gap-15 items-start">
         <div className="sm:w-[60%] w-full">
           <ContactForm />
