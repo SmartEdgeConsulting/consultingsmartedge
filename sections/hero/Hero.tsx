@@ -23,22 +23,24 @@ const Hero = () => {
           We help businesses uncover clarity and accelerate growth through data
           analytics, research, and intelligent automation.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row gap-4 mb-4 md:gap-6">
           <Button
             variant="default"
-            className="text-md font-bold"
+            size="default"
+            className="font-bold"
             aria-label="Book Consultation"
             aria-roledescription="navigation button"
           >
-            <Link href="/consultation">Get a Free Data Consultation</Link>
+            <Link href="/consultation" className="no-underline">Get a Free Data Consultation</Link>
           </Button>
           <Button
             variant="outline"
-            className="text-md font-bold"
+            size="default" 
+            className="font-bold"
             aria-label="Upload Data for Analysis"
             aria-roledescription="navigation button"
           >
-            <Link href="/automated-data-lab"> Upload Your Data</Link>
+            <Link href="/automated-data-lab" className="no-underline"> Upload Your Data</Link>
           </Button>
         </div>
       </header>
