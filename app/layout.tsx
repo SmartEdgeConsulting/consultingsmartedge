@@ -27,6 +27,7 @@ const poppins = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.consultingsmartedge.com"),
   title: "SmartEdge Consulting & Analytics - Data-driven Business Solutions",
   icons: {
     icon: "/favicon.png",

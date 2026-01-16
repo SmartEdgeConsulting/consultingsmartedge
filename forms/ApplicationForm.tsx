@@ -306,7 +306,7 @@ const ApplicationForm = ({
                 placeholder="Tell us about yourself and skills you possess for this job (minimum 10 characters)"
                 rows={4}
                 {...register("skills")}
-                className={`${errors.skills ? "border-red-500" : ""} min-h-[100px]`}
+                className={`${errors.skills ? "border-red-500" : ""} min-h-25`}
               />
               {errors.skills && (
                 <p className="text-red-500 text-sm">{errors.skills.message}</p>
