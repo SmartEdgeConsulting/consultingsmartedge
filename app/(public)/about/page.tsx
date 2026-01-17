@@ -6,7 +6,7 @@ import Values from "@/sections/Values";
 
 export const metadata: Metadata = {
   title:
-    "About SmartEdge Consulting & Analytics - Our Mission, Values, and Team",
+    "About SmartEdge - Our Mission, Values, and Team",
   description:
     "Learn about SmartEdge Consulting & Analytics, our mission to empower businesses to make smarter decisions using data, our core values, and the dedicated team behind our success.",
   keywords: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title:
       "About SmartEdge Consulting & Analytics - Our Mission, Values, and Team",
     description:
-      "Learn about SmartEdge Consulting & Analytics, our mission to empower businesses to make smarter decisions using data, our core values, and the dedicated team behind our success.",
+      "Learn about SmartEdge's mission to empower businesses to make smarter decisions using data, our core values, and the dedicated team behind our success.",
     url: "https://www.consultingsmartedge.com/about",
     siteName: "SmartEdge Consulting & Analytics",
     images: [
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "About SmartEdge Consulting & Analytics - Our Mission, Values, and Team",
+      "About SmartEdge - Our Mission, Values, and Team",
     description:
-      "Learn about SmartEdge Consulting & Analytics, our mission to empower businesses to make smarter decisions using data, our core values, and the dedicated team behind our success."
+      "Learn about SmartEdge's mission to empower businesses to make smarter decisions using data, our core values, and the dedicated team behind our success."
   },
   robots: {
     index: true,
