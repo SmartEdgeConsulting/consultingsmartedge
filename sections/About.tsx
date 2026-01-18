@@ -10,14 +10,12 @@ const About = () => {
     <section
       id="about"
       role="region"
-      aria-labelledby="about-heading"
       className="py-20"
     >
       <div className="mx-auto max-w-7xl grid gap-12 grid-cols-1 sm:grid-cols-2 px-4 sm:px-6 lg:px-8 items-center">
         <div className="mb-16">
           <Heading title="Who We Are" icon={<Users size={18} />} />
           <h2
-            id="about-heading"
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6 leading-tight"
           >
             We turn raw <span className="text-gradient-primary">data</span> into

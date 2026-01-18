@@ -1,0 +1,21 @@
+User-Agent: *
+
+Allow: /
+Allow: /about
+Allow: /automated-data-lab
+Allow: /blog/*
+Allow: /careers/*
+Allow: /contact
+Allow: /consultation
+Allow: /events
+Allow: /services/*
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /sign-up
+Disallow: /forgot-password
+Disallow: /unsubscribe
+
+Sitemap: https://consultingsmartedge.com/sitemap.xml
