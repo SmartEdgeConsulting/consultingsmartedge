@@ -20,9 +20,9 @@ const Footer = () => {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Services", href: "/#services" },
-    { label: "Careers", href: "/" },
+    { label: "Careers", href: "/careers" },
     { label: "Contact", href: "/contact" },
-    { label: "Blog", href: "/" },
+    { label: "Blog", href: "/blog" },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {

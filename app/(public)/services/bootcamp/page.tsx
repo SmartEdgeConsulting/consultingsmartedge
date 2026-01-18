@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "SmartEdge Consulting & Analytics",
     images: [
       {
-        url: "/smartedge_logo.png",
+        url: "/smartedgelogo.jpg",
         width: 1200,
         height: 630,
         alt: "SmartEdge Consulting & Analytics",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title:
       "DataEdge's Bootcamp - 8 Weeks of Practical, Career-Ready Data Skills",
     description:
-      "An intensive and hands-on 8-week class that helps you go from zero to producing real dashboards, insights, and business reports that employers actually want."
+      "An intensive and hands-on 8-week class that helps you go from zero to producing real dashboards, insights, and business reports that employers actually want.",
   },
   robots: {
     index: true,

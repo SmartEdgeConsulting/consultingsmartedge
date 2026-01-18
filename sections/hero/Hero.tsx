@@ -1,16 +1,8 @@
-"use client"; 
+"use client";
 
-import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-// Now dynamic works with ssr: false
-const AnimatedBackground = dynamic(
-  () => import("@/components/AnimatedBackground"),
-  {
-    ssr: false, // No SSR hydration mismatch
-  }
-);
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const Hero = () => {
   return (
@@ -35,22 +27,22 @@ const Hero = () => {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-4 md:gap-6">
           <Button
+            asChild
             variant="default"
             size="default"
             className="font-bold"
             aria-label="Book Consultation"
-            aria-roledescription="navigation button"
           >
             <Link href="/consultation" className="no-underline">
               Get a Free Data Consultation
             </Link>
           </Button>
           <Button
+            asChild
             variant="outline"
             size="default"
             className="font-bold"
             aria-label="Upload Data for Analysis"
-            aria-roledescription="navigation button"
           >
             <Link href="/automated-data-lab" className="no-underline">
               Upload Your Data

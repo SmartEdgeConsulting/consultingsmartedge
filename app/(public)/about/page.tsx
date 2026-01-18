@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "SmartEdge Consulting & Analytics",
     images: [
       {
-        url: "/smartedge_logo.png",
+        url: "/smartedgelogo.jpg",
         width: 1200,
         height: 630,
         alt: "SmartEdge Consulting & Analytics",

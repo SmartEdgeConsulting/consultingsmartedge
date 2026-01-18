@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: "SmartEdge Consulting & Analytics",
     images: [
       {
-        url: "/smartedge_logo.png",
+        url: "/smartedgelogo.jpg",
         width: 1200,
         height: 630,
         alt: "SmartEdge Consulting & Analytics",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact Our Team - We’d Love to Hear From You",
     description:
-      "Reach out to the SmartEdge Consulting & Analytics team for support and enquiries. We're here to help you make smarter, data-driven decisions for your business."
+      "Reach out to the SmartEdge Consulting & Analytics team for support and enquiries. We're here to help you make smarter, data-driven decisions for your business.",
   },
   robots: {
     index: true,
