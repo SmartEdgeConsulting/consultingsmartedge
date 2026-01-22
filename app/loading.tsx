@@ -7,7 +7,7 @@ const Loading = () => {
       {/* Loader Container */}
       <div className="text-center z-10">
         {/* Spinning Circles */}
-        <div className="relative w-[120px] h-[120px] mx-auto mb-8">
+        <div className="relative w-30 h-30 mx-auto mb-8">
           {/* Outer Circle */}
           <div
             className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin"

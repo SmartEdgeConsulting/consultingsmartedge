@@ -10,12 +10,7 @@ export const metadata: Metadata = {
   title: "SmartEdge Consulting & Analytics - Data-driven Business Solutions",
   description:
     "SmartEdge is a data-driven consulting firm that helps businesses uncover clarity and accelerate growth through data analytics, research, and intelligent automation.",
-  keywords: [
-    "SmartEdge",
-    "Consulting",
-    "Analytics",
-    "Data-Driven Decisions",
-  ],
+  keywords: ["SmartEdge", "Consulting", "Analytics", "Data-Driven Decisions"],
   openGraph: {
     title: "SmartEdge Consulting & Analytics - Data-driven Business Solutions",
     description:
