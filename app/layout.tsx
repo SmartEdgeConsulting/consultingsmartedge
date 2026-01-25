@@ -55,7 +55,13 @@ export default function RootLayout({
       },
       "query-input": "required name=search_term_string",
     },
-    logo: "https://www.consultingsmartedge.com/logo-512.jpg",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.consultingsmartedge.com/logo-512.jpg",
+      width: "512",
+      height: "512",
+      caption: "SmartEdge Consulting & Analytics Logo",
+    },
     description:
       "SmartEdge is a data-driven consulting firm that helps businesses uncover clarity and accelerate growth through data analytics, research, and intelligent automation.",
     sameAs: [

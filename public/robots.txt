@@ -9,6 +9,8 @@ Allow: /contact
 Allow: /consultation
 Allow: /events
 Allow: /services/*
+Allow: /logo-*.jpg
+
 
 Disallow: /api/
 Disallow: /admin/
