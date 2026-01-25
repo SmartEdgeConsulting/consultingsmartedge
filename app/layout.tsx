@@ -41,27 +41,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    // Organization schema for Google Search
-    const organizationSchema = {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "SmartEdge Consulting & Analytics",
-      url: "https://www.consultingsmartedge.com",
-      logo: "https://www.consultingsmartedge.com/logo-512.jpg",
-      description:
-        "SmartEdge is a data-driven consulting firm that helps businesses uncover clarity and accelerate growth through data analytics, research, and intelligent automation.",
-      sameAs: [
-        "https://www.linkedin.com/company/smartedge-analytics/",
-        "https://www.facebook.com/profile.php?id=61581334894053",
-        "https://youtube.com/@smartedgeconsulting",
-        "https://www.instagram.com/smartedge_consulting/",
-      ],
-    };
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "SmartEdge Consulting & Analytics",
+    url: "https://www.consultingsmartedge.com",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate:
+          "https://www.consultingsmartedge.com/search?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+    logo: "https://www.consultingsmartedge.com/logo-512.jpg",
+    description:
+      "SmartEdge is a data-driven consulting firm that helps businesses uncover clarity and accelerate growth through data analytics, research, and intelligent automation.",
+    sameAs: [
+      "https://www.linkedin.com/company/smartedge-analytics/",
+      "https://www.facebook.com/profile.php?id=61581334894053",
+      "https://youtube.com/@smartedgeconsulting",
+      "https://www.instagram.com/smartedge_consulting/",
+    ],
+  };
 
   return (
     <ClerkProvider>
       <html lang="en">
-         <head>
+        <head>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
