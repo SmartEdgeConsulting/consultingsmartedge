@@ -16,7 +16,6 @@ const Teams = async () => {
       {},
       { next: { revalidate: 30 } }
     );
-    console.log("Fetched team members:", teamMembers);
   } catch (error) {
     console.error("Failed to fetch team members:", error);
   }

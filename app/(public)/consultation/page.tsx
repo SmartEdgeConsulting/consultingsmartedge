@@ -3,22 +3,25 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Get a Free Data Strategy Session",
+  title: "Free Data Strategy Session",
   description:
-    "We’ll help you understand how data can improve your decisions, marketing, customer insights, and operations.",
+    "Book a free 30-minute data strategy session. We’ll help you understand how data can improve your decisions, marketing, customer insights, and operations.",
   keywords: [
     "SmartEdge",
-    "Events",
     "Consulting",
     "Consultation",
-    "Analytics",
     "Data-Driven Decisions",
+    "data consultation",
+    "free data analysis",
+    "data strategy session",
+    "business intelligence consultation",
+    "data analytics experts",
   ],
   openGraph: {
     title: "Get a Free Data Strategy Session",
     description:
       "We’ll help you understand how data can improve your decisions, marketing, customer insights, and operations.",
-      url: "https://www.consultingsmartedge.com/consultation",
+    url: "https://www.consultingsmartedge.com/consultation",
     siteName: "SmartEdge Consulting & Analytics",
     images: [
       {
@@ -35,11 +38,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Get a Free Data Strategy Session",
     description:
-      "We’ll help you understand how data can improve your decisions, marketing, customer insights, and operations."
-    },
+      "We’ll help you understand how data can improve your decisions, marketing, customer insights, and operations.",
+  },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     nocache: false,
     googleBot: {
       index: true,

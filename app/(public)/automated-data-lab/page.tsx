@@ -36,12 +36,12 @@ export const metadata: Metadata = {
     description: "Upload Your Data for analysis and Get Automated Insights in Minutes",
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     nocache: false,
     googleBot: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
       "max-snippet": -1,
       "max-image-preview": "large",
       "max-video-preview": -1,

@@ -26,24 +26,32 @@ const isPublicRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
 
+  // Debug logging
+  console.log("Pathname:", request.nextUrl.pathname);
+  console.log("Is public route?", isPublicRoute(request));
+  console.log("User ID:", userId);
+
   // If route is public, allow access
   if (isPublicRoute(request)) {
+    console.log("Allowing access to public route");
     return NextResponse.next();
   }
 
   // If user is not signed in and trying to access protected route
   if (!userId) {
+    console.log("Redirecting to sign-up");
     const unauthorizedUrl = new URL("/sign-up", request.url);
     return NextResponse.redirect(unauthorizedUrl);
   }
 
   // User is authenticated, allow access
+  console.log("Allowing access to protected route");
   return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    "/((?!_next|robots.txt|sitemap.xml|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|robots.txt|sitemap.xml|favicon\\.ico|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|jpg|webp|png|gif|svg|ico|ttf|woff2?|eot|csv|docx?|xlsx?|zip|webmanifest)).*)",
     "/(api|trpc)(.*)",
   ],
 };
