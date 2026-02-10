@@ -1,17 +1,26 @@
-import Image from "next/image";
+import Heading from "@/components/Heading";
+import HeroBackground from "@/components/HeroBackground";
+import HeroImage from "@/components/HeroImage";
+import { User } from "lucide-react";
 import React from "react";
 
 const AboutHero = () => {
   return (
-    <header className="py-10 sm:py-12 lg:py-20 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+    <header className="relative overflow-hidden bg-linear-to-br from-slate-50 via-blue-50/30 to-cyan-50/20 py-16 sm:py-20 lg:py-28">
+      <HeroBackground />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left column: Text content */}
           <div>
+            <Heading title="About Us" icon={<User />} />
+
             <h1 className="hero-heading">
-              The <span className="text-gradient-primary">Edge</span> Behind
-              SmartEdge
+              The <span className="text-gradient-primary">Edge</span>
+              <br />
+              Behind SmartEdge
             </h1>
+
             <p className="hero-paragraph">
               SmartEdge Consulting & Analytics is a forward-thinking data
               consulting company focused on helping businesses extract value
@@ -22,33 +31,11 @@ const AboutHero = () => {
             </p>
           </div>
 
-          {/* Right column: Image with decorative elements */}
-          <div className="relative order-last flex justify-center items-center">
-            {/* Decorative blob background */}
-            <div className="absolute inset-0 flex justify-center items-center">
-              <div className="w-80 h-80 bg-linear-to-br from-primary/90 to-primary/70 rounded-[35%_65%_65%_35%/35%_35%_65%_65%] animate-pulse"></div>
-            </div>
-
-            {/* Shadow blob */}
-            <div className="absolute w-[300px] h-[300px] bg-primary blur-xl rounded-[30%_70%_70%_30%/30%_30%_70%_70%] transform translate-y-2"></div>
-
-            {/* Main Image */}
-            <div className="relative z-10 transition-transform duration-300 hover:scale-105">
-              <Image
-                src="/about-hero.jpg"
-                width={600}
-                height={400}
-                alt="About image"
-                className="w-[300px] h-[300px] object-cover rounded-[30%_70%_70%_30%/30%_30%_70%_70%] shadow-2xl"
-                priority
-                quality={85}
-              />
-            </div>
-
-            {/* Decorative dots */}
-            <div className="absolute -top-4 -left-4 w-20 h-20 border-2 border-primary rounded-[40%_60%_60%_40%/40%_40%_60%_60%]"></div>
-            <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-primary rounded-[50%_50%_50%_50%/50%_50%_50%_50%]"></div>
-          </div>
+          {/* Right column */}
+          <HeroImage
+            imageUrl="/about-hero.jpg"
+            alt="About SmartEdge Consulting & Analytics"
+          />
         </div>
       </div>
     </header>

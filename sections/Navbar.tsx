@@ -47,6 +47,7 @@ const Navbar = () => {
         { label: "Events", href: "/events" },
       ],
     },
+    { label: "Courses", href: "/courses" },
     { label: "Contact Us", href: "/contact" },
     {
       label: "Blog",
@@ -135,7 +136,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Nav Links */}
-        <div className="hidden sm:flex items-baseline space-x-4 text-slate-800 font-medium">
+        <div className="hidden lg:flex items-baseline space-x-4 text-slate-800 font-medium text-base">
           {navLinks.map((item) =>
             item.children ? (
               <DropdownMenu key={item.label}>
@@ -165,12 +166,12 @@ const Navbar = () => {
               >
                 {item.label}
               </Link>
-            )
+            ),
           )}
         </div>
 
         {/* CTA Button (Desktop) */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           {isSignedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2 p-1 -m-1 rounded-md outline-none">
@@ -230,7 +231,7 @@ const Navbar = () => {
 
         {/* Mobile toggle */}
         <Button
-          className="sm:hidden block cursor-pointer"
+          className="lg:hidden block cursor-pointer"
           variant="link"
           onClick={toggle}
           aria-label="Toggle Menu"
@@ -243,8 +244,8 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          showMenu ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          showMenu ? "max-h-250 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="flex flex-col items-start gap-2 pl-5 py-4 text-slate-800 bg-white/95 backdrop-blur-sm">

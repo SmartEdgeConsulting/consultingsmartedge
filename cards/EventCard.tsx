@@ -3,18 +3,9 @@ import { eventProps } from "@/types";
 import Image from "next/image";
 import React from "react";
 
-
 const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
   const { name, time, description, coverImage, ctaButton } = event;
   const isEven = index % 2 === 0;
-
-  const getUrl = (text: string) => {
-    if (text.toLowerCase().includes("bootcamp")) {
-      return `/services/bootcamp`;
-    } else {
-      return ctaButton?.url || "/";
-    }
-  };
 
   return (
     <article
@@ -62,7 +53,9 @@ const EventCard = ({ event, index }: { event: eventProps; index: number }) => {
         {/* CTA Button */}
         {ctaButton?.text && (
           <a
-            href={getUrl(ctaButton.text)}
+            href={ctaButton.url || undefined}
+            target="blank"
+            rel="noopener noreferrer"
             className="block w-full py-3 px-4 border border-primary text-primary text-center font-semibold rounded-lg hover:bg-primary/20 transition-colors duration-200"
           >
             {ctaButton.text}
