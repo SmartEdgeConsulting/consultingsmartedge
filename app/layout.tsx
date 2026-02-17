@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/sonner";
+import { SanityLive } from "@/src/sanity/live";
 
 const poppins = localFont({
   src: [
@@ -86,6 +87,7 @@ export default function RootLayout({
         <body className={`${poppins.className} w-full mr-0 pr-0`}>
           {children}
           <Toaster />
+          <SanityLive />
         </body>
       </html>
     </ClerkProvider>

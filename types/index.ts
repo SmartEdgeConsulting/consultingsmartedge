@@ -272,3 +272,16 @@ export type Statistics = {
   change?: number;
   icon: LucideIcon;
 };
+
+export type coursesProps = {
+  _id: string;
+  title: string;
+  slug: string;
+  description: string;
+  price: string;
+  thumbnail: SanityImage;
+  courseType: string;
+  modulesCount: number;
+  lessonsCount: number;
+  publishedAt: string;
+};

@@ -117,3 +117,19 @@ export const getArticle = `*[_type == "articles" && slug.current == $slug][0]{
   },
   content
 }`;
+
+export const getCourses = `*[_type == "course"] | order(publishedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  courseType,
+  price,
+  thumbnail {
+    asset->,
+    caption
+  },
+  "publishedAt": coalesce(publishedAt, _createdAt),
+  "modulesCount": count(modules),
+  "lessonsCount": count(modules[] -> lessons),
+}`;

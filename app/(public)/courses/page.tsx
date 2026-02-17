@@ -47,12 +47,17 @@ export const metadata: Metadata = {
     canonical: "https://www.consultingsmartedge.com/courses",
   },
 };
+const CoursesPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const resolvedParams = await searchParams;
 
-const CoursesPage = () => {
   return (
     <main className="mt-16">
       <CoursesHero />
-      <Courses />
+      <Courses searchParams={resolvedParams} />
     </main>
   );
 };

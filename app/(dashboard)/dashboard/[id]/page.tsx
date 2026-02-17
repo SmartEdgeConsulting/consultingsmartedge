@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, BarChart3, FileText, Bell } from "lucide-react";
+import { Menu, X, BarChart3, FileText, Bell, ShoppingCart } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import UploadsPage from "./uploads/page";
 import InsightsPage from "./insights/page";
 import ActionsPage from "./actions/page";
-
+import CartPage from "./cart/page";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -18,6 +18,7 @@ export default function Dashboard() {
     { id: "uploads", icon: FileText, label: "My Uploads" },
     { id: "insights", icon: BarChart3, label: "Recent Insights" },
     { id: "actions", icon: FileText, label: "Actions" },
+    { id: "cart", icon: ShoppingCart, label: "Cart" },
   ];
 
   const handleNavClick = (pageId: string) => {
@@ -33,6 +34,8 @@ export default function Dashboard() {
         return <InsightsPage />;
       case "actions":
         return <ActionsPage />;
+      case "cart":
+        return <CartPage />;
       default:
         return <UploadsPage />;
     }

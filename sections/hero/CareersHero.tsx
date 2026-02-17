@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CareersHero = () => {
   return (
-    <header className="relative flex items-center justify-center min-h-[400px] sm:min-h-[500px] py-20 overflow-hidden">
+    <header className="relative flex items-center justify-center min-h-100 sm:min-h-125 py-20 overflow-hidden">
       {/* Background Image */}
       <Image
         src="/career2.jpg"
