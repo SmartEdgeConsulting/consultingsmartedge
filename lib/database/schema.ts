@@ -8,6 +8,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -55,13 +56,13 @@ export const subscribers = pgTable(
   {
     id: uuid("id").primaryKey().defaultRandom(),
     email: varchar("email", { length: 255 }).notNull().unique(),
-    status: varchar("status", { length: 20 }).notNull().default("active"), 
+    status: varchar("status", { length: 20 }).notNull().default("active"),
     subscribedAt: timestamp("subscribed_at").notNull().defaultNow(),
     unsubscribedAt: timestamp("unsubscribed_at"),
   },
   (table) => ({
     emailIdx: index("email_idx").on(table.email),
-  })
+  }),
 );
 
 export const careers = pgTable("careers", {
@@ -105,7 +106,7 @@ export const applications = pgTable(
     userIdx: index("applications_user_idx").on(table.userId),
     // optional unique constraint to prevent duplicate apps by same user to same career:
     // uniqueApp: index("unique_app_idx").on(table.careerId, table.userId).unique(),
-  })
+  }),
 );
 
 export const consultations = pgTable("consultations", {
@@ -185,15 +186,48 @@ export const registrations = pgTable(
     emailIdx: index("registrations_email_idx").on(table.email),
     statusIdx: index("registrations_status_idx").on(table.status),
     createdAtIdx: index("registrations_created_at_idx").on(table.createdAt),
-  })
+  }),
+);
+
+export const cartItems = pgTable(
+  "cart_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .references(() => users.clerkId, { onDelete: "cascade" })
+      .notNull(),
+
+    // Sanity course references
+    courseId: text("course_id").notNull(), // Sanity's _id
+    courseSlug: text("course_slug").notNull(),
+    courseTitle: text("course_title").notNull(),
+    coursePrice: text("course_price").notNull(),
+    courseThumbnail: text("course_thumbnail"),
+
+    // Cart details
+    quantity: text("quantity").notNull().default("1"),
+    addedAt: timestamp("added_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    // Indexes for fast queries
+    userCartIdx: index("cart_items_user_idx").on(table.userId),
+    courseIdx: index("cart_items_course_idx").on(table.courseId),
+    // Prevent duplicate items in cart
+    uniqueUserCourse: uniqueIndex("cart_items_user_course_unique").on(
+      table.userId,
+      table.courseId,
+    ),
+  }),
 );
 
 // ---------- Relations ----------
 export const usersRelations = relations(users, ({ many }) => ({
-  // a user can have many applications
+  // a user can have many applications, consultations, registrations, cartItems
   applications: many(applications),
   consultations: many(consultations),
   registrations: many(registrations),
+  cartItems: many(cartItems),
 }));
 
 export const careersRelations = relations(careers, ({ many }) => ({
@@ -229,6 +263,13 @@ export const researchsRelations = relations(researchs, ({ one }) => ({
   }),
 }));
 
+export const cartItemsRelations = relations(cartItems, ({ one }) => ({
+  user: one(users, {
+    fields: [cartItems.userId],
+    references: [users.clerkId],
+  }),
+}));
+
 // ---------- Type Inferences ----------
 
 export type Subscriber = typeof subscribers.$inferSelect;
@@ -242,3 +283,6 @@ export type NewCareer = typeof careers.$inferInsert;
 
 export type Registration = typeof registrations.$inferSelect;
 export type NewRegistration = typeof registrations.$inferInsert;
+
+export type CartItem = typeof cartItems.$inferSelect;
+export type NewCartItem = typeof cartItems.$inferInsert;

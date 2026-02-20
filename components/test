@@ -90,4 +90,283 @@ sendNewsletterWithResend('Weekly Update - March 2024', newsletterHTML);
 
 
 
- 
+ // Add these to your existing schema.ts file
+
+// Cart items table (active carts)
+export const cartItems = pgTable(
+  "cart_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .references(() => users.clerkId, { onDelete: "cascade" })
+      .notNull(),
+    
+    // Sanity course references (denormalized for performance)
+    courseId: text("course_id").notNull(), // Sanity's _id
+    courseSlug: text("course_slug").notNull(),
+    courseTitle: text("course_title").notNull(),
+    coursePrice: text("course_price").notNull(), // Using text to handle decimal precisely
+    
+    // Cart details
+    quantity: text("quantity").notNull().default("1"), // Using text for decimal
+    addedAt: timestamp("added_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    // Indexes for fast queries
+    userCartIdx: index("cart_items_user_idx").on(table.userId),
+    courseIdx: index("cart_items_course_idx").on(table.courseId),
+    // Prevent duplicate items in cart
+    uniqueUserCourse: index("cart_items_user_course_unique").on(table.userId, table.courseId).unique(),
+  })
+);
+
+// Orders table (completed purchases)
+export const orders = pgTable(
+  "orders",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .references(() => users.clerkId, { onDelete: "cascade" })
+      .notNull(),
+    
+    // Order details
+    orderNumber: text("order_number").notNull().unique(), // Human-readable like "ORD-2024-001"
+    status: text("status").notNull().default("pending"), // pending, paid, completed, refunded
+    
+    // Payment info
+    subtotal: text("subtotal").notNull(),
+    discount: text("discount").default("0"),
+    total: text("total").notNull(),
+    
+    // Payment provider
+    paymentMethod: text("payment_method"), // stripe, paypal, etc
+    paymentIntentId: text("payment_intent_id"), // Stripe payment intent ID
+    paymentStatus: text("payment_status").default("pending"), // pending, succeeded, failed
+    
+    // Metadata
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userOrdersIdx: index("orders_user_idx").on(table.userId),
+    orderNumberIdx: index("orders_number_idx").on(table.orderNumber),
+    paymentIntentIdx: index("orders_payment_intent_idx").on(table.paymentIntentId),
+    statusIdx: index("orders_status_idx").on(table.status),
+  })
+);
+
+// Order items (courses in each order)
+export const orderItems = pgTable(
+  "order_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orderId: uuid("order_id")
+      .references(() => orders.id, { onDelete: "cascade" })
+      .notNull(),
+    
+    // Sanity course snapshot at time of purchase
+    courseId: text("course_id").notNull(),
+    courseSlug: text("course_slug").notNull(),
+    courseTitle: text("course_title").notNull(),
+    pricePaid: text("price_paid").notNull(), // Price at purchase time
+    
+    // Item details
+    quantity: text("quantity").notNull().default("1"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    orderItemsIdx: index("order_items_order_idx").on(table.orderId),
+    courseItemsIdx: index("order_items_course_idx").on(table.courseId),
+  })
+);
+
+// User course access (grants access after purchase)
+export const userCourses = pgTable(
+  "user_courses",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .references(() => users.clerkId, { onDelete: "cascade" })
+      .notNull(),
+    
+    // Course reference
+    courseId: text("course_id").notNull(),
+    courseSlug: text("course_slug").notNull(),
+    courseTitle: text("course_title").notNull(),
+    
+    // Access details
+    purchasedAt: timestamp("purchased_at").defaultNow().notNull(),
+    expiresAt: timestamp("expires_at"), // Optional for subscriptions/time-limited access
+    accessStatus: text("access_status").default("active"), // active, expired, revoked
+    
+    // Link back to the order
+    orderId: uuid("order_id").references(() => orders.id),
+  },
+  (table) => ({
+    userAccessIdx: index("user_courses_user_idx").on(table.userId),
+    courseAccessIdx: index("user_courses_course_idx").on(table.courseId),
+    // Prevent duplicate course access entries
+    uniqueUserCourse: index("user_courses_user_course_unique").on(table.userId, table.courseId).unique(),
+  })
+);
+
+// Coupons/Discounts (optional)
+export const coupons = pgTable(
+  "coupons",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    code: text("code").notNull().unique(),
+    description: text("description"),
+    
+    // Discount type
+    discountType: text("discount_type").notNull(), // percentage, fixed
+    discountValue: text("discount_value").notNull(),
+    
+    // Restrictions
+    minPurchase: text("min_purchase"),
+    validFrom: timestamp("valid_from").defaultNow(),
+    validUntil: timestamp("valid_until"),
+    maxUses: text("max_uses"),
+    usedCount: text("used_count").default("0"),
+    
+    // Which courses it applies to (empty = all)
+    applicableCourses: jsonb("applicable_courses").$type<string[]>(), // Array of Sanity course IDs
+    
+    status: text("status").default("active"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    codeIdx: index("coupons_code_idx").on(table.code),
+  })
+);
+
+// ---------- Add Relations ----------
+
+export const cartItemsRelations = relations(cartItems, ({ one }) => ({
+  user: one(users, {
+    fields: [cartItems.userId],
+    references: [users.clerkId],
+  }),
+}));
+
+export const ordersRelations = relations(orders, ({ one, many }) => ({
+  user: one(users, {
+    fields: [orders.userId],
+    references: [users.clerkId],
+  }),
+  items: many(orderItems),
+  userCourses: many(userCourses),
+}));
+
+export const orderItemsRelations = relations(orderItems, ({ one }) => ({
+  order: one(orders, {
+    fields: [orderItems.orderId],
+    references: [orders.id],
+  }),
+}));
+
+export const userCoursesRelations = relations(userCourses, ({ one }) => ({
+  user: one(users, {
+    fields: [userCourses.userId],
+    references: [users.clerkId],
+  }),
+  order: one(orders, {
+    fields: [userCourses.orderId],
+    references: [orders.id],
+  }),
+}));
+
+// Update usersRelations to include new tables
+export const usersRelations = relations(users, ({ many }) => ({
+  applications: many(applications),
+  consultations: many(consultations),
+  registrations: many(registrations),
+  researchs: many(researchs),
+  cartItems: many(cartItems),
+  orders: many(orders),
+  userCourses: many(userCourses),
+}));
+
+// ---------- Type Exports ----------
+
+export type CartItem = typeof cartItems.$inferSelect;
+export type NewCartItem = typeof cartItems.$inferInsert;
+
+export type Order = typeof orders.$inferSelect;
+export type NewOrder = typeof orders.$inferInsert;
+
+export type OrderItem = typeof orderItems.$inferSelect;
+export type NewOrderItem = typeof orderItems.$inferInsert;
+
+export type UserCourse = typeof userCourses.$inferSelect;
+export type NewUserCourse = typeof userCourses.$inferInsert;
+
+export type Coupon = typeof coupons.$inferSelect;
+export type NewCoupon = typeof coupons.$inferInsert;
+
+// stores/cartStore.js
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+
+const useCartStore = create(
+  persist(
+    (set, get) => ({
+      items: [],
+      totalItems: 0,
+      totalPrice: 0,
+      
+      addItem: (course) => {
+        const currentItems = get().items
+        const existingItem = currentItems.find(item => item._id === course._id)
+        
+        if (existingItem) {
+          set({
+            items: currentItems.map(item =>
+              item._id === course._id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            ),
+            totalItems: get().totalItems + 1,
+            totalPrice: get().totalPrice + course.price
+          })
+        } else {
+          set({
+            items: [...currentItems, { ...course, quantity: 1 }],
+            totalItems: get().totalItems + 1,
+            totalPrice: get().totalPrice + course.price
+          })
+        }
+      },
+      
+      removeItem: (courseId) => {
+        const item = get().items.find(i => i._id === courseId)
+        set({
+          items: get().items.filter(i => i._id !== courseId),
+          totalItems: get().totalItems - item.quantity,
+          totalPrice: get().totalPrice - (item.price * item.quantity)
+        })
+      },
+      
+      updateQuantity: (courseId, quantity) => {
+        const item = get().items.find(i => i._id === courseId)
+        const quantityDiff = quantity - item.quantity
+        
+        set({
+          items: get().items.map(i =>
+            i._id === courseId ? { ...i, quantity } : i
+          ),
+          totalItems: get().totalItems + quantityDiff,
+          totalPrice: get().totalPrice + (item.price * quantityDiff)
+        })
+      },
+      
+      clearCart: () => set({ items: [], totalItems: 0, totalPrice: 0 })
+    }),
+    {
+      name: 'cart-storage' // localStorage key
+    }
+  )
+)
+
+export default useCartStore

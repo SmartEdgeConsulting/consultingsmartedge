@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import AddToCartButton from "@/components/addToCart";
 import { isCourseNew } from "@/lib/utils/course-utils";
 import { urlFor } from "@/lib/utils/image-builder";
 import { coursesProps } from "@/types";
@@ -16,6 +16,7 @@ const CourseCard = ({ course }: { course: coursesProps }) => {
     lessonsCount,
     publishedAt,
   } = course;
+
 
   return (
     <div className="h-full max-w-sm rounded-xl overflow-hidden shadow-lg bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y- flex flex-col">
@@ -69,7 +70,7 @@ const CourseCard = ({ course }: { course: coursesProps }) => {
             <span className="text-lg font-bold text-gray-900">{price} </span>
           </div>
 
-          <Button variant="default">Add to Cart</Button>
+         <AddToCartButton course={course} />
         </div>
       </div>
     </div>

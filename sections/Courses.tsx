@@ -1,5 +1,4 @@
 import CourseCard from "@/cards/CourseCard";
-import { client } from "@/src/sanity/client";
 import { getCourses } from "@/src/sanity/queries";
 import { coursesProps } from "@/types";
 import React from "react";
@@ -12,6 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { sanityFetch } from "@/src/sanity/live";
 
 const COURSES_PER_PAGE = 6;
 
@@ -22,17 +22,13 @@ const Courses = async ({
 }) => {
   const currentPage = Number(searchParams?.page) || 1;
 
-  let allCourses: coursesProps[] = [];
+  const allCourses: coursesProps[] = [];
   let totalPages = 1;
   let paginatedCourses: coursesProps[] = [];
 
   try {
     // Fetch all courses
-    allCourses = await client.fetch(
-      getCourses,
-      {},
-      { next: { revalidate: 30 } },
-    );
+    const { data: allCourses } = await sanityFetch({ query: getCourses });
 
     // Calculate pagination
     totalPages = Math.ceil(allCourses.length / COURSES_PER_PAGE);
@@ -87,7 +83,7 @@ const Courses = async ({
         Our <span className="text-gradient-primary">Courses</span>
       </h1>
       {/* Courses Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 px-5">
         {paginatedCourses.length > 0 ? (
           paginatedCourses.map((course) => (
             <CourseCard key={course._id} course={course} />
