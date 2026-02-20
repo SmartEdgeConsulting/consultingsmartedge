@@ -31,7 +31,7 @@ const CourseCard = ({ course }: { course: coursesProps }) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-primary/10 to-primary/20">
+          <div className="w-full h-full flex items-center justify-center bg-primary/10">
             <BookOpen className="w-16 h-16 text-primary opacity-50" />
           </div>
         )}
