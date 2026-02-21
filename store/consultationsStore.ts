@@ -63,7 +63,7 @@ export const useConsultationsStore = create<ConsultationsState>()(
         addConsultation: (consultation: Consultation) => {
           set((state) => ({
             consultations: [consultation, ...state.consultations],
-            unreadConsultationCount: state.unreadConsultationCount + 1, // NEW
+            unreadConsultationCount: state.unreadConsultationCount + 1, 
           }));
         },
 

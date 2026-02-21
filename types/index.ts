@@ -276,9 +276,7 @@ export type Statistics = {
 export type coursesProps = {
   _id: string;
   title: string;
-  slug?: {
-    current: string;
-  };
+  slug?: string;
   description: string;
   price: string;
   thumbnail: SanityImage;

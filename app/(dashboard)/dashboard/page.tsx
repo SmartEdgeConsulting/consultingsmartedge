@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, BarChart3, FileText, Bell, ShoppingCart } from "lucide-react";
+import { Menu, X, BarChart3, FileText, Bell, ShoppingCart, Upload, Book } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import UploadsPage from "./uploads/page";
 import InsightsPage from "./insights/page";
 import ActionsPage from "./actions/page";
 import CartPage from "./cart/page";
+import CoursesPage from "./courses/page";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,10 +16,11 @@ export default function Dashboard() {
   const { user } = useUser();
 
   const menuItems = [
-    { id: "uploads", icon: FileText, label: "My Uploads" },
-    { id: "insights", icon: BarChart3, label: "Recent Insights" },
     { id: "actions", icon: FileText, label: "Actions" },
     { id: "cart", icon: ShoppingCart, label: "Cart" },
+    { id: "courses", icon: Book, label: "My Courses" },
+    { id: "insights", icon: BarChart3, label: "Recent Insights" },
+    { id: "uploads", icon: Upload, label: "My Uploads" },
   ];
 
   const handleNavClick = (pageId: string) => {
@@ -36,6 +38,8 @@ export default function Dashboard() {
         return <ActionsPage />;
       case "cart":
         return <CartPage />;
+      case "courses":
+        return <CoursesPage />;
       default:
         return <UploadsPage />;
     }
@@ -164,7 +168,7 @@ export default function Dashboard() {
                 <Menu size={24} />
               </button>
               <h2 className="text-xl font-semibold text-gray-800 capitalize">
-                Dashboard
+                Welcome back, <span className="text-gradient-primary">{user?.firstName || "User"}</span>!
               </h2>
             </div>
             <div className="flex items-center gap-2">

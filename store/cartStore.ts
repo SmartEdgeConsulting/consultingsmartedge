@@ -20,6 +20,8 @@ interface CartStore {
   // State
   items: CartItemWithDetails[];
   isLoading: boolean;
+  removing: string;
+  adding: string;
   error: string | null;
 
   // Actions
@@ -45,6 +47,8 @@ export const useCartStore = create<CartStore>()(
       // Initial state
       items: [],
       isLoading: false,
+      removing: "",
+      adding: "",
       error: null,
 
       fetchCart: async (userId: string) => {
@@ -74,11 +78,11 @@ export const useCartStore = create<CartStore>()(
 
         if (get().isInCart(course._id)) return;
 
-        set({ isLoading: true, error: null });
+        set({ adding: course._id, error: null });
 
         const newItem: CartItemWithDetails = {
           courseId: course._id,
-          courseSlug: course.slug?.current ?? "",
+          courseSlug: course.slug ?? "",
           courseTitle: course.title,
           coursePrice: course.price.toString(),
           courseThumbnail: resolveThumbnailUrl(course.thumbnail),
@@ -95,7 +99,7 @@ export const useCartStore = create<CartStore>()(
             body: JSON.stringify({
               userId,
               courseId: course._id,
-              courseSlug: course.slug?.current ?? "",
+              courseSlug: course.slug ?? "",
               courseTitle: course.title,
               coursePrice: course.price.toString(),
               courseThumbnail: resolveThumbnailUrl(course.thumbnail) ?? null,
@@ -107,7 +111,11 @@ export const useCartStore = create<CartStore>()(
             set((state) => ({
               items: state.items.filter((item) => item.courseId !== course._id),
             }));
-            throw new Error("Failed to add to cart");
+            set({
+              error: "Failed to add to cart",
+              isLoading: false,
+              adding: "",
+            });
           }
 
           const data = await response.json();
@@ -124,19 +132,15 @@ export const useCartStore = create<CartStore>()(
           set({ error: (error as Error).message });
           console.error("Error adding to cart:", error);
         } finally {
-          set({ isLoading: false });
+          set({ isLoading: false, adding: "" });
         }
       },
 
-      removeFromCart: async (userId: string | null, courseId: string) => {
+      removeFromCart: async (userId, courseId) => {
         if (!userId) return;
 
         const previousItems = get().items;
-
-        // Optimistic update
-        set((state) => ({
-          items: state.items.filter((item) => item.courseId !== courseId),
-        }));
+        set({ removing: courseId, error: null });
 
         try {
           const response = await fetch("/api/cart", {
@@ -146,11 +150,21 @@ export const useCartStore = create<CartStore>()(
           });
 
           if (!response.ok) {
-            set({ items: previousItems });
-            throw new Error("Failed to remove from cart");
+            set({ items: previousItems, removing: "" });
+            set({ error: "Failed to remove from cart" });
+            return; 
           }
+
+          set((state) => ({
+            items: state.items.filter((item) => item.courseId !== courseId),
+            removing: "",
+          }));
         } catch (error) {
-          set({ error: (error as Error).message });
+          set({
+            items: previousItems,
+            removing: "",
+            error: (error as Error).message,
+          });
         }
       },
 
@@ -169,7 +183,7 @@ export const useCartStore = create<CartStore>()(
           });
 
           if (!response.ok) {
-            set({ items: previousItems }); // FIX: revert on failure
+            set({ items: previousItems }); 
             throw new Error("Failed to clear cart");
           }
         } catch (error) {
@@ -188,7 +202,9 @@ export const useCartStore = create<CartStore>()(
       getTotalPrice: () => {
         return get().items.reduce(
           (total, item) =>
-            total + Number(item.coursePrice) * Number(item.quantity),
+            total +
+            parseFloat(String(item.coursePrice).replace(/[^0-9.]/g, "")) *
+              Number(item.quantity),
           0,
         );
       },

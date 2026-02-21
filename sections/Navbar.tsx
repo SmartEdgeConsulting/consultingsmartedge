@@ -204,7 +204,7 @@ const Navbar = () => {
                 ) : (
                   <DropdownMenuItem asChild className="cursor-pointer">
                     <Link
-                      href={`/dashboard/${user.id}`}
+                      href="/dashboard"
                       className="flex items-center"
                     >
                       <User className="mr-2 h-4 w-4" />
