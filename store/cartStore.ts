@@ -4,9 +4,10 @@ import { persist } from "zustand/middleware";
 import { CartItem } from "@/lib/database/schema";
 import { coursesProps, SanityImage } from "@/types";
 import { urlFor } from "@/lib/utils/image-builder";
+import { toast } from "sonner";
 
 export interface CartItemWithDetails extends Partial<CartItem> {
-  _id?: string; // Drizzle UUID (for existing DB items)
+  _id?: string;
   courseId: string;
   courseSlug: string;
   courseTitle: string;
@@ -116,9 +117,12 @@ export const useCartStore = create<CartStore>()(
               isLoading: false,
               adding: "",
             });
+            toast.error("Failed to add course to cart");
+            return;
           }
 
           const data = await response.json();
+          toast.success("Course added to cart");
 
           // Stamp the real DB id onto the optimistic item
           set((state) => ({
@@ -152,13 +156,15 @@ export const useCartStore = create<CartStore>()(
           if (!response.ok) {
             set({ items: previousItems, removing: "" });
             set({ error: "Failed to remove from cart" });
-            return; 
+            toast.error("Failed to remove course from cart");
+            return;
           }
 
           set((state) => ({
             items: state.items.filter((item) => item.courseId !== courseId),
             removing: "",
           }));
+          toast.success("Course removed from cart");
         } catch (error) {
           set({
             items: previousItems,
@@ -183,7 +189,7 @@ export const useCartStore = create<CartStore>()(
           });
 
           if (!response.ok) {
-            set({ items: previousItems }); 
+            set({ items: previousItems });
             throw new Error("Failed to clear cart");
           }
         } catch (error) {

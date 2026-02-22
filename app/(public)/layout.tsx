@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/sections/Footer";
 import Navbar from "@/sections/Navbar";
 
@@ -32,6 +33,7 @@ export default function PublicLayout({
       />
       <Navbar />
       <main className="mt-16 w-full mr-0 pr-0">{children}</main>
+      <Toaster />
       <Footer />
     </>
   );

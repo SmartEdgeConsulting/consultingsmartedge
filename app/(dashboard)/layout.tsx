@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import Loading from "../loading";
+import { Toaster } from "sonner";
 
 export default function DashboardLayout({
   children,
@@ -19,18 +20,19 @@ export default function DashboardLayout({
     }
   }, [isLoaded, isSignedIn]);
 
-if (!isLoaded) {
+  if (!isLoaded) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loading />
       </div>
     );
   }
-  
+
   return (
     <>
       <main className="">
         {children}
+        <Toaster />
       </main>
     </>
   );

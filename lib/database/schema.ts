@@ -221,13 +221,16 @@ export const cartItems = pgTable(
   }),
 );
 
+
+
 // ---------- Relations ----------
 export const usersRelations = relations(users, ({ many }) => ({
-  // a user can have many applications, consultations, registrations, cartItems
+  // a user can have many applications, consultations, registrations, cartItems, courses
   applications: many(applications),
   consultations: many(consultations),
   registrations: many(registrations),
   cartItems: many(cartItems),
+ /// userCourses: many(userCourses),
 }));
 
 export const careersRelations = relations(careers, ({ many }) => ({
@@ -269,6 +272,7 @@ export const cartItemsRelations = relations(cartItems, ({ one }) => ({
     references: [users.clerkId],
   }),
 }));
+
 
 // ---------- Type Inferences ----------
 
