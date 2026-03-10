@@ -86,7 +86,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
   }
 
   return (
-    <main className="mx-auto max-w-7xl mt-16">
+    <main className="mx-auto max-w-5xl mt-16">
       <BlogContent article={article} />
     </main>
   );

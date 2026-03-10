@@ -14,6 +14,8 @@ export async function POST(request: NextRequest) {
       courseSlug,
       courseTitle,
       coursePrice,
+      deliveryMethod,
+      currency,
       courseThumbnail,
     } = body;
 
@@ -39,6 +41,9 @@ export async function POST(request: NextRequest) {
     if (userId !== clerkUserId) {
       return NextResponse.json({ error: "User ID mismatch" }, { status: 403 });
     }
+
+    const finalDeliveryMethod = deliveryMethod || "self-paced";
+    const finalCurrency = currency || "NGN";
 
     // Check if item already exists in cart
     const existingItem = await db
@@ -69,7 +74,10 @@ export async function POST(request: NextRequest) {
         courseId,
         courseSlug,
         courseTitle,
-        coursePrice,
+        coursePrice: coursePrice.toString(),
+        deliveryMethod: finalDeliveryMethod, 
+        currency: finalCurrency,
+
         courseThumbnail: courseThumbnail || null,
         quantity: "1",
       })
@@ -94,7 +102,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -104,18 +111,12 @@ export async function GET(request: NextRequest) {
     const { userId: clerkUserId } = await auth();
 
     if (!clerkUserId) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Verify user is requesting their own cart
     if (requestedUserId && requestedUserId !== clerkUserId) {
-      return NextResponse.json(
-        { error: "Access denied" },
-        { status: 403 },
-      );
+      return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
     const items = await db
@@ -124,11 +125,10 @@ export async function GET(request: NextRequest) {
       .where(eq(cartItems.userId, clerkUserId))
       .orderBy(cartItems.addedAt);
 
-    return NextResponse.json({ 
-      success: true, 
-      items 
+    return NextResponse.json({
+      success: true,
+      items,
     });
-
   } catch (error) {
     console.error("Fetch cart error:", error);
     return NextResponse.json(
@@ -146,10 +146,7 @@ export async function DELETE(request: NextRequest) {
     const { userId: clerkUserId } = await auth();
 
     if (!clerkUserId) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await db
@@ -157,15 +154,14 @@ export async function DELETE(request: NextRequest) {
       .where(
         and(
           eq(cartItems.userId, clerkUserId),
-          eq(cartItems.courseId, courseId)
-        )
+          eq(cartItems.courseId, courseId),
+        ),
       );
 
-    return NextResponse.json({ 
-      success: true, 
-      message: "Item removed from cart" 
+    return NextResponse.json({
+      success: true,
+      message: "Item removed from cart",
     });
-
   } catch (error) {
     console.error("Delete cart error:", error);
     return NextResponse.json(

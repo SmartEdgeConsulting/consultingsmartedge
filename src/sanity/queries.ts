@@ -96,7 +96,13 @@ export const getArticles = `*[_type == "articles"] | order(publishedAt desc) {
       asset->
     }
   },
-  content
+  content[]{
+    ...,
+    _type == "image" => {
+      ...,
+      asset->
+    }
+  }
 }`;
 
 export const getArticle = `*[_type == "articles" && slug.current == $slug][0]{
@@ -123,8 +129,13 @@ export const getCourses = `*[_type == "course"] | order(publishedAt desc) {
   title,
   "slug": slug.current,
   description,
-  courseType,
-  price,
+    pricing {
+    deliveryMethod,
+    selfPacedPrice,
+    instructorPrice,
+    currency,
+    discountPrice
+  },
   thumbnail {
     asset->,
     caption

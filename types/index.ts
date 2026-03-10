@@ -278,9 +278,14 @@ export type coursesProps = {
   title: string;
   slug?: string;
   description: string;
-  price: string;
+  pricing?: {
+    deliveryMethod: "self-paced" | "instructor-based" | "both";
+    selfPacedPrice?: number;
+    instructorPrice?: number;
+    currency: "NGN" | "USD" | "EUR" | "GBP";
+    discountPrice?: number;
+  };
   thumbnail: SanityImage;
-  courseType: string;
   modulesCount: number;
   lessonsCount: number;
   publishedAt: string;

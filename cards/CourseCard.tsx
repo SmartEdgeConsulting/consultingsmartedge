@@ -10,13 +10,46 @@ const CourseCard = ({ course }: { course: coursesProps }) => {
   const {
     title,
     description,
-    price,
+    pricing,
     thumbnail,
     modulesCount,
     lessonsCount,
     publishedAt,
   } = course;
 
+
+  // Get just the starting price for display
+  const getStartingPrice = () => {
+    if (!pricing) return "Price not set";
+
+    const {
+      deliveryMethod,
+      selfPacedPrice,
+      instructorPrice,
+      currency = "USD",
+    } = pricing;
+    const currencySymbol =
+      currency === "NGN"
+        ? "₦"
+        : currency === "EUR"
+          ? "€"
+          : currency === "GBP"
+            ? "£"
+            : "$";
+
+    switch (deliveryMethod) {
+      case "self-paced":
+        return `${currencySymbol}${selfPacedPrice?.toLocaleString() || "0"}`;
+      case "instructor-based":
+        return `${currencySymbol}${instructorPrice?.toLocaleString() || "0"}`;
+      case "both":
+        // Show starting from lowest price
+        const lowestPrice = Math.min(selfPacedPrice || 0, instructorPrice || 0);
+        return `${currencySymbol}${lowestPrice.toLocaleString()}+`;
+      default:
+        return "Price not set";
+    }
+  };
 
   return (
     <div className="h-full max-w-sm rounded-xl overflow-hidden shadow-lg bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y- flex flex-col">
@@ -36,12 +69,14 @@ const CourseCard = ({ course }: { course: coursesProps }) => {
           </div>
         )}
 
-        {/* Badge */}
-        {isCourseNew(publishedAt) && (
-          <span className="absolute top-3 right-3 bg-black/75 animate-pulse text-white px-3 py-1 rounded-full text-xs font-semibold">
-            NEW
-          </span>
-        )}
+        {/* Badges */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2">
+          {isCourseNew(publishedAt) && (
+            <span className="bg-black/75 animate-pulse text-white px-3 py-1 rounded-full text-xs font-semibold">
+              NEW
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Content - All left-aligned */}
@@ -63,14 +98,18 @@ const CourseCard = ({ course }: { course: coursesProps }) => {
           <span>{lessonsCount || 0} Lessons</span>
         </div>
 
-        {/* Price  with button on right */}
+        {/* Price with button on right */}
         <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100">
           <div className="flex flex-col items-start">
-            <span className="text-xs text-gray-500">Price</span>
-            <span className="text-lg font-bold text-gray-900">{price} </span>
+            <span className="text-xs text-gray-500">
+              {pricing?.deliveryMethod === "both" ? "Starting at" : "Price"}
+            </span>
+            <span className="text-lg font-bold text-gray-900">
+              {getStartingPrice()}
+            </span>
           </div>
 
-         <AddToCartButton course={course} />
+          <AddToCartButton course={course}/>
         </div>
       </div>
     </div>

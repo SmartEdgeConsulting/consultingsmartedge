@@ -4,6 +4,7 @@ import {
   boolean,
   index,
   jsonb,
+  numeric,
   pgEnum,
   pgTable,
   text,
@@ -202,6 +203,8 @@ export const cartItems = pgTable(
     courseSlug: text("course_slug").notNull(),
     courseTitle: text("course_title").notNull(),
     coursePrice: text("course_price").notNull(),
+    deliveryMethod: text("delivery_method").notNull(), // "self-paced" or "instructor-based"
+    currency: text("currency").notNull(), // "USD" or "GBP"
     courseThumbnail: text("course_thumbnail"),
 
     // Cart details

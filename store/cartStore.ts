@@ -6,12 +6,14 @@ import { coursesProps, SanityImage } from "@/types";
 import { urlFor } from "@/lib/utils/image-builder";
 import { toast } from "sonner";
 
-export interface CartItemWithDetails extends Partial<CartItem> {
+export interface CartItemWithDetails extends Omit<Partial<CartItem>, 'coursePrice'> {
   _id?: string;
   courseId: string;
   courseSlug: string;
   courseTitle: string;
-  coursePrice: string;
+  coursePrice: number;
+  deliveryMethod: string;
+  currency: string;
   courseThumbnail?: string;
   quantity: string;
   addedAt?: Date;
@@ -71,7 +73,10 @@ export const useCartStore = create<CartStore>()(
         }
       },
 
-      addToCart: async (userId: string | null, course: coursesProps) => {
+      addToCart: async (
+        userId: string | null,
+        course: coursesProps & { deliveryMethod?: string, price?: number },
+      ) => {
         if (!userId) {
           window.location.href = "/sign-in?redirect=/courses";
           return;
@@ -81,11 +86,21 @@ export const useCartStore = create<CartStore>()(
 
         set({ adding: course._id, error: null });
 
+        let price = course.price;
+        if (course.deliveryMethod) {
+          price =
+            course.deliveryMethod === "self-paced"
+              ? (course.pricing?.selfPacedPrice ?? course.price)
+              : (course.pricing?.instructorPrice ?? course.price);
+        }
+
         const newItem: CartItemWithDetails = {
           courseId: course._id,
           courseSlug: course.slug ?? "",
           courseTitle: course.title,
-          coursePrice: course.price.toString(),
+          coursePrice: price ?? 0,
+          currency: course.pricing?.currency ?? "NGN",
+          deliveryMethod: course.deliveryMethod ?? "self-paced",
           courseThumbnail: resolveThumbnailUrl(course.thumbnail),
           quantity: "1",
         };
@@ -102,7 +117,7 @@ export const useCartStore = create<CartStore>()(
               courseId: course._id,
               courseSlug: course.slug ?? "",
               courseTitle: course.title,
-              coursePrice: course.price.toString(),
+              coursePrice: price ?? 0,
               courseThumbnail: resolveThumbnailUrl(course.thumbnail) ?? null,
             }),
           });

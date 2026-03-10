@@ -7,38 +7,66 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { Article } from "@/types";
 import ShareArticle from "./ShareArticle";
+import BackButton from "./BackButton";
+import ProgressBar from "./ProgressBar";
 
 const BlogContent = ({ article }: { article: Article }) => {
   return (
     <div>
+      <ProgressBar />
+      <BackButton />
       <div className="flex flex-col gap-5 py-5 lg:px-35 sm:px-25 px-5">
-        {/* Meta info */}
-        <div className="text-sm font-medium text-blue">
-          <span>{formatDate(article.publishedAt)}</span> •{" "}
-          <span>{getReadingTime(article.content)}</span>
-        </div>
+        {/* Hero */}
+        <header className="max-w-2xl mx-auto px-6 pt-14 pb-10 text-center">
+          <span className="inline-block text-[11px] font-semibold tracking-[0.18em] uppercase text-gradient-primary bg-amber-50 border border-amber-200 px-3 py-1 rounded-full mb-5 font-sans">
+            {article.category}
+          </span>
+          <h1 className="text-4xl sm:text-5xl text-primary leading-tight tracking-tight mb-5">
+            {article.title}
+          </h1>
 
-        {/* Title */}
-        <h1 className="mt-2 sm:text-4xl text-3xl text-primary lg:font-extrabold sm:font-semibold font-bold sm:leading-10 leading-9">
-          {article.title}
-        </h1>
+          <div className="flex items-center justify-center gap-3 text-xs text-stone-400 font-sans flex-wrap">
+            <span className="font-semibold text-stone-600">
+              {article.author.name}
+            </span>
+            <span className="text-stone-200 text-base">|</span>
+            <time>{formatDate(article.publishedAt)}</time>
+            <span className="text-stone-200 text-base">|</span>
+            <span>{getReadingTime(article.content)}</span>
+          </div>
+        </header>
 
         {/* Cover image */}
         {article.coverImage && (
-          <div className="sm:px-12.5 px-2.5">
-            <div className="relative w-full h-[250px] sm:h-[300px] lg:h-[400px]">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-14">
+            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
               <Image
-                src={urlFor(article.coverImage)?.url() || "/placeholder.png"}
+                src={
+                  urlFor(article.coverImage).width(1200).height(675).url() ||
+                  "/placeholder.png"
+                }
                 alt={article.title || "Blog cover image"}
-                fill
-                sizes="(max-width: 768px) 100vw, 800px"
-                className="object-cover rounded-md"
+                width={1200}
+                height={675}
+                className="w-full h-full object-cover"
                 priority
                 fetchPriority="high"
               />
             </div>
+            {article.coverImage.caption && (
+              <p className="text-center text-xs text-stone-400 font-sans italic mt-2.5">
+                {article.coverImage.caption}
+              </p>
+            )}
           </div>
         )}
+
+        {/**Divider */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="flex-1 h-px bg-stone-200" />
+          <div className="w-1.5 h-1.5 rounded-full bg-gradient-primary opacity-60" />
+          <div className="flex-1 h-px bg-stone-200" />
+        </div>
 
         {/* Body content */}
         <PortableText value={article.content} components={components} />
