@@ -290,3 +290,15 @@ export type coursesProps = {
   lessonsCount: number;
   publishedAt: string;
 };
+
+export type PostComment = {
+  id: string;
+  post_slug: string;
+  parent_id: string | null;
+  user_id: string;
+  user_name: string;
+  user_avatar?: string | null;
+  body: string;
+  created_at: string;
+  replies?: PostComment[];
+};

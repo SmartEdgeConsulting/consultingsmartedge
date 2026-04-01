@@ -9,6 +9,7 @@ import { Article } from "@/types";
 import ShareArticle from "./ShareArticle";
 import BackButton from "./BackButton";
 import ProgressBar from "./ProgressBar";
+import CommentsSection from "./CommentsSection";
 
 const BlogContent = ({ article }: { article: Article }) => {
   return (
@@ -72,6 +73,7 @@ const BlogContent = ({ article }: { article: Article }) => {
         <PortableText value={article.content} components={components} />
 
         <ShareArticle slug={article.slug} title={article.title} />
+        <CommentsSection  postSlug={article.slug} />
       </div>
     </div>
   );

@@ -52,9 +52,9 @@ const AddToCartButton = ({ course }: AddToCartButtonProps) => {
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
-        // disabled={inCart || isAdding}  
+        // disabled={inCart || isAdding}
         disabled
-        variant="default"
+        variant="darkoutline"
         className="min-w-30"
       >
         {isAdding ? (

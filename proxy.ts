@@ -19,6 +19,7 @@ const isPublicRoute = createRouteMatcher([
   "/api/subscribe(.*)",
   "/api/unsubscribe(.*)",
   "/api/contact(.*)",
+  "/api/comments(.*)",
   "/api/uploadthing(.*)",
   "/api/sanity-webhook",
   "/api/webhooks/clerk(.*)",

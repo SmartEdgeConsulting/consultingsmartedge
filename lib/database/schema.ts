@@ -1,10 +1,11 @@
 //lib/database/schema.ts
-import { relations } from "drizzle-orm";
+import { relations,sql } from "drizzle-orm";
 import {
   boolean,
   index,
   jsonb,
-  numeric,
+  check,
+  AnyPgColumn,
   pgEnum,
   pgTable,
   text,
@@ -190,6 +191,27 @@ export const registrations = pgTable(
   }),
 );
 
+export const comments = pgTable(
+  "comments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    post_slug: text("post_slug").notNull(),
+    parent_id: uuid("parent_id").references((): AnyPgColumn => comments.id, {
+      onDelete: "cascade",
+    }),
+    user_id: text("user_id").notNull(),
+    user_name: text("user_name").notNull(),
+    user_avatar: text("user_avatar"),
+    body: text("body").notNull(),
+    created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  },
+  (table) => [
+    index("idx_comments_post_slug").on(table.post_slug),
+    index("idx_comments_parent_id").on(table.parent_id),
+    check("body_length_check", sql`char_length(${table.body}) <= 2000`),
+  ]
+);
+
 export const cartItems = pgTable(
   "cart_items",
   {
@@ -224,8 +246,6 @@ export const cartItems = pgTable(
   }),
 );
 
-
-
 // ---------- Relations ----------
 export const usersRelations = relations(users, ({ many }) => ({
   // a user can have many applications, consultations, registrations, cartItems, courses
@@ -233,7 +253,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   consultations: many(consultations),
   registrations: many(registrations),
   cartItems: many(cartItems),
- /// userCourses: many(userCourses),
+  /// userCourses: many(userCourses),
 }));
 
 export const careersRelations = relations(careers, ({ many }) => ({
@@ -275,7 +295,6 @@ export const cartItemsRelations = relations(cartItems, ({ one }) => ({
     references: [users.clerkId],
   }),
 }));
-
 
 // ---------- Type Inferences ----------
 
